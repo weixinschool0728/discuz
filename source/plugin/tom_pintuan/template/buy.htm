@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html><head>
+<title>{$pintuanConfig['plugin_name']}</title>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-store">
+<meta http-equiv="Expires" content="0">
+<link rel="stylesheet" href="source/plugin/tom_pintuan/images/style.css?v=20151031">
+<link rel="stylesheet" href="source/plugin/tom_pintuan/images/font-awesome.min-4.3.0.css">
+<script src="source/plugin/tom_pintuan/images/jquery.min-2.1.3.js"></script>
+<script type="text/javascript">var commonjspath = 'source/plugin/tom_pintuan/images';</script>
+<script src="source/plugin/tom_pintuan/images/common.js" type="text/javascript"></script>
+</head>
+<body>
+    <div>
+        <div class="wx_wrap">
+        <!-- 快递与到店切换按钮 -->
+            <!--{if $showChooseBtn == 1}-->
+            <div class="buy_take_type_choose">
+                <!--{if $take_type == 1}-->
+            	<a href="{$chooseTakeType2Url}">{lang tom_pintuan:buy_choose_take_type_2_btn}</a>
+                <!--{else}-->
+                <a href="{$chooseTakeType1Url}">{lang tom_pintuan:buy_choose_take_type_1_btn}</a>
+                <!--{/if}-->
+            </div>
+            <!--{/if}-->
+            <!--{if $take_type == 1}-->
+            <a class="send_address" href="{$changeAddressUrl}">
+                <div id="sendTo">
+                    <div class="address address_defalut">
+                    <div class="address_name_order">
+                        <!--{if $addressInfo['type_id'] == 1}-->
+                        <span>{lang tom_pintuan:address_jiating}</span>
+                        <!--{else}-->
+                        <span>{lang tom_pintuan:address_gongshi}</span>
+                        <!--{/if}-->
+                    </div>
+                    <h3><b class="send_margin">{lang tom_pintuan:buy_songzhi}</b></h3>
+                        <ul id="editAddBtn">
+                            <li><strong>{$addressInfo['xm']}</strong>&nbsp;&nbsp;{$addressInfo['tel']}</li>
+                            <li>{$addressInfo['area_str']}{$addressInfo['info']}</li>
+                        </ul>
+                    </div>
+                </div>
+            </a>
+            <!--{else}-->
+            <a class="send_address" href="#">
+                <div id="sendTo">
+                    <div class="address address_defalut">
+                    <h3><b class="send_margin">{lang tom_pintuan:buy_songzhi}</b></h3>
+                        <ul id="editAddBtn">
+                            <li>{lang tom_pintuan:buy_daodianquhuo}</li>
+                        </ul>
+                    </div>
+                </div>
+            </a>
+            <!--{/if}-->
+            <div class="order del_margin_top">
+                <div class="order_bd">
+                    <div id="orderList" class="order_glist">
+                    	<!-- item start -->
+                        <div class="only">
+                            <div class="order_goods">
+                                <div class="order_goods_img">
+                                    <img alt="" src="{$goods_pic}">
+                                </div>
+                                <div class="order_goods_info">
+                                    <div class="order_goods_name"><span id="tuanLbl"></span>{$goodsInfo['name']}</div>
+                                    <div class="order_goods_attr">
+                                        <div class="order_goods_attr_item">
+                                            <span class="order_goods_attr_tit">{lang tom_pintuan:buy_order_num}</span>
+                                            <div class="order_goods_num">1</div>
+                                            <div id="goodsPrice" class="order_goods_price">
+                                                <!--{if $tstatus == 1 || $tstatus == 2}-->
+                                                    {$tuan_price}
+                                                <!--{else}-->
+                                                    {$goodsInfo['one_price']}
+                                                <!--{/if}-->
+                                                <i>/{$goodsInfo['goods_unit']}</i>
+                                                <!--{if $show_tuanz_price == 1}--><font color="#0099CC">{lang tom_pintuan:buy_tuanz_prize_msg}</font><!--{/if}-->
+                                            </div>
+                                        </div>
+                                        <p class="order_goods_attr_item"><span id="skuLast"></span><i></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- item end -->
+                    </div>
+                </div>
+            </div>
+            <!--{if $goodsInfo['allow_num'] == 1}-->
+            <div class="makeorder_from">
+                <div class="makeorder_from_num_box">
+                    <li class="reduce"><a href="javascript:void(0);" onclick="numReduce();">-</a></li>
+                    <li class="in"><input id="buy_num" name="buy_num" type="text" value="1" size="2" readonly>{$goodsInfo['goods_unit']}</li>
+                    <li class="add"><a href="javascript:void(0);" onclick="numAdd();">+</a></li>
+                </div>
+            </div>
+            <!--{/if}-->
+            <div id="pay_area" style="opacity: 1;">
+                <div class="total">{lang tom_pintuan:buy_kuaidi}{lang tom_pintuan:yuan_ico}{$express_price} {lang tom_pintuan:buy_zongjia}<span id="totalPrice" class="total_price">{$pay_price_arr['1']}</span></div>
+                <div class="pay2">
+                    <div class="pay2_hd">{lang tom_pintuan:buy_xuanzhi_pay}</div>
+                    <div id="payList" class="pay2_list">
+                        <div id="goTenPay" class="pay2_item pay2_wx pay2_selected">
+                            <span class="pay2_item_state"></span>
+                            <span class="pay2_item_ico"></span>
+                            <span class="pay2_item_tit">{lang tom_pintuan:buy_wxpay}</span>
+                        </div>
+                    </div>
+                    
+                    <!--{if $showBtnBox == 2}-->
+                    <div class="error_coup" >
+                      {lang tom_pintuan:index_time_no_start}
+                    </div>
+                    <!--{/if}-->
+                    <!--{if $showBtnBox == 3}-->
+                    <div class="error_coup" >
+                      {lang tom_pintuan:index_time_over}
+                    </div>
+                    <!--{/if}-->
+                    
+                    <!--{if $showBtnBox == 1 || $showBtnBox == 0}-->
+                    <form name="payForm" id="payForm">
+                        <div class="buy_order_beizu">
+                            <textarea name="order_beizu" id="order_beizu" placeholder="{lang tom_pintuan:buy_order_beizu}"></textarea>
+                        </div>
+                        <div>
+                            <input type="button" name="submit" class="pay2_btn id_pay_btn" id="id_pay_btn1" value="{lang tom_pintuan:buy_pay_btn}"/>
+                            <input type="button" name="submit" style="display: none;" class="pay3_btn" id="id_pay_btn2" value="{lang tom_pintuan:buy_pay_doing}"/>
+                            <input type="hidden" name="goods_id" value="{$goods_id}" />
+                            <input type="hidden" name="address_id" value="{$addressInfo['id']}" />
+                            <input type="hidden" name="tstatus" value="{$tstatus}" />
+                            <input type="hidden" name="tlevel" value="{$tlevel}" />
+                            <input type="hidden" name="tuan_id" value="{$tuan_id}" />
+                            <input type="hidden" name="user_id" value="{$__UserInfo['id']}" />
+                            <input type="hidden" name="take_type" value="{$take_type}" />
+                            <input type="hidden" name="goods_num" id="goods_num" value="1" />
+                            <input type="hidden" name="formhash" value="{$formhash}" />
+                        </div>
+                    </form>
+                    <!--{/if}-->
+                </div>
+            </div>
+        </div>
+        <div class="step">
+            <div class="step_hd" >
+                {lang tom_pintuan:wangfa}
+                <a class="step_more" href="plugin.php?id=tom_pintuan&mod=tuanrule">{lang tom_pintuan:wangfa_more}</a>
+            </div>
+            <div id="footItem" class="step_list">
+                <div class="step_item">
+                    <div class="step_num">1</div>
+                    <div class="step_detail">
+                        <p class="step_tit">{lang tom_pintuan:wangfa_1_1}
+                            <br>{lang tom_pintuan:wangfa_1_2}</p>
+                    </div>
+                </div>
+                <div class="step_item step_item_on">
+                    <div class="step_num">2</div>
+                    <div class="step_detail">
+                        <p class="step_tit">{lang tom_pintuan:wangfa_2_1}
+                            <br>{lang tom_pintuan:wangfa_2_2}</p>
+                    </div>
+                </div>
+                <div class="step_item">
+                    <div class="step_num">3</div>
+                    <div class="step_detail">
+                        <p class="step_tit">{lang tom_pintuan:wangfa_3_1}
+                            <br>{lang tom_pintuan:wangfa_3_2}</p>
+                    </div>
+                </div>
+                <div class="step_item">
+                    <div class="step_num">4</div>
+                    <div class="step_detail">
+                        <p class="step_tit">{lang tom_pintuan:wangfa_4_1}
+                            <br>{lang tom_pintuan:wangfa_4_2}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="source/plugin/tom_pintuan/images/fastclick.min-1.0.6.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+$(function() {
+    FastClick.attach(document.body);
+});
+
+var submintPayStatus = 0;
+var jsApiParameters;
+var tstatus;
+var tuan_id;
+
+function jsApiCall(){
+    WeixinJSBridge.invoke(
+        'getBrandWCPayRequest',{
+            "appId": jsApiParameters.appId,
+            "timeStamp": jsApiParameters.timeStamp,
+            "nonceStr": jsApiParameters.nonceStr,
+            "package": jsApiParameters.package,
+            "signType": jsApiParameters.signType,
+            "paySign": jsApiParameters.paySign
+        },
+        function(res){
+            if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+                submintPayStatus = 0;
+                tusi("{lang tom_pintuan:buy_pay_succ}");
+                if(tstatus == 1 || tstatus == 2){
+                    setTimeout(function(){window.location.href='{$tuanUrl}'+tuan_id;},1888);
+                }else{
+                    setTimeout(function(){window.location.href='{$ordersUrl}';},1888);
+                }
+                
+            }else{
+                tusi("{lang tom_pintuan:buy_pay_error}");
+                submintPayStatus = 0;
+                setTimeout(function(){window.location.href='{$ordersUrl}';},1888);
+            } 
+        }
+    );
+}
+
+function callpay(){
+    if (typeof WeixinJSBridge == "undefined"){
+        if( document.addEventListener ){
+            document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+        }else if (document.attachEvent){
+            document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+            document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+        }
+    }else{
+        jsApiCall();
+    }
+}
+
+$(".id_pay_btn").click( function () { 
+    if(submintPayStatus == 1){
+        return false;
+    }
+    
+    $("#id_pay_btn1").hide();
+    $("#id_pay_btn2").show();
+    
+    submintPayStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxPayUrl}",
+        dataType : "json",
+        data: $('#payForm').serialize(),
+        success: function(data){
+            if(data.status == 200) {
+                jsApiParameters = data.parameters;
+                tstatus = data.tstatus;
+                tuan_id = data.tuan_id;
+                setTimeout(function(){callpay();},500);
+            }else if(data.status == 404){
+                tusi("{lang tom_pintuan:buy_order_error404}");
+                setTimeout(function(){document.location.reload();},1888);
+            }else if(data.status == 301){
+                tusi("{lang tom_pintuan:buy_order_error301}");
+                setTimeout(function(){document.location.reload();},1888);
+            }else if(data.status == 302){
+                tusi("{lang tom_pintuan:buy_order_error302}");
+                setTimeout(function(){document.location.reload();},1888);
+            }else if(data.status == 303){
+                tusi("{lang tom_pintuan:buy_order_error303}");
+                setTimeout(function(){document.location.reload();},1888);
+            }else if(data.status == 304){
+                tusi("{lang tom_pintuan:buy_order_error304}");
+                setTimeout(function(){document.location.reload();},1888);
+            }else if(data.status == 305){
+                tusi("{lang tom_pintuan:buy_order_error305}");
+                setTimeout(function(){document.location.reload();},1888);
+            }else if(data.status == 306){
+                tusi("{lang tom_pintuan:buy_order_error306}");
+                setTimeout(function(){document.location.reload();},1888);
+            }else{
+                tusi("{lang tom_pintuan:buy_order_error}");
+                setTimeout(function(){document.location.reload();},1888);
+            }
+        }
+    });
+});
+
+var pay_price_arr=new Array(11);
+pay_price_arr[0]="";
+pay_price_arr[1]="{$pay_price_arr['1']}";
+pay_price_arr[2]="{$pay_price_arr['2']}";
+pay_price_arr[3]="{$pay_price_arr['3']}";
+pay_price_arr[4]="{$pay_price_arr['4']}";
+pay_price_arr[5]="{$pay_price_arr['5']}";
+pay_price_arr[6]="{$pay_price_arr['6']}";
+pay_price_arr[7]="{$pay_price_arr['7']}";
+pay_price_arr[8]="{$pay_price_arr['8']}";
+pay_price_arr[9]="{$pay_price_arr['9']}";
+pay_price_arr[10]="{$pay_price_arr['10']}";
+
+var buy_num = 1;
+function numReduce(){
+    if(buy_num <= 1){
+        return false;
+    }
+    buy_num = buy_num - 1;
+    $('#buy_num').val(buy_num);
+    $('#goods_num').val(buy_num);
+    $('.order_goods_num').html(buy_num);
+    $('#totalPrice').html(pay_price_arr[buy_num]);
+    return false;
+}
+
+function numAdd(){
+    if(buy_num >= 10){
+        return false;
+    }
+    buy_num = buy_num + 1;
+    $('#buy_num').val(buy_num);
+    $('#goods_num').val(buy_num);
+    $('.order_goods_num').html(buy_num);
+    $('#totalPrice').html(pay_price_arr[buy_num]);
+    return false;
+}
+
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+</html>

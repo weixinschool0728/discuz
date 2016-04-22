@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html><head>
+<title>{$pintuanConfig['plugin_name']}</title>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> 
+<meta http-equiv="Pragma" content="no-cache" /> 
+<meta http-equiv="Expires" content="0" />
+<link rel="stylesheet" href="source/plugin/tom_pintuan/images/style.css?v=20150916">
+<link rel="stylesheet" href="source/plugin/tom_pintuan/images/font-awesome.min-4.3.0.css">
+<script src="source/plugin/tom_pintuan/images/jquery.min-2.1.3.js"></script>
+<script type="text/javascript">var commonjspath = 'source/plugin/tom_pintuan/images';</script>
+<script src="source/plugin/tom_pintuan/images/common.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="mod_container">
+        <div class="wx_bar">
+            <div class="wx_bar_tit">{lang tom_pintuan:addressadd_title}</div>
+        </div>
+        <div class="wx_wrap">
+            <div class="address_new">
+                <form id="add_form" method="post" action="" onsubmit="return false;">
+                <p id="adType">
+                    <label class="input_checkbox">
+                        <span class="tit">{lang tom_pintuan:addressadd_default}</span>
+                        <input type="radio" name="adddefault" id="adddefault" value="0">{lang tom_pintuan:addressadd_no}&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="adddefault" id="adddefault" value="1" checked>{lang tom_pintuan:addressadd_yes}
+                    </label>
+                </p>
+                <p>
+                    <label><span class="tit">{lang tom_pintuan:addressadd_shouhuoren}</span>
+                        <input id="addxm" name="addxm" value="" placeholder="{lang tom_pintuan:addressadd_shouhuoren_xm}" type="text">
+                    </label>
+                </p>
+                <p>
+                    <label><span class="tit">{lang tom_pintuan:addressadd_shoujihao}</span>
+                        <input id="addtel" name="addtel" value="" placeholder="{lang tom_pintuan:addressadd_shoujihao}" type="tel">
+                    </label>
+                </p>
+                <p>
+                    <label><span class="tit">{$pintuanConfig['yihe_fielda']}</span>
+                        <input id="addfielda" name="addfielda" value="" placeholder="{lang tom_pintuan:addressadd_must_bt}{$pintuanConfig['yihe_fielda']}" type="text">
+                    </label>
+                </p>
+                <p>
+                    <label><span class="tit">{lang tom_pintuan:addressadd_shenfen}</span>
+                        <select name="province" id="province" onchange="getCity();">
+                            <option value="0">{lang tom_pintuan:addressadd_shenfen_all}</option>
+                             <!--{loop $provinceList $key $value}-->
+                            <option value="{$value['id']}">{$value['name']}</option>
+                            <!--{/loop}-->
+                        </select>
+                    </label>
+                </p>
+                <p>
+                    <label><span class="tit">{lang tom_pintuan:addressadd_city}</span>
+                        <select  name="city" id="city" onchange="getArea();">
+                            <option value="0">{lang tom_pintuan:addressadd_city_all}</option>
+                        </select>
+                    </label>
+                </p>
+                <p id="areaSelP">
+                    <label><span class="tit">{lang tom_pintuan:addressadd_area}</span>
+                        <select name="area" id="area">
+                            <option value="0">{lang tom_pintuan:addressadd_area_all}</option>
+                        </select>
+                </p>
+                <p id="adType">
+                    <label class="input_checkbox"><span class="tit">{lang tom_pintuan:addressadd_type_title}</span>
+                        <input type="radio" name="addtype" id="addtype" value="1" checked>{lang tom_pintuan:addressadd_type_1}
+                        <input type="radio" name="addtype" id="addtype" value="2" >{lang tom_pintuan:addressadd_type_2}
+                    </label>
+                </p>
+                <p>
+                    <label><span class="tit">{lang tom_pintuan:addressadd_info}</span>
+                        <textarea name="addinfo" id="addinfo" rows="4" placeholder="{lang tom_pintuan:addressadd_info}"></textarea>
+                    </label>
+                </p>
+                <p class="action">
+                    <input type="hidden" name="act" value="addsave">
+                    <input type="hidden" name="formhash" value="{$formhash}">
+                    <button class="submit id_add_form_btn" id="add">{lang tom_pintuan:addressadd_btn}</button>
+                </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div style="display: none;">{$pintuanConfig['tongji_code']}</div>
+</body>
+<script src="source/plugin/tom_pintuan/images/fastclick.min-1.0.6.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+$(function() {
+    FastClick.attach(document.body);
+});
+
+var submintStatus = 0;
+$(".id_add_form_btn").click( function () { 
+    
+    if(submintStatus == 1){
+        return false;
+    }
+    
+    var addxm       = $("#addxm").val();
+    var addtel      = $("#addtel").val();
+    var province    = $("#province").val();
+    var city        = $("#city").val();
+    var addtype     = $("#addtype").val();
+    var addinfo     = $("#addinfo").val();
+    
+    if(addxm == ""){
+        tusi("{lang tom_pintuan:addressadd_must_xm}");
+        return false;
+    }
+    if(addtel == ""){
+        tusi("{lang tom_pintuan:addressadd_must_tel}");
+        return false;
+    }
+	
+	if(addfielda == ""){
+        tusi("{lang tom_pintuan:addressadd_must_bt}{$pintuanConfig['yihe_fielda']}");
+        return false;
+    }
+    
+    if(province == 0){
+        tusi("{lang tom_pintuan:addressadd_must_shen}");
+        return false;
+    }
+    if(city == 0){
+        tusi("{lang tom_pintuan:addressadd_must_city}");
+        return false;
+    }
+    if(addtype == 0){
+        tusi("{lang tom_pintuan:addressadd_must_type}");
+        return false;
+    }
+    
+    if(addinfo == ""){
+        tusi("{lang tom_pintuan:addressadd_must_info}");
+        return false;
+    }
+    
+    submintStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxSaveUrl}",
+        data: $('#add_form').serialize(),
+        success: function(msg){
+            submintStatus = 0;
+            
+            if(msg == '400'){
+                tusi("{lang tom_pintuan:addressadd_error}");
+            }else{
+                tusi("{lang tom_pintuan:addressadd_succ}");
+                <!--{if $bstatus == 1}-->
+                setTimeout(function(){window.location.href='{$buyUrl}';},1888);
+                <!--{else}-->
+                setTimeout(function(){window.location.href='{$addressUrl}';},1888);
+                <!--{/if}-->
+                
+            }
+        }
+    });
+});
+
+function getCity(){
+  var province = $("#province").val();
+  $.ajax({
+        type: "GET",
+        url: "plugin.php?id=tom_pintuan:api",
+        data: "act=city&pid="+province,
+        dataType : "jsonp",
+        jsonpCallback:"jsonpCallback",
+        cache : false,
+        success: function(json){
+            var cityHtml = '<option value="0">{lang tom_pintuan:addressadd_city_all}</option>';
+            $.each(json,function(k,v){
+                cityHtml+= '<option value="'+v.id+'">'+v.name+'</option>';
+            })
+            $("#city").html(cityHtml);
+            $("#city").show();
+        }
+    });
+}   
+
+function getArea(){
+  var city = $("#city").val();
+  $.ajax({
+        type: "GET",
+        url: "plugin.php?id=tom_pintuan:api",
+        data: "act=area&pid="+city,
+        dataType : "jsonp",
+        jsonpCallback:"jsonpCallback",
+        cache : false,
+        success: function(json){
+            var areaHtml = '<option value="0">{lang tom_pintuan:addressadd_area_all}</option>';
+            $.each(json,function(k,v){
+                areaHtml+= '<option value="'+v.id+'">'+v.name+'</option>';
+            })
+            $("#area").html(areaHtml);
+            $("#area").show();
+        }
+    });
+}
+
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+</html>
