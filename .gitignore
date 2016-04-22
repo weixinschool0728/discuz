@@ -2,3 +2,6 @@
 /data/log
 
 /upload/*
+/nbproject/private/
+/nbproject/*.properties
+/nbproject
