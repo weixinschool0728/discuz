@@ -290,7 +290,7 @@ li {
 
 .footer li {
 	float: left;
-	width: 20%;
+	width: 25%;
 	text-align: center;
 	margin: auto;
 	height: 100%
@@ -2515,7 +2515,6 @@ body {
 	font-size: 8px;
 	margin-top: -3px
 }
-
 
 .coupon_icon {
 	background-image: url(sale_3b8182b.png);
@@ -6377,7 +6376,6 @@ input[type=text],textarea {
 	display: inline-block;
 	width: 45px;
 	color: red;
-
 	height: 20px;
 	line-height: 20px;
 	font-size: 13px;
@@ -10145,7 +10143,6 @@ a.fixopt_share {
 }
 
 @-moz-keyframes slip_out {
-
 	0% {
 		-moz-transform: translateX(-100%)
 	}
@@ -10677,7 +10674,6 @@ html {
 }
 
 .radial-progress[data-progress="19"] .circle .mask.full,.radial-progress[data-progress="19"] .circle .fill {
-
 	-ms-transform: rotate(34.2deg);
 	transform: rotate(34.2deg)
 }
@@ -11940,7 +11936,6 @@ html {
 
 .radial-progress[data-progress="99"] .inset .percentage .numbers {
 	width: 5700px
-
 }
 
 .radial-progress[data-progress="100"] .circle .mask.full,.radial-progress[data-progress="100"] .circle .fill {
@@ -12069,28 +12064,6 @@ html {
 	width: 24px;
 	margin-top: 10px;
 	background-position: 0 -247px
-}
-.fb-class {
-	background-image: url(sprite_item_d69f346.png);
-	background-repeat: no-repeat;
-	background-size: auto 24px;
-	content: "";
-	height: 24px;
-	margin: auto;
-	width: 24px;
-	margin-top: 10px;
-	background-position: -144px 0
-}
-.active .fb-class {
-	background-image: url(sprite_item_d69f346.png);
-	background-repeat: no-repeat;
-	background-size: auto 24px;
-	content: "";
-	height: 24px;
-	margin: auto;
-	width: 24px;
-	margin-top: 10px;
-	background-position: -168px 0
 }
 
 .nav_item_hd_coupons_sale {
@@ -12315,7 +12288,7 @@ html {
 .kt_item_rank{ width: 32%; }
 .kt_item_block{ height: 5px; width: 100%; clear: both; }
 
-.index_nav{ width: 100%; min-height: 80px; margin-top: 5px; border-top-width: 1px; border-bottom-width: 1px; }
+.index_nav{ width: 100%; min-height: 80px; margin-top: 5px;  margin-bottom: 5px; border-top-width: 1px; border-bottom-width: 1px; }
 .index_nav_box{width: 95%; margin-right: auto; margin-left: auto;}
 .index_nav_box li{ width: 25%; height: 80px; text-align: center; float: left; }
 .index_nav_box li a{ height: 100%; width: 100%; display: block; }
@@ -12324,15 +12297,15 @@ html {
 .index_nav_box_clearfix:after { content: ""; display: block; height: 0; overflow: hidden; clear: both; visibility: hidden; }
 
 /********************************************** search ********************************************************/
-.search_box{ width:100%; height: 60px; }
-.search_box_main{ min-height: 50px; width: 95%; margin-top: 5px; margin-right: auto; margin-left: auto; }
+.search_box{ width:100%; height: 50px; }
+.search_box_main{ min-height: 50px; width: 95%; margin-top: 0px; margin-right: auto; margin-left: auto; }
 .search_box_main .form_box{ width: 95%; height: 40px; margin-right: auto; margin-left: auto; padding-top: 10px; }
 .search_box_main .form_box td{ height: 30px; }
 .search_box_main .form_box .input_class{ width: 97%; float: left; height: 30px; border-radius:5px; border: 1px solid #DFDFDF; padding-left: 2%; }
 .search_box_main .form_box .a_class{ height: 30px; width: 95%; background-color: #DF2127; line-height: 30px; color: #FFF; text-align: center; display: block; float: right; border-radius:5px;}
 
 /********************************************** buy_take_type ********************************************************/
-.buy_take_type_choose{ height: 30px; width: 100%; line-height: 30px; text-align: center; background-color: #07BFEA; }
+.buy_take_type_choose{ height: 40px; width: 100%; line-height: 40px; text-align: center; background-color: #07BFEA;font-size: 1.1em; }
 .buy_take_type_choose a{ color: #FFFEFE; }
 
 .buy_order_beizu{width: 100%;padding: 0 10px; margin-top: 5px;}
@@ -12351,14 +12324,14 @@ html {
 /****************************************************** clear_both **********************************************************/
 .clear_both{ height: 1px; width: 100%; clear: both; }
 /****************************************************** shop_main **********************************************************/
-.shop_main{ height: 56px; width: 100%; border: 1px solid #E0E0E0; margin-top: 10px; margin-bottom: 0px; position: relative; background-color: #E7E7E7; border-radius: 2px;}
+.shop_main{ min-height: 56px; width: 100%; border: 1px solid #E0E0E0; margin-top: 10px; margin-bottom: 0px; position: relative; background-color: #E7E7E7; border-radius: 2px;}
 .shop_main_btn{ position: absolute; top: 5px; right: 5px; z-index: 999; height: 25px; width: 80px; border: 1px solid #E8E8E8; background-color: #FF0202; line-height: 25px; text-align: center; color: #FFF; border-radius: 5px; }
 .shop_main_btn a{ color: #FFF; }
-.shop_main_left{ height: 56px; width: 60px; float: left; }
-.shop_main_left img{ height: 46px; width: 46px; margin: 4px; border-radius: 5px; border: 1px solid #FFF; }
-.shop_main_right{ height: 56px; width: 200px; margin-left: 10px; float: left; }
-.shop_main_right_title{ height: 25px; width: 200px; line-height: 25px; float: left; margin-top: 5px; font-weight: 700; font-size: 1.2em; color: #161616; }
-.shop_main_right_tel{ height: 20px; width: 200px; float: left; }
+.shop_main_left{ min-height: 56px; width: 60px; float: left; }
+.shop_main_left img{ min-height: 46px; width: 46px; margin: 4px; border-radius: 5px; border: 1px solid #FFF; }
+.shop_main_right{ min-height: 56px; width: 200px; margin-left: 10px; float: left; }
+.shop_main_right_title{ min-height: 25px; width: 200px; line-height: 25px; float: left; margin-top: 5px; font-weight: 700; font-size: 1.2em; color: #161616; }
+.shop_main_right_tel{ min-height: 20px; width: 200px; float: left; }
 .shop_main_right_tel a{ color: #008000; }
 
 /******************************************************* tuan_list *********************************************************************/
@@ -12406,28 +12379,52 @@ html {
 .pop_up .tit_p{font-size: 20px;line-height: 30px;margin-bottom: 5px;}
 .pop_up .tit_txt{line-height: 24px;margin-bottom: 10px;}
 .pop_up .gz_btn{padding: 0 20px;background-color: #fff;border-radius: 5px;color: #5bcdca;line-height: 38px;font-size: 20px;}
-/******************************************* tom_fly_box start *************************************************/
-.box_hide{ display: none; }
-@keyframes flyNotice{
-from {top:-200px;left:0px;}
-to {top:0px;left:0px;display: block}
+
+/******************************************************* search *********************************************************************/
+.search_search_box{ width: 100%; min-height: 150px; background-color: #FFF;}
+.search_search_title{ width: 90%; min-height: 25px; margin-right: auto; margin-left: auto; border-top-width: 1px; border-top-style: solid; border-top-color: #EAEAEA; padding-top: 5px; color: #9D9D9D; font-size: 1.1em; }
+.search_search_title_left{ line-height: 25px; height: 25px; width: 60px; float: left; }
+.search_search_title_middle{ height: 25px; line-height: 25px; width: 180px; overflow: hidden; float: left; color: #D90000; }
+.search_search_title_right{ height: 25px; width: 40px; float: right; }
+.search_search_title_right.active:after {
+  border-color: #ff4683;
+  -webkit-transform: rotate(135deg);
+  -moz-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  -o-transform: rotate(135deg);
+  transform: rotate(135deg);
+  margin-bottom: -5px;
 }
-@-moz-keyframes flyNotice /* Firefox */{
-from {top:-200px;left:0px;}
-to {top:0px;left:0px;display: block}
+.search_search_title_right:after {
+  content: '';
+  display: inline-block;
+  margin-left: 20px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 10px;
+  height: 10px;
+  border-bottom: 1px solid #666;
+  border-left: 1px solid #666;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transition-duration: 300ms;
+  transition-duration: 300ms;
 }
-@-webkit-keyframes flyNotice /* Safari and Chrome */{
-from {top:-200px;left:0px;}
-to {top:0px;left:0px;display: block}
-}
-@-o-keyframes flyNotice /* Opera */{
-from {top:-200px;left:0px;}
-to {top:0px;left:0px;display: block}
-}
-.tom_fly_box { padding-top:20px; color:#fff; font-size:16px; background:rgba(0,0,0,0.7); filter:alpha(opacity=70); position: absolute; top:0px; width:100%; z-index:9999; animation:flyNotice 1.5s; -moz-animation:flyNotice 1.5s; /* Firefox */ -webkit-animation:flyNotice 1.5s; /* Safari and Chrome */ -o-animation:flyNotice 1.5s; /* Opera */ ; }
-.tom_fly_box a{ color:#FFF; text-decoration:none; }
-.tom_fly_box img{ margin-top:8px; }
-.tom_fly_box p { font-size: 18px; text-align: center; color:#fff; padding:12px; }
-.tom_fly_box .wxname { background: #44b549; color:#fff; padding:10px 0px; margin-top:10px; text-align: center; font-size: 18px; margin:10px 20px; }
-.tom_fly_box .close{ background: #222; margin-top: 10px; margin-right: 20px; margin-bottom: 10px; margin-left: 20px; }
-/******************************************* tom_fly_box end *************************************************/
+
+.search_search_li{width: 90%; min-height: 25px;margin-right: auto; margin-left: auto;}
+.search_search_li li{ width: 23%; height: 25px; text-align: center; float: left; margin-right: 1%; margin-left: 1%; margin-bottom: 3px; background-color: #F9F7F7; }
+.search_search_li li a{ height: 100%; width: 100%; display: block; text-align: center; line-height: 25px; overflow: hidden; color: #817D7D; }
+.search_search_li_a_hover{ color: #FFF; background-color: #EA0000; }
+.search_search_li_height{ height: 50px; overflow: hidden; }
+
+.search_search_address{width: 100%; min-height: 200px;}
+.search_search_address_title{width: 90%;min-height: 25px; margin-right: auto; margin-left: auto; padding-top: 5px; color: #9D9D9D; font-size: 0.9em; }
+.search_search_no_goods_msg{ width: 90%; margin-right: auto; margin-left: auto; line-height: 50px; height: 50px; text-align: center; color: #E10000; }
+
+
+.new_orders_tusi_box{ position: fixed; z-index: 9999999; left: 0px; top: 20px; height: 25px; width: 100%; overflow: hidden; }
+.new_orders_tusi_box img{ position: absolute; z-index: 9999999999; left: 0px; top: 0px; border-radius: 15px; height: 25px; width: 25px; margin-left: 10px;}
+.new_orders_tusi_box a{ height: 25px; background-color: #000; width: auto; padding-right: 10px; display: block; float: left; opacity: 0.5; border-radius: 15px; color: #FFF; line-height: 25px; padding-left: 30px; margin-left: 10px; }

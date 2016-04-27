@@ -9,7 +9,7 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-$modBaseUrl = $adminBaseUrl.'&tmod=order'; 
+$modBaseUrl = $adminBaseUrl.'&tmod=order';
 $modListUrl = $adminListUrl.'&tmod=order';
 $modFromUrl = $adminFromUrl.'&tmod=order';
 
@@ -345,6 +345,7 @@ if($formhash == FORMHASH && $act == 'info'){
                     $do_express_time = $pintuanConfig['express_days']*$pintuanConfig['admin_express_time_onetimes'];
                     if((TIMESTAMP - $value['express_time']) > $do_express_time){
                         $updateData = array();
+                        $updateData['qianshou_time'] = TIMESTAMP;
                         $updateData['order_status'] = 5;
                         C::t('#tom_pintuan#tom_pintuan_order')->update($value['id'],$updateData);
                     }
@@ -383,10 +384,17 @@ if($formhash == FORMHASH && $act == 'info'){
     $page = intval($_GET['page'])>0? intval($_GET['page']):1;
     $goods_name = !empty($_GET['goods_name'])? addslashes($_GET['goods_name']):'';
     $order_no = !empty($_GET['order_no'])? addslashes($_GET['order_no']):'';
+    $order_tel = !empty($_GET['order_tel'])? trim(addslashes($_GET['order_tel'])):'';
     $start_time_tmp = !empty($_GET['start_time'])? addslashes($_GET['start_time']):'';
     $start_time = strtotime($start_time_tmp);
     $end_time_tmp = !empty($_GET['end_time'])? addslashes($_GET['end_time']):'';
     $end_time = strtotime($end_time_tmp);
+    
+    $qs_start_time_tmp = !empty($_GET['qs_start_time'])? addslashes($_GET['qs_start_time']):'';
+    $qs_start_time = strtotime($qs_start_time_tmp);
+    $qs_end_time_tmp = !empty($_GET['qs_end_time'])? addslashes($_GET['qs_end_time']):'';
+    $qs_end_time = strtotime($qs_end_time_tmp);
+    
     $order_status = isset($_GET['order_status'])? intval($_GET['order_status']):0;
     $user_id = isset($_GET['user_id'])? intval($_GET['user_id']):0;
     $tuan_id = isset($_GET['tuan_id'])? intval($_GET['tuan_id']):0;
@@ -399,8 +407,14 @@ if($formhash == FORMHASH && $act == 'info'){
     if(!empty($order_no)){
         $where.=" AND order_no='{$order_no}' ";
     }
+    if(!empty($order_tel)){
+        $where.=" AND tel='{$order_tel}' ";
+    }
     if(!empty($start_time_tmp) && $end_time_tmp){
         $where.=" AND order_time>$start_time AND order_time<$end_time ";
+    }
+    if(!empty($qs_start_time_tmp) && $qs_end_time_tmp){
+        $where.=" AND qianshou_time>$qs_start_time AND qianshou_time<$qs_end_time ";
     }
     if(!empty($order_status)){
         $where.=" AND order_status={$order_status} ";
@@ -430,14 +444,18 @@ if($formhash == FORMHASH && $act == 'info'){
             }
             if(!empty($goodsIdArr)){
                 $where.= " AND goods_id IN(".  implode(",", $goodsIdArr).") ";
+            }else{
+                $where.= " AND goods_id IN(9999999999) ";
             }
+        }else{
+            $where.= " AND goods_id IN(9999999999) ";
         }
     }
     
-    $modBasePageUrl = $modBaseUrl."&goods_name={$goods_name}&order_no={$order_no}&start_time={$start_time_tmp}&end_time={$end_time_tmp}&order_status={$order_status}&tuan_id={$tuan_id}&user_id={$user_id}&tstatus={$tstatus}&goods_id={$goods_id}&tuan_status={$tuan_status}&shop_id={$shop_id}";
+    $modBasePageUrl = $modBaseUrl."&goods_name={$goods_name}&order_no={$order_no}&order_tel={$order_tel}&start_time={$start_time_tmp}&end_time={$end_time_tmp}&qs_start_time={$qs_start_time_tmp}&qs_end_time={$qs_end_time_tmp}&order_status={$order_status}&tuan_id={$tuan_id}&user_id={$user_id}&tstatus={$tstatus}&goods_id={$goods_id}&tuan_status={$tuan_status}&shop_id={$shop_id}";
     
     $pagesize = $pintuanConfig['admin_order_pagesize'];
-    $start = ($page-1)*$pagesize;	
+    $start = ($page-1)*$pagesize;
     $count = C::t('#tom_pintuan#tom_pintuan_order')->fetch_all_like_count($where,$goods_name);
     $orderList = C::t('#tom_pintuan#tom_pintuan_order')->fetch_all_like_list($where,"ORDER BY order_time DESC",$start,$pagesize,$goods_name);
     $fenghao = $Lang['fenghao'];
@@ -447,7 +465,9 @@ if($formhash == FORMHASH && $act == 'info'){
     echo '<tr><th colspan="15" class="partition">' . $Lang['order_search_list'] . '</th></tr>';
     echo '<tr><td width="100" align="right"><b>' . $Lang['goods_id'] . '</b></td><td><input name="goods_id" type="text" value="'.$goods_id.'" size="40" /></td></tr>';
     echo '<tr><td width="100" align="right"><b>' . $Lang['order_order_no'] . '</b></td><td><input name="order_no" type="text" value="'.$order_no.'" size="40" /></td></tr>';
+    echo '<tr><td width="100" align="right"><b>' . $Lang['order_tel'] . '</b></td><td><input name="order_tel" type="text" value="'.$order_tel.'" size="40" /></td></tr>';
     echo '<tr><td width="100" align="right"><b>' . $Lang['order_order_time'] . '</b></td><td><input name="start_time" type="text" value="'.$start_time_tmp.'" onclick="showcalendar(event, this, 1)" size="40" />--<input name="end_time" type="text" value="'.$end_time_tmp.'" onclick="showcalendar(event, this, 1)" size="40" /></td></tr>';
+    echo '<tr><td width="100" align="right"><b>' . $Lang['order_qianshou_time'] . '</b></td><td><input name="qs_start_time" type="text" value="'.$qs_start_time_tmp.'" onclick="showcalendar(event, this, 1)" size="40" />--<input name="qs_end_time" type="text" value="'.$qs_end_time_tmp.'" onclick="showcalendar(event, this, 1)" size="40" /></td></tr>';
     echo '<tr><td width="100" align="right"><b>' . $Lang['order_order_status'] . '</b></td><td><select name="order_status" >';
     echo '<option value="0">'.$Lang['order_order_status'].'</option>';
     foreach ($orderStatusArray as $key => $value){
@@ -500,7 +520,7 @@ if($formhash == FORMHASH && $act == 'info'){
     showformfooter();
     
     tomshownavheader();
-    tomshownavli($Lang['order_export'],$_G['siteurl']."plugin.php?id=tom_pintuan:ordersexport&goods_name={$goods_name}&order_no={$order_no}&start_time={$start_time_tmp}&end_time={$end_time_tmp}&order_status={$order_status}&tuan_id={$tuan_id}&user_id={$user_id}&tstatus={$tstatus}&goods_id={$goods_id}&tuan_status={$tuan_status}&shop_id={$shop_id}",false);
+    tomshownavli($Lang['order_export'],$_G['siteurl']."plugin.php?id=tom_pintuan:ordersexport&goods_name={$goods_name}&order_no={$order_no}&order_tel={$order_tel}&start_time={$start_time_tmp}&end_time={$end_time_tmp}&qs_start_time={$qs_start_time_tmp}&qs_end_time={$qs_end_time_tmp}&order_status={$order_status}&tuan_id={$tuan_id}&user_id={$user_id}&tstatus={$tstatus}&goods_id={$goods_id}&tuan_status={$tuan_status}&shop_id={$shop_id}",false);
     tomshownavli($Lang['order_update_status_btn'],$modBaseUrl.'&act=updateorderstatus&formhash='.FORMHASH,false);
     tomshownavfooter();
     
@@ -523,7 +543,8 @@ if($formhash == FORMHASH && $act == 'info'){
     echo '<th>' . $Lang['tuan_id'] . '</th>';
     echo '<th>' . $Lang['order_order_status'] . '</th>';
     echo '<th>' . $Lang['goods_take_type'] . '</th>';
-    echo '<th width="90">' . $Lang['order_order_time'] . '</th>';
+    echo '<th width="75">' . $Lang['order_order_time'] . '</th>';
+    echo '<th width="75">' . $Lang['order_qianshou_time'] . '</th>';
     echo '<th width="120">' . $Lang['handle'] . '</th>';
     echo '</tr>';
     foreach ($orderList as $key => $value){
@@ -550,6 +571,11 @@ if($formhash == FORMHASH && $act == 'info'){
             echo '<td><b>' . $Lang['goods_take_type_2'] . '</b></td>'; 
         }
         echo '<td>' . dgmdate($value['order_time'], 'Y-m-d H:i:s',$tomSysOffset) . '</td>';
+        if($value['qianshou_time'] > 0){
+            echo '<td>' . dgmdate($value['qianshou_time'], 'Y-m-d H:i:s',$tomSysOffset) . '</td>';
+        }else{
+            echo '<td align="center">-</td>';
+        }
         echo '<td>';
         echo '<a href="'.$modBaseUrl.'&act=info&id='.$value['id'].'&formhash='.FORMHASH.'">' . $Lang['order_info'] . '</a>&nbsp;|&nbsp;';
         if($value['take_type'] == 1){

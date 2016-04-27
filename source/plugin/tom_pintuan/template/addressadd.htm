@@ -16,6 +16,7 @@
 <script src="source/plugin/tom_pintuan/images/jquery.min-2.1.3.js"></script>
 <script type="text/javascript">var commonjspath = 'source/plugin/tom_pintuan/images';</script>
 <script src="source/plugin/tom_pintuan/images/common.js" type="text/javascript"></script>
+<script type="text/javascript">var usiteurl = "{$uSiteUrl}";var plugin_id="tom_pintuan";</script>
 </head>
 <body>
     <div class="mod_container">
@@ -43,11 +44,6 @@
                     </label>
                 </p>
                 <p>
-                    <label><span class="tit">{$pintuanConfig['yihe_fielda']}</span>
-                        <input id="addfielda" name="addfielda" value="" placeholder="{lang tom_pintuan:addressadd_must_bt}{$pintuanConfig['yihe_fielda']}" type="text">
-                    </label>
-                </p>
-                <p>
                     <label><span class="tit">{lang tom_pintuan:addressadd_shenfen}</span>
                         <select name="province" id="province" onchange="getCity();">
                             <option value="0">{lang tom_pintuan:addressadd_shenfen_all}</option>
@@ -59,14 +55,14 @@
                 </p>
                 <p>
                     <label><span class="tit">{lang tom_pintuan:addressadd_city}</span>
-                        <select  name="city" id="city" onchange="getArea();">
+                        <select  name="city" id="city" onchange="getArea();" style="display: none;">
                             <option value="0">{lang tom_pintuan:addressadd_city_all}</option>
                         </select>
                     </label>
                 </p>
                 <p id="areaSelP">
                     <label><span class="tit">{lang tom_pintuan:addressadd_area}</span>
-                        <select name="area" id="area">
+                        <select name="area" id="area" style="display: none;">
                             <option value="0">{lang tom_pintuan:addressadd_area_all}</option>
                         </select>
                 </p>
@@ -117,13 +113,8 @@ $(".id_add_form_btn").click( function () {
         tusi("{lang tom_pintuan:addressadd_must_xm}");
         return false;
     }
-    if(addtel == ""){
+    if(addtel == "" || !checkMobile(addtel)){
         tusi("{lang tom_pintuan:addressadd_must_tel}");
-        return false;
-    }
-	
-	if(addfielda == ""){
-        tusi("{lang tom_pintuan:addressadd_must_bt}{$pintuanConfig['yihe_fielda']}");
         return false;
     }
     
@@ -167,6 +158,16 @@ $(".id_add_form_btn").click( function () {
         }
     });
 });
+
+function checkMobile(s){
+	var regu =/^[1][3|8|4|5|7][0-9]{9}$/;
+	var re = new RegExp(regu);
+	if (re.test(s)) {
+		return true;
+	}else{
+		return false;
+	}
+} 
 
 function getCity(){
   var province = $("#province").val();

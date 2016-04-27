@@ -1,0 +1,81 @@
+{template common/header}
+<script type="text/javascript" src="static/js/calendar.js"></script>
+<div class="bm cl" id="pt">
+    <div class="z">
+        <a title="{$_G['setting']['sitename']}" class="nvhm" href="./">{$_G['setting']['sitename']}</a> <em>&amp;rsquot;</em>
+        <a href="plugin.php?id=tom_pintuan:shop">{lang tom_pintuan:pc_shop_title}</a>
+    </div>
+</div>
+<div class="ct2_a wp cl" id="ct">
+    <div class="appl">
+        <div class="tbn">
+            <h2 class="mt bbda">{lang tom_pintuan:pc_shop_pintuan_title}</h2>
+            <ul>
+                {template tom_pintuan:shop/menu}
+            </ul>
+        </div>
+    </div>
+    <div style="border:none; margin:0" class="mn pbm">
+        <div class="tbmu cl">
+            <a class="y pn pnc" href="{$ordersexportUrl}" target="_blank"><strong>{lang tom_pintuan:pc_shop_ordersexport}</strong></a>
+            <form action="plugin.php?id=tom_pintuan:shop&mod=orders" method="post">
+                {lang tom_pintuan:pc_shop_order_no}<input name="order_no" type="text" value="{$order_no}" size="40" style="margin-bottom: 5px;" /><br/>
+                {lang tom_pintuan:pc_shop_order_tel}<input name="order_tel" type="text" value="{$order_tel}" size="40" style="margin-bottom: 5px;" /><br/>
+                {lang tom_pintuan:pc_shop_start_time}<input name="start_time" type="text" value="{$start_time_tmp}" onclick="showcalendar(event, this, 1)" size="40" style="margin-bottom: 5px;" />--<input name="end_time" type="text" value="{$end_time_tmp}" onclick="showcalendar(event, this, 1)" size="40" style="margin-bottom: 5px;" /><br/>
+                {lang tom_pintuan:pc_shop_qs_start_time}<input name="qs_start_time" type="text" value="{$qs_start_time_tmp}" onclick="showcalendar(event, this, 1)" size="40" style="margin-bottom: 5px;" />--<input name="qs_end_time" type="text" value="{$qs_end_time_tmp}" onclick="showcalendar(event, this, 1)" size="40" style="margin-bottom: 5px;" /><br/>
+                {lang tom_pintuan:pc_shop_order_status}<select name="order_status" style="margin-bottom: 5px;" >
+                    <option value="0">{lang tom_pintuan:pc_shop_order_status0}</option>
+                    <!--{loop $orderStatusArray $key $val}-->
+                    <option value="{$key}"<!--{if $key == $order_status}-->selected<!--{/if}-->>{$val}</option>
+                    <!--{/loop}-->
+                </select><br/>
+                <input name="" class="pn pnc vm" type="submit" value="{lang tom_pintuan:pc_shop_search_submit}" />
+                <input type="hidden" name="formhash" value="{$formhash}">
+                {lang tom_pintuan:pc_shop_list_count_msg1}<font color="#DD0A0A">{$count}</font>{lang tom_pintuan:pc_shop_list_count_msg2}
+            </form>
+            <br/>
+            <table cellspacing="0" cellpadding="0" class="dt">
+            <tbody>
+                <tr>
+                    <th>{lang tom_pintuan:pc_shop_list_order_no}</th>
+                    <th>{lang tom_pintuan:pc_shop_list_goods_name}</th>
+                    <th>{lang tom_pintuan:pc_shop_list_pay_price}</th>
+                    <th>{lang tom_pintuan:pc_shop_list_goods_num}</th>
+                    <th>{lang tom_pintuan:pc_shop_list_order_tstatus}</th>
+                    <th>{lang tom_pintuan:pc_shop_list_order_status}</th>
+                    <th>{lang tom_pintuan:pc_shop_list_order_take_type}</th>
+                    <th>{lang tom_pintuan:pc_shop_list_order_time}</th>
+                    <th>{lang tom_pintuan:pc_shop_list_qianshou_time}</th>
+                    <th>{lang tom_pintuan:pc_shop_list_manager}</th>
+                </tr>
+                <!--{loop $orderList $key $val}-->
+                <tr class="header">
+                    <td>{$val['order_no']}</td>
+                    <td>{$val['goods_name']}</td>
+                    <td><font color="#009900">{$val['pay_price']}</font></td>
+                    <td align="center">{$val['goods_num']}</td>
+                    <td>
+                        <!--{if $val['tstatus'] == 1 || $val['tstatus'] == 2}-->
+                        <b><font color="{$tstatusColorArray[$val['tstatus']]}">{$tstatusArray[$val['tstatus']]}</font></b>(<font color="{$tuanStatusColorArray[$val['tuan_status']]}">{$tuanStatusArray[$val['tuan_status']]}</font>)
+                        <!--{else}-->
+                        <b><font color="{$tstatusColorArray[$val['tstatus']]}">{$tstatusArray[$val['tstatus']]}</font></b>
+                        <!--{/if}-->
+                    </td>
+                    <td><b><font color="{$orderStatusColorArray[$val['order_status']]}">{$orderStatusArray[$val['order_status']]}</font></b></td>
+                    <td>
+                        <!--{if $val['take_type'] == 1}-->{lang tom_pintuan:pc_shop_list_order_take_type1}<!--{else}-->{lang tom_pintuan:pc_shop_list_order_take_type2}<!--{/if}-->
+                    </td>
+                    <td>{$val['order_time']}</td>
+                    <td>{$val['qianshou_time']}</td>
+                    <td>
+                        <a href="plugin.php?id=tom_pintuan:shop&mod=order&act=express&order_id={$val['id']}">{lang tom_pintuan:pc_shop_list_order_express}</a>
+                    </td>
+                </tr>
+                <!--{/loop}-->
+                <tr><td colspan="10">{$pages}</td></tr>
+            </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{template common/footer}

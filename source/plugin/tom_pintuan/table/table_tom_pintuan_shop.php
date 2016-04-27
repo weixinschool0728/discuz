@@ -19,6 +19,10 @@ class table_tom_pintuan_shop extends discuz_table{
     public function fetch_by_id($id,$field='*') {
 		return DB::fetch_first("SELECT $field FROM %t WHERE id=%d", array($this->_table, $id));
 	}
+    
+    public function fetch_by_bbs_uid($bbs_uid,$field='*') {
+		return DB::fetch_first("SELECT $field FROM %t WHERE bbs_uid=%d", array($this->_table, $bbs_uid));
+	}
 	
     public function fetch_all_list($condition,$orders = '',$start = 0,$limit = 10) {
 		$data = DB::fetch_all("SELECT * FROM %t WHERE 1 %i $orders LIMIT $start,$limit",array($this->_table,$condition));

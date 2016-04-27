@@ -1,5 +1,9 @@
 <?php
 
+/*
+   This is NOT a freeware, use is subject to license terms
+   版权所有：TOM微信 www.tomwx.net
+*/
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
@@ -18,7 +22,7 @@ if(!empty($cate_id)){
 }
 
 $count = C::t('#tom_pintuan#tom_pintuan_goods')->fetch_all_like_count(" $whereStr ",$goods_name);
-$goodsListTmp = C::t('#tom_pintuan#tom_pintuan_goods')->fetch_all_like_list(" $whereStr ","ORDER BY fieldb1 DESC, paixu ASC, add_time DESC",$start,$pagesize,$goods_name);
+$goodsListTmp = C::t('#tom_pintuan#tom_pintuan_goods')->fetch_all_like_list(" $whereStr ","ORDER BY paixu ASC, add_time DESC",$start,$pagesize,$goods_name);
 $goodsList = array();
 foreach ($goodsListTmp as $key => $value) {
     $goodsList[$key] = $value;

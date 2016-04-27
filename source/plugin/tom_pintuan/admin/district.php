@@ -76,7 +76,10 @@ if(submitcheck('editsubmit')) {
     $sql='TRUNCATE TABLE '.DB::table('tom_pintuan_district');
 	DB::query($sql);
     
-    foreach(C::t('common_district')->range() as $k => $v){
+    $sql='INSERT INTO '.DB::table('tom_pintuan_district').'(id,name,level,upid,displayorder) SELECT id,name,level,upid,displayorder FROM '.DB::table('common_district');
+	DB::query($sql);
+    
+    /*foreach(C::t('common_district')->range() as $k => $v){
 		C::t('#tom_pintuan#tom_pintuan_district')->insert(array(
 			'id'            => $v['id'],
 			'name'          => $v['name'],
@@ -84,7 +87,7 @@ if(submitcheck('editsubmit')) {
 			'upid'          => $v['upid'],
 			'displayorder'  => $v['displayorder'],
 		));
-	}
+	}*/
     
     cpmsg($Lang['district_importall_success'], $modListUrl, 'succeed');
 }else{

@@ -1,5 +1,9 @@
 <?php
 
+/*
+   This is NOT a freeware, use is subject to license terms
+   版权所有：TOM微信 www.tomwx.net
+*/
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
@@ -75,7 +79,7 @@ if($__UserInfo['id'] == $tuanInfo['user_id']){
             $showBtnBox = 3;
         }
     }else{
-        $showBtnBox = 4; 
+        $showBtnBox = 4;
     }
 }
 
@@ -83,21 +87,13 @@ if($tuanInfo['tuan_status'] != 2){
     $showBtnBox = 5;
 }
 
-//意合工作室更新20151024
-if($goodsInfo['fieldb3'] != 0){
-	//按照活动结束时间
-    $daojishiTimes = $goodsInfo['fieldb3']-TIMESTAMP;
-}else{
-	//按照时限
-	$tuanHours = $goodsInfo['tuan_hours'];
-	if(!empty($tuanInfo['prolong_hours'])){
-		$tuanHours = $goodsInfo['tuan_hours']+$tuanInfo['prolong_hours'];
-	}
-	$tuanHours = intval($tuanHours);
-	$daojishiTimes = $tuanInfo['tuan_time']+$tuanHours*3600 - TIMESTAMP;
-	}
-//end意合工作室更新20151024
+$tuanHours = $goodsInfo['tuan_hours'];
+if(!empty($tuanInfo['prolong_hours'])){
+    $tuanHours = $goodsInfo['tuan_hours']+$tuanInfo['prolong_hours'];
+}
+$tuanHours = intval($tuanHours);
 
+$daojishiTimes = $tuanInfo['tuan_time']+$tuanHours*3600 - TIMESTAMP;
 if($daojishiTimes <= 0 && $tuanInfo['tuan_status'] != 3){
     $tuanInfo['tuan_status'] = 4;
     $updateData = array();
@@ -105,22 +101,18 @@ if($daojishiTimes <= 0 && $tuanInfo['tuan_status'] != 3){
     C::t('#tom_pintuan#tom_pintuan_tuan')->update($tuanInfo['id'],$updateData);
     C::t('#tom_pintuan#tom_pintuan_order')->update_tuan_status_by_tuan_id($tuanInfo['id'],4);
     $daojishiTimes = 0;
-	//拼团失败，已经过期
     $showBtnBox = 6;
 }
 
-//意合工作室更新20151023
-if($subscribeFlag == 2 && $pintuanConfig['yihe_followtx'] == 1){
-    $showGuanzuBox = 1;
-}
-//end意合工作室更新20151023
 $shareTitle = str_replace("{NUM}", $shengyuTuanTeamNum, $goodsInfo['share_title']);
 $shareDesc  = str_replace("{NUM}", $shengyuTuanTeamNum, $goodsInfo['share_desc']);
 $shareUrl   = $_G['siteurl']."plugin.php?id=tom_pintuan&mod=tuan&tuan_id=".$tuan_id;
-$shareLogo  = $__UserInfo['picurl'];
-if($goodsInfo['fieldb2'] == 1){
+if($pintuanConfig['tuan_share_pic'] == 1){
     $shareLogo  = $goodsInfo['goods_pic'];
+}else{
+    $shareLogo  = $__UserInfo['picurl'];
 }
+
 $isGbk = false;
 if (CHARSET == 'gbk') $isGbk = true;
 include template("tom_pintuan:tuan");  

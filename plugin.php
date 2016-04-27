@@ -43,7 +43,7 @@ if(empty($identifier) || !preg_match("/^[a-z0-9_\-]+$/i", $module) || !in_array(
 
 define('CURMODULE', $identifier);
 runhooks();
-//file_put_contents("./upload/plugin.txt",DISCUZ_ROOT.$modfile,FILE_APPEND);
+
 include DISCUZ_ROOT.$modfile;
 
 ?>

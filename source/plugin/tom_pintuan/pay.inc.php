@@ -1,9 +1,12 @@
 <?php
 
-
+/*
+   This is NOT a freeware, use is subject to license terms
+   °æÈ¨ËùÓÐ£ºTOMÎ¢ÐÅ www.tomwx.net
+*/
 
 /**
-   1 ï¿½ï¿½Ö§ï¿½ï¿½ 2 ï¿½ï¿½Ö§ï¿½ï¿½ï¿½ï¿½Î´È·ï¿½ï¿½ 3 ï¿½ï¿½È·ï¿½Ï£ï¿½ï¿½ï¿½ï¿½  4 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 5 ï¿½ï¿½Ç©ï¿½ï¿½ 6 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ 7 ï¿½Ë¿î´¦ï¿½ï¿½ï¿½ï¿½  8 ï¿½Ë¿ï¿½É¹ï¿½
+   1 ´ýÖ§¸¶ 2 ÒÑÖ§¸¶£¬Î´È·ÈÏ 3 ÒÑÈ·ÈÏ£¬´ý·¢»õ  4 ÅäËÍÖÐ 5 ÒÑÇ©ÊÕ 6 ½»Ò×ÒÑÈ¡Ïû 7 ÍË¿î´¦ÀíÖÐ  8 ÍË¿î³É¹¦
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -40,9 +43,6 @@ if($act == "order" && $_GET['formhash'] == FORMHASH){
     $user_id    = isset($_GET['user_id'])? intval($_GET['user_id']):0;
     $goods_num  = intval($_GET['goods_num'])>0? intval($_GET['goods_num']):1;
     $take_type    = isset($_GET['take_type'])? intval($_GET['take_type']):1;
-	$fieldbb    = isset($_GET['fieldbb'])? addslashes($_GET['fieldbb']):1;
-	$fieldbd    = isset($_GET['fieldbd'])? addslashes($_GET['fieldbd']):1;
-	$fieldbf    = isset($_GET['fieldbf'])? addslashes($_GET['fieldbf']):1;
     $order_beizu  = isset($_GET['order_beizu'])? daddslashes(diconv(urldecode($_GET['order_beizu']),'utf-8')):'';
 
     $addressInfo = array('xm'=>'','tel'=>'','area_str'=>'','info'=>'');
@@ -71,17 +71,26 @@ if($act == "order" && $_GET['formhash'] == FORMHASH){
         $pintuanConfig['express_price'] = $goodsInfo['express_price'];
     }
     
-    if($take_type == 2 || $take_type == 4){
+    if($goodsInfo['express_id'] > 0 && !empty($addressInfo['xm'])){
+        $expressInfo = C::t('#tom_pintuan#tom_pintuan_express')->fetch_by_id($goodsInfo['express_id']);
+        if($expressInfo){
+            $pintuanConfig['express_price'] = $expressInfo['default_price'];
+
+            $express_itemList1 = C::t('#tom_pintuan#tom_pintuan_express_item')->fetch_all_list(" AND express_id={$goodsInfo['express_id']} AND province_id={$addressInfo['province_id']} AND city_id={$addressInfo['city_id']} "," ORDER BY id DESC ",0,1);
+            if(!empty($express_itemList1) && isset($express_itemList1['0'])){
+                $pintuanConfig['express_price'] = $express_itemList1['0']['express_price'];
+            }else{
+                $express_itemList2 = C::t('#tom_pintuan#tom_pintuan_express_item')->fetch_all_list(" AND express_id={$goodsInfo['express_id']} AND province_id={$addressInfo['province_id']} AND city_id=0 "," ORDER BY id DESC ",0,1);
+                if(!empty($express_itemList2) && isset($express_itemList2['0'])){
+                    $pintuanConfig['express_price'] = $express_itemList2['0']['express_price'];
+                }
+            }
+        }
+    }
+    
+    if($take_type == 2){
         $pintuanConfig['express_price'] = 0;
     }
-	//ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½
-	$uidNumCount = C::t('#tom_pintuan#tom_pintuan_order')->fetch_all_count(" AND user_id=$user_id AND goods_id=$goods_id");
-	if($uidNumCount > $goodsInfo['fieldb4'] && $goodsInfo['fieldb4'] != 0){
-    	$outArr = array(
-            'status'=> 309,
-        );
-       echo json_encode($outArr); exit;
-	}
     
     $openid = $userInfo['openid'];
     $order_no = "PT".date("YmdHis")."-".mt_rand(111111, 666666);
@@ -111,20 +120,12 @@ if($act == "order" && $_GET['formhash'] == FORMHASH){
     
     if($tstatus == 1){
         if($goodsInfo['tuanz_price'] > 0){
-            //$base_price = $goodsInfo['tuanz_price']*100;
+            $base_price = $goodsInfo['tuanz_price']*100;
             $goods_price = $goodsInfo['tuanz_price'];
         }
     }
     
     $pay_price = $pintuanConfig['express_price']+$base_price*$goods_num;
-
-	if(empty($tuan_id)){
-		//ï¿½Å³ï¿½ï¿½Û¸ï¿½
-		if($goodsInfo['tuanz_price'] > 0 && $tstatus == 1){
-			$pay_price = $pintuanConfig['express_price']+$base_price*($goods_num-1)+$goodsInfo['tuanz_price']*100;
-		}
-	}
-	
     $notifyUrl = $_G['siteurl']."source/plugin/tom_pintuan/notify.php";
     
     if($tstatus == 2 && $tuan_id){
@@ -169,7 +170,7 @@ if($act == "order" && $_GET['formhash'] == FORMHASH){
     $orderInput->SetNotify_url($notifyUrl);	
     $orderInput->SetTrade_type("JSAPI");
     $orderInput->SetOpenid($openid);
-    $orderInfo = WxPayApi::unifiedOrder($orderInput);
+    $orderInfo = WxPayApi::unifiedOrder($orderInput,300);
 
     if(is_array($orderInfo) && $orderInfo['result_code']=='SUCCESS' && $orderInfo['return_code']=='SUCCESS'){
         
@@ -211,12 +212,8 @@ if($act == "order" && $_GET['formhash'] == FORMHASH){
         $insertData['user_id']          = $user_id;
         $insertData['user_nickname']    = $userInfo['nickname'];
         $insertData['user_openid']      = $openid;
-		$insertData['fieldbb']      = $fieldbb;
-		$insertData['fieldbd']      = $fieldbd;
-		$insertData['fieldbf']      = $fieldbf;
         $insertData['xm']               = $addressInfo['xm'];
         $insertData['tel']              = $addressInfo['tel'];
-		$insertData['fielda']              = $addressInfo['fielda'];
         if($take_type == 1){
             $insertData['address']        = $addressInfo['area_str']." ".$addressInfo['info'];  
         }else{
@@ -441,6 +438,7 @@ if($act == "order" && $_GET['formhash'] == FORMHASH){
         
         $updateData = array();
         $updateData['order_status'] = 5;
+        $updateData['qianshou_time'] = TIMESTAMP;
         C::t('#tom_pintuan#tom_pintuan_order')->update($orderInfo['id'],$updateData);
 
         $outArr = array(
@@ -471,6 +469,7 @@ if($act == "order" && $_GET['formhash'] == FORMHASH){
         
         $updateData = array();
         $updateData['order_status'] = 5;
+        $updateData['qianshou_time'] = TIMESTAMP;
         C::t('#tom_pintuan#tom_pintuan_order')->update($orderInfo['id'],$updateData);
 
         echo 200;exit;

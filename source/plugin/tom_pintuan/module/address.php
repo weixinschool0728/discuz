@@ -40,7 +40,6 @@ if($act == 'add'){
     $default    = isset($_GET['adddefault'])? intval($_GET['adddefault']):0;
     $xm         = isset($_GET['addxm'])? daddslashes(diconv(urldecode($_GET['addxm']),'utf-8')):'';
     $tel        = isset($_GET['addtel'])? daddslashes(diconv(urldecode($_GET['addtel']),'utf-8')):'';
-	$fielda     = isset($_GET['addfielda'])? daddslashes(diconv(urldecode($_GET['addfielda']),'utf-8')):'';
     $province   = isset($_GET['province'])? intval($_GET['province']):0;
     $city       = isset($_GET['city'])? intval($_GET['city']):0;
     $area       = isset($_GET['area'])? intval($_GET['area']):0;
@@ -84,7 +83,6 @@ if($act == 'add'){
     $insertData['default_id']      = $default;
     $insertData['xm']           = $xm;
     $insertData['tel']          = $tel;
-	$insertData['fielda']          = $fielda;
     $insertData['type_id']      = $type;
     $insertData['province_id']  = $province;
     $insertData['city_id']      = $city;
@@ -118,7 +116,6 @@ if($act == 'add'){
     $default    = isset($_GET['adddefault'])? intval($_GET['adddefault']):0;
     $xm         = isset($_GET['addxm'])? daddslashes(diconv(urldecode($_GET['addxm']),'utf-8')):'';
     $tel        = isset($_GET['addtel'])? daddslashes(diconv(urldecode($_GET['addtel']),'utf-8')):'';
-	$fielda        = isset($_GET['addfielda'])? daddslashes(diconv(urldecode($_GET['addfielda']),'utf-8')):'';
     $province   = isset($_GET['province'])? intval($_GET['province']):0;
     $city       = isset($_GET['city'])? intval($_GET['city']):0;
     $area       = isset($_GET['area'])? intval($_GET['area']):0;
@@ -156,7 +153,6 @@ if($act == 'add'){
     $updateData['default_id']      = $default;
     $updateData['xm']           = $xm;
     $updateData['tel']          = $tel;
-	$updateData['fielda']          = $fielda;
     $updateData['type_id']      = $type;
     $updateData['province_id']  = $province;
     $updateData['city_id']      = $city;

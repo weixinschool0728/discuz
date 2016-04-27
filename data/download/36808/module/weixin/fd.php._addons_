@@ -1,0 +1,221 @@
+<?php
+if(!defined('IN_DISCUZ')) {
+	exit('Access Denied');
+}
+$outArr = array(
+            'type'      => 'text',
+            'content'   => '',
+        );
+$moduleActivity = $activityClass->getActivityData($tomActivity);
+loaducenter();
+if(!$tomActivityStatus || empty($moduleActivity)){
+    $allowFidStr = $moduleSetting['fid'];
+    $allowFidArrTmp = explode(',', $allowFidStr);
+    $allowFidArr = array();
+    if(is_array($allowFidArrTmp)){
+        foreach ($allowFidArrTmp as $key => $value){
+            $value = intval($value);
+            if($value > 0){
+                $allowFidArr[] = $value;
+            }
+        }
+    }
+    
+    if(!empty($allowFidArr)){
+        $outArr['content'] = '';
+        foreach ($allowFidArr as $k => $v){
+           $forumInfo = C::t('forum_forum')->fetch_info_by_fid($v);
+           if($forumInfo){
+               $outArr['content'].="\n".$v.':'.$forumInfo['name'];
+           }
+        }
+        $moduleActivity['step'] = 'infid';
+        $moduleActivity['fids'] = $allowFidArr;
+        $moduleActivity['fidstr'] = $outArr['content'];
+        $activityClass->add($moduleActivity);
+        $outArr['content'] = $moduleLang['select_fid'].$outArr['content'].$exitMsg;
+    }else{
+        $outArr['content'] = $moduleLang['no_fid'];
+    }
+}else{
+    if($moduleActivity['step'] == 'infid'){
+        $infid = intval($keyword);
+        if(!in_array($infid, $moduleActivity['fids'])){
+            $outArr['content'] = $moduleLang['select_err_fid'].$moduleActivity['fidstr'].$exitMsg;
+        }else{
+            $moduleActivity['step'] = 'intype';
+            $moduleActivity['infid'] = $infid;
+            $moduleActivity['uid'] = $userInfo['uid'];
+            $moduleActivity['username'] = $userInfo['username'];
+            $activityClass->update($moduleActivity);
+            $outArr['content'] = $moduleLang['select_type'].$exitMsg;
+        }
+        $moduleActivity = array();
+    }
+    
+    if($moduleActivity['step'] == 'intype'){
+        $typeid = intval($keyword);
+        $typeidArr = array('1','2','3');
+        if(!in_array($typeid, $typeidArr)){
+            $outArr['content'] = $moduleLang['select_err_type'].$exitMsg;
+        }else{
+            $access_token = '';
+            if($typeid != 1){
+                if(!empty($tomConfig['wx_appid']) && !empty($tomConfig['wx_appsecret'])){
+                    //$access_token = get_access_token($tomConfig['wx_appid'], $tomConfig['wx_appsecret']);
+                }
+            }
+            $moduleActivity['step'] = 'intitle';
+            $moduleActivity['typeid'] = $typeid;
+            $moduleActivity['access_token'] = $access_token;
+            $activityClass->update($moduleActivity);
+            $outArr['content'] = $moduleLang['intitle'].$exitMsg;
+        }
+        $moduleActivity = array();
+    }
+    
+    if($moduleActivity['step'] == 'intitle'){
+        if(empty($keyword)){
+            $outArr['content'] = $moduleLang['intitle_err'].$exitMsg;
+        }else{
+            if($moduleActivity['typeid'] == 2){
+                $moduleActivity['step'] = 'inimage';
+                $moduleActivity['title'] = $moduleSetting['tag'].$keyword;
+                $activityClass->update($moduleActivity);
+                $outArr['content'] = $moduleLang['inimage'].$exitMsg;
+            }else{
+                $moduleActivity['step'] = 'incontent';
+                $moduleActivity['title'] = $moduleSetting['tag'].$keyword;
+                $activityClass->update($moduleActivity);
+                $outArr['content'] = $moduleLang['incontent'].$exitMsg;
+            }
+            
+        }
+        $moduleActivity = array();
+    }
+    
+    if($moduleActivity['step'] == 'incontent'){
+        if($moduleActivity['typeid'] == 1){
+            $fid = $moduleActivity['infid'];
+            $subject = $moduleActivity['title'];
+            $message = $keyword;
+            $uid = $moduleActivity['uid'];
+            $username = $moduleActivity['username'];
+            $timestamp = $_G['timestamp'];
+            $clientip = $_G['clientip'];
+            require_once libfile('function/forum');
+            require_once libfile('function/post');
+            DB::query("INSERT INTO ".DB::table('forum_thread')." (fid, posttableid, readperm, price, typeid, sortid, author, authorid, subject, dateline, lastpost, lastposter, displayorder, digest, special, attachment, moderated, highlight, closed, status, isgroup) VALUES ('$fid', '0', '0', '0', '0', '0', '$username', '$uid', '$subject', '$timestamp', '$timestamp', '$username', '0', '0', '0', '0', '0', '0', '0', '0', '0')");
+            $tid = DB::insert_id();
+            $pid = insertpost(array('fid' => $fid,'tid' => $tid,'first' => '1','author' => $username,'authorid' => $uid,'subject' => $subject,'dateline' => $timestamp,'message' => $message,'useip' => $clientip,'invisible' => '0','anonymous' => '0','usesig' => '0','htmlon' => '0','bbcodeoff' => '0','smileyoff' => '0','parseurloff' => '0','attachment' => '0',));
+            $expiration = $timestamp + 86400;
+            DB::query("INSERT INTO ".DB::table('forum_thread')."mod (tid, uid, username, dateline, action, expiration, status) VALUES ('$tid', '$uid', '$username', '$timestamp', 'EHL', '$expiration', '1')");
+            DB::query("INSERT INTO ".DB::table('forum_thread')."mod (tid, uid, username, dateline, action, expiration, status) VALUES ('$tid', '$uid', '$username', '$timestamp', 'CLS', '0', '1')");
+            updatepostcredits('+', $uid, 'post', $fid);
+            $lastpost = "$tid\t".addslashes($subject)."\t$timestamp\t$username";
+            DB::query("UPDATE ".DB::table('forum_forum')." SET lastpost='$lastpost', threads=threads+1, posts=posts+1, todayposts=todayposts+1 WHERE fid='$fid'", 'UNBUFFERED');
+            $bookUrl = wx_forum_login($openid, $_G['siteurl'].'forum.php?mod=viewthread&tid='.$tid);
+            $newsItem = array(
+                'title' => $subject,
+                'description' => $message,
+                'picUrl' => '',
+                'url' => $bookUrl,
+            );
+            $outArr['type'] = 'news';
+            $outArr['content'][] = $newsItem;
+            $activityClass->delete();
+        }else{
+            $moduleActivity['step'] = 'inimage';
+            $moduleActivity['content'] = $keyword;
+            $activityClass->update($moduleActivity);
+            $outArr['content'] = $moduleLang['inimage'].$exitMsg;
+        }
+        $moduleActivity = array();
+    }
+    
+    if($moduleActivity['step'] == 'inimage'){
+        if($msgtype !== 'image'){
+            $outArr['content'] = $moduleLang['inimage_err'].$exitMsg;
+        }else{
+            if(isset($moduleActivity['status']) && $moduleActivity['status']==1){
+                $outArr['content'] = $moduleLang['book_err'];
+            }else{
+                $moduleActivity['status'] = 1;
+                $activityClass->update($moduleActivity);
+                
+                $picUrl = '';
+                $mediaId = '';
+                $imageInfo = explode("|||||", $keyword);
+                if(isset($imageInfo['0'])){
+                    $picUrl = $imageInfo['0'];
+                }
+                if(isset($imageInfo['1'])){
+                    $mediaId = $imageInfo['1'];
+                }
+
+                $dataUrl = $picUrl;
+                if(!empty($mediaId)&& !empty($moduleActivity['access_token'])){
+                    //$dataUrl = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={$moduleActivity['access_token']}&media_id={$mediaId}";
+                }
+                if(function_exists('curl_init')){
+                    $imageData = get_html($dataUrl);
+                    $imageDir = "/data/attachment/tomwx/".date("Ym")."/";
+                    $imageName = "/data/attachment/tomwx/".date("Ym")."/".md5($dataUrl).".jpg";
+
+                    $tomDir = DISCUZ_ROOT.'.'.$imageDir;
+                    if(!is_dir($tomDir)){
+                        mkdir($tomDir, 0777,true);
+                    }else{
+                        chmod($tomDir, 0777); 
+                    }
+                    $upload =  file_put_contents(DISCUZ_ROOT.'.'.$imageName, $imageData);
+                    if($upload){
+                        $returnPicUrl = $_G['siteurl'].$imageName;
+                    }else{
+                        $returnPicUrl = $picUrl;
+                    }
+                }else{
+                    $returnPicUrl = $picUrl;
+                }
+
+                $fid = $moduleActivity['infid'];
+                $subject = $moduleActivity['title'];
+                $message = "[align=center][img]".$returnPicUrl."[/img][/align]";
+                if(isset($moduleActivity['content'])){
+                    $message = '[align=left]'.$moduleActivity['content'].'[/align]'.$message;
+                }
+                $uid = $moduleActivity['uid'];
+                $username = $moduleActivity['username'];
+                $timestamp = $_G['timestamp'];
+                $clientip = $_G['clientip'];
+
+                require_once libfile('function/forum');
+                require_once libfile('function/post');
+                DB::query("INSERT INTO ".DB::table('forum_thread')." (fid, posttableid, readperm, price, typeid, sortid, author, authorid, subject, dateline, lastpost, lastposter, displayorder, digest, special, attachment, moderated, highlight, closed, status, isgroup) VALUES ('$fid', '0', '0', '0', '0', '0', '$username', '$uid', '$subject', '$timestamp', '$timestamp', '$username', '0', '0', '0', '0', '0', '0', '0', '0', '0')");
+                $tid = DB::insert_id();
+                $pid = insertpost(array('fid' => $fid,'tid' => $tid,'first' => '1','author' => $username,'authorid' => $uid,'subject' => $subject,'dateline' => $timestamp,'message' => $message,'useip' => $clientip,'invisible' => '0','anonymous' => '0','usesig' => '0','htmlon' => '0','bbcodeoff' => '0','smileyoff' => '0','parseurloff' => '0','attachment' => '0',));
+                $expiration = $timestamp + 86400;
+                DB::query("INSERT INTO ".DB::table('forum_thread')."mod (tid, uid, username, dateline, action, expiration, status) VALUES ('$tid', '$uid', '$username', '$timestamp', 'EHL', '$expiration', '1')");
+                DB::query("INSERT INTO ".DB::table('forum_thread')."mod (tid, uid, username, dateline, action, expiration, status) VALUES ('$tid', '$uid', '$username', '$timestamp', 'CLS', '0', '1')");
+                updatepostcredits('+', $uid, 'post', $fid);
+                $lastpost = "$tid\t".addslashes($subject)."\t$timestamp\t$username";
+                DB::query("UPDATE ".DB::table('forum_forum')." SET lastpost='$lastpost', threads=threads+1, posts=posts+1, todayposts=todayposts+1 WHERE fid='$fid'", 'UNBUFFERED');
+
+                $bookUrl = wx_forum_login($openid, $_G['siteurl'].'forum.php?mod=viewthread&tid='.$tid);
+                $newsItem = array(
+                    'title' => $subject,
+                    'description' => $moduleActivity['content'],
+                    'picUrl' => $returnPicUrl,
+                    'url' => $bookUrl,
+                );
+                $outArr['type'] = 'news';
+                $outArr['content'][] = $newsItem;
+            }
+            $activityClass->delete();
+        }
+        $moduleActivity = array();
+    }
+    
+}
+
+?>

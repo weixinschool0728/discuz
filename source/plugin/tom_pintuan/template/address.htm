@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="source/plugin/tom_pintuan/images/style.css">
 <link rel="stylesheet" href="source/plugin/tom_pintuan/images/font-awesome.min-4.3.0.css">
 <script src="source/plugin/tom_pintuan/images/jquery.min-2.1.3.js"></script>
+<script type="text/javascript">var usiteurl = "{$uSiteUrl}";var plugin_id="tom_pintuan";</script>
 </head>
 <body>
     <div class='div_block'></div>
@@ -50,7 +51,7 @@
                         <li class="add_li_font"><span>{$val['area_str']}</span></li>
                         <li class="add_li_font"><span>{$val['info']}</span></li>
                         <li style="display:none" class="def_add_id"></li>
-                        <li class="edit" onClick="javascript:window.location.href='{$editUrl}{$val['id']}'">{lang tom_pintuan:address_bianji}</li>
+                        <li class="edit" onclick="javascript:window.location.href='{$editUrl}{$val['id']}'">{lang tom_pintuan:address_bianji}</li>
                         <!--{if $val['default_id']==1}--><span class="icon_address"></span><!--{/if}-->
                         <span class="icon_address1 bg_color" style="display:none"></span>
                     </ul>
@@ -67,7 +68,6 @@
             <ul>
                 <li><a href="plugin.php?id=tom_pintuan&mod=index" class="nav-controller"><div class="fb-home"></div>{lang tom_pintuan:nav_index}</a></li>
                 <li><a href="plugin.php?id=tom_pintuan&mod=groups" class="nav-controller"><div class="fb-group"></div>{lang tom_pintuan:nav_groups}</a></li>
-				<li><a href="plugin.php?id=tom_pintuan&mod=cates" class="nav-controller"><div class="fb-class"></div>{lang tom_pintuan:nav_class}</a></li>
                 <li><a href="plugin.php?id=tom_pintuan&mod=orders" class="nav-controller"><div class="fb-list"></div>{lang tom_pintuan:nav_orders}</a></li>
                 <li><a href="plugin.php?id=tom_pintuan&mod=personal" class="nav-controller active"><div class="fb-user"></div>{lang tom_pintuan:nav_personal}</a></li>
             </ul>

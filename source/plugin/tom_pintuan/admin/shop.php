@@ -8,7 +8,7 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-$modBaseUrl = $adminBaseUrl.'&tmod=shop'; 
+$modBaseUrl = $adminBaseUrl.'&tmod=shop';
 $modListUrl = $adminListUrl.'&tmod=shop';
 $modFromUrl = $adminFromUrl.'&tmod=shop';
 
@@ -61,10 +61,19 @@ if($_GET['act'] == 'add'){
     
     set_list_url("tom_pintuan_admin_shop_list");
     
+    showtableheader();
+    $Lang['shop_help_1']  = str_replace("{SITEURL}", $_G['siteurl'], $Lang['shop_help_1']);
+    echo '<tr><th colspan="15" class="partition">' . $Lang['shop_help_title'] . '</th></tr>';
+    echo '<tr><td  class="tipsblock" s="1"><ul id="tipslis">';
+    echo '<li>' . $Lang['shop_help_1'] . '</font></a></li>';
+    echo '</ul></td></tr>';
+    showtablefooter();
+    
     $page = intval($_GET['page'])>0? intval($_GET['page']):1;
     $pagesize = 20;
     $start = ($page-1)*$pagesize;	
     $shopList = C::t('#tom_pintuan#tom_pintuan_shop')->fetch_all_list(""," ORDER BY id DESC ",$start,$pagesize);
+    $count = C::t('#tom_pintuan#tom_pintuan_shop')->fetch_all_count("");
     __create_nav_html();
     showtableheader();
     echo '<tr class="header">';
@@ -123,7 +132,7 @@ if($_GET['act'] == 'add'){
         $i++;
     }
     showtablefooter();
-    $multi = multi($count, $pagesize, $page, $modBasePageUrl);	
+    $multi = multi($count, $pagesize, $page, $modBaseUrl);	
     showsubmit('', '', '', '', $multi, false);
     
     $jsstr = <<<EOF
@@ -145,11 +154,17 @@ EOF;
 function __get_post_data($infoArr = array()){
     $data = array();
     
+    $bbs_uid       = isset($_GET['bbs_uid'])? intval($_GET['bbs_uid']):0;
     $name        = isset($_GET['name'])? addslashes($_GET['name']):'';
     $tel        = isset($_GET['tel'])? addslashes($_GET['tel']):'';
     $address        = isset($_GET['address'])? addslashes($_GET['address']):'';
     $order_pwd        = isset($_GET['order_pwd'])? addslashes($_GET['order_pwd']):'';
     $manage_openid        = isset($_GET['manage_openid'])? addslashes($_GET['manage_openid']):'';
+    
+    $province_id   = isset($_GET['province_id'])? intval($_GET['province_id']):0;
+    $city_id       = isset($_GET['city_id'])? intval($_GET['city_id']):0;
+    $area_id   = isset($_GET['area_id'])? intval($_GET['area_id']):0;
+    
     
     
     $logo = "";
@@ -159,12 +174,16 @@ function __get_post_data($infoArr = array()){
         $logo        = tomuploadFile("logo",$infoArr['logo']);
     }
 
+    $data['bbs_uid']        = $bbs_uid;
     $data['name']           = $name;
     $data['tel']            = $tel;
     $data['address']        = $address;
     $data['order_pwd']      = $order_pwd;
     $data['manage_openid']  = $manage_openid;
     $data['logo']           = $logo;
+    $data['province_id']           = $province_id;
+    $data['city_id']           = $city_id;
+    $data['area_id']           = $area_id;
     
     return $data;
 }
@@ -172,21 +191,119 @@ function __get_post_data($infoArr = array()){
 function __create_info_html($infoArr = array()){
     global $Lang;
     $options = array(
+        'bbs_uid'           => 0,
         'name'              => '',
         'tel'               => '',
         'logo'              => '',
         'address'           => '',
         'order_pwd'         => '',
         'manage_openid'     => '',
+        'province_id'       => 0,
+        'city_id'           => 0,
+        'area_id'           => 0,
     );
     $options = array_merge($options, $infoArr);
     
+    tomshowsetting(true,array('title'=>$Lang['shop_bbs_uid'],'name'=>'bbs_uid','value'=>$options['bbs_uid'],'msg'=>$Lang['shop_bbs_uid_msg']),"input");
     tomshowsetting(true,array('title'=>$Lang['shop_name'],'name'=>'name','value'=>$options['name'],'msg'=>$Lang['shop_name_msg']),"input");
     tomshowsetting(true,array('title'=>$Lang['shop_logo'],'name'=>'logo','value'=>$options['logo'],'msg'=>$Lang['shop_logo_msg']),"file");
     tomshowsetting(true,array('title'=>$Lang['shop_tel'],'name'=>'tel','value'=>$options['tel'],'msg'=>$Lang['shop_tel_msg']),"input");
     tomshowsetting(true,array('title'=>$Lang['shop_manage_openid'],'name'=>'manage_openid','value'=>$options['manage_openid'],'msg'=>$Lang['shop_manage_openid_msg']),"input");
     tomshowsetting(true,array('title'=>$Lang['shop_address'],'name'=>'address','value'=>$options['address'],'msg'=>$Lang['shop_address_msg']),"textarea");
     //tomshowsetting(true,array('title'=>$Lang['shop_order_pwd'],'name'=>'order_pwd','value'=>$options['order_pwd'],'msg'=>$Lang['shop_order_pwd_msg']),"input");
+    
+    $provinceList = C::t('#tom_pintuan#tom_pintuan_district')->fetch_all_by_level(1);
+    $provinceStr = '<tr class="header"><th>'.$Lang['shop_province_id'].'</th><th></th></tr>';
+    $provinceStr.= '<tr><td width="300"><select name="province_id" id="province_id" onchange="getCity();">';
+    $provinceStr.=  '<option value="0">'.$Lang['shop_province_id'].'</option>';
+    foreach ($provinceList as $key => $value){
+        if($value['id'] == $options['province_id']){
+            $provinceStr.=  '<option value="'.$value['id'].'" selected>'.$value['name'].'</option>';
+        }else{
+            $provinceStr.=  '<option value="'.$value['id'].'">'.$value['name'].'</option>';
+        }
+        
+    }
+    $provinceStr.= '</select></td><td>'.$Lang['shop_province_id_msg'].'</td></tr>';
+    echo $provinceStr;
+
+    $cityList = C::t('#tom_pintuan#tom_pintuan_district')->fetch_all_by_upid($options['province_id']);
+    $cityStr = '<tr class="header"><th>'.$Lang['shop_city_id'].'</th><th></th></tr>';
+    $cityStr.= '<tr><td width="300"><select name="city_id" id="city_id" onchange="getArea();">';
+    $cityStr.=  '<option value="0">'.$Lang['shop_city_id'].'</option>';
+    if($options['province_id'] > 0){
+        foreach ($cityList as $key => $value){
+            if($value['id'] == $options['city_id']){
+                $cityStr.=  '<option value="'.$value['id'].'" selected>'.$value['name'].'</option>';
+            }else{
+                $cityStr.=  '<option value="'.$value['id'].'">'.$value['name'].'</option>';
+            }
+            
+        }
+    }
+    $cityStr.= '</select></td><td>'.$Lang['shop_city_id_msg'].'</td></tr>';
+    echo $cityStr;
+
+    $areaList = C::t('#tom_pintuan#tom_pintuan_district')->fetch_all_by_upid($options['city_id']);
+    $areaStr = '<tr class="header"><th>'.$Lang['shop_area_id'].'</th><th></th></tr>';
+    $areaStr.= '<tr><td width="300"><select name="area_id" id="area_id">';
+    $areaStr.=  '<option value="0">'.$Lang['shop_area_id'].'</option>';
+    if($options['city_id'] > 0){
+        foreach ($areaList as $key => $value){
+            if($value['id'] == $options['area_id']){
+                $areaStr.=  '<option value="'.$value['id'].'" selected>'.$value['name'].'</option>';
+            }else{
+                $areaStr.=  '<option value="'.$value['id'].'">'.$value['name'].'</option>';
+            }
+            
+        }
+    }
+    $areaStr.= '</select></td><td>'.$Lang['shop_area_id_msg'].'</td></tr>';
+    echo $areaStr;
+
+    $jsstr = <<<EOF
+<script type="text/javascript">
+function getCity(){
+  var province = jq("#province_id").val();
+  jq.ajax({
+        type: "GET",
+        url: "plugin.php?id=tom_pintuan:api",
+        data: "act=city&pid="+province,
+        dataType : "jsonp",
+        jsonpCallback:"jsonpCallback",
+        cache : false,
+        success: function(json){
+            var cityHtml = '<option value="0">{$Lang['shop_city_id']}</option>';
+            jq.each(json,function(k,v){
+                cityHtml+= '<option value="'+v.id+'">'+v.name+'</option>';
+            })
+            jq("#city_id").html(cityHtml);
+            jq("#city_id").show();
+        }
+    });
+}
+function getArea(){
+  var city = jq("#city_id").val();
+  jq.ajax({
+        type: "GET",
+        url: "plugin.php?id=tom_pintuan:api",
+        data: "act=area&pid="+city,
+        dataType : "jsonp",
+        jsonpCallback:"jsonpCallback",
+        cache : false,
+        success: function(json){
+            var areaHtml = '<option value="0">{$Lang['shop_area_id']}</option>';
+            jq.each(json,function(k,v){
+                areaHtml+= '<option value="'+v.id+'">'+v.name+'</option>';
+            })
+            jq("#area_id").html(areaHtml);
+            jq("#area_id").show();
+        }
+    });
+}
+</script>
+EOF;
+    echo $jsstr;
     
     
     return;

@@ -9,10 +9,11 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 $Lang = $scriptlang['tom_pintuan'];
-$pintuanConfig = $_G['cache']['plugin']['tom_pintuan'];
 $adminBaseUrl = ADMINSCRIPT.'?action=plugins&operation=config&do='.$pluginid.'&identifier=tom_pintuan&pmod=admin'; 
 $adminListUrl = 'action=plugins&operation=config&do='.$pluginid.'&identifier=tom_pintuan&pmod=admin';
 $adminFromUrl = 'plugins&operation=config&do=' . $pluginid . '&identifier=tom_pintuan&pmod=admin';
+$uSiteUrl = urlencode($_G['siteurl']);
+
 $tomSysOffset = getglobal('setting/timeoffset');
 
 if (CHARSET == 'gbk') {
@@ -42,6 +43,8 @@ if($_GET['tmod'] == 'goods'){
     include DISCUZ_ROOT.'./source/plugin/tom_pintuan/admin/cate.php';
 }else if($_GET['tmod'] == 'shop'){
     include DISCUZ_ROOT.'./source/plugin/tom_pintuan/admin/shop.php';
+}else if($_GET['tmod'] == 'express'){
+    include DISCUZ_ROOT.'./source/plugin/tom_pintuan/admin/express.php';
 }else if($_GET['tmod'] == 'addon'){
     include DISCUZ_ROOT.'./source/plugin/tom_pintuan/admin/addon.php';
 }else{

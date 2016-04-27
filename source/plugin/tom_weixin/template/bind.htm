@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>{$moduleLang['bind_title']}</title>
+<link rel="stylesheet" href="source/plugin/tom_weixin/images/bootstrap.min.css">
+<script src="source/plugin/tom_weixin/images/jquery.1.11.js"></script>
+<style>
+html,body,div,table,tr,td,tbody,th,span,p,h1,h2,h3,h4,h5,ul,ol,li,button,img,input,a{
+margin: 0 0 0 0;
+padding: 0 0 0 0;
+border: none;
+text-decoration: none;
+list-style: none;
+cursor:default;
+font-size: 16px;
+font-family: 'Microsoft Yahei';
+outline: none;
+-webkit-tap-highlight-color:rgba(255,0,0,0);
+}
+body{ min-width:320px; margin: 0px; padding: 0px; background-color: #F6F6F6; }
+.tom_top { height: 40px; width: 100%; position: relative; margin-top: 0px; line-height: 40px; text-align: center; font-weight: 600; font-size: 18px; box-shadow: 0px 0px 8px #095be3;}
+.tom_back { height: 40px; width: 40px; float: left; position: absolute; left: 0px; top: 0px; }
+.tom_back a{ height: 40px; width: 40px; display: block; float: left; text-align: center; line-height: 40px; font-size: 18px; color: #FFF; }
+.tom_bind{ width: 100%; padding: 10px; margin-right: auto; margin-left: auto; }
+.tom_bind_zc_title{ margin-top: 5px; margin-bottom: 5px; color: #666; }
+.tom_bind_zc{ margin-top: 20px; }
+.tom_bind_zc span{ font-size: 18px; font-weight: 600; }
+.tom_bind_zc_p{ font-size: 13px; color: #999; margin-top: 5px; text-align: center; }
+.tom_bind_dl_title{ margin-top: 30px; margin-bottom: 5px; color: #666; }
+.tom_bind_dl_from{}
+.tom_bind_dl_from input{ margin-top: 5px; margin-bottom: 5px; }
+.tom_bind_dl{ margin-top: 10px; }
+.tom_bind_dl span{ font-size: 18px; font-weight: 600; }
+.tom_reg{ width: 100%; padding: 10px; margin-right: auto; margin-left: auto; }
+.tom_reg_dl_title{ margin-top: 30px; margin-bottom: 5px; color: #666; }
+.tom_reg_dl_from{}
+.tom_reg_dl_from input{ margin-top: 5px; margin-bottom: 5px; }
+.tom_reg_dl{ margin-top: 10px; }
+.tom_reg_dl span{ font-size: 18px; font-weight: 600; }
+.tom_reg_p{ font-size: 13px; color: #999; margin-top: 5px;}
+.tom_user{ text-align: center; margin-top: 20px; width: 100%; padding: 10px; margin-right: auto; margin-left: auto; }
+.tom_user img{ height: 120px; width: 120px; }
+.tom_user h3{ color: #999; margin-top: 5px; }
+.tom_user p{ font-size: 14px; color: #090; margin-top: 10px; }
+.tom_user_qx{ margin-top: 10px; }
+</style>
+</head>
+<body>
+<div class="tom_top btn-primary">
+	<div class="tom_back" style="display:none;"><a href=""></a></div>
+    {$moduleLang['bind_title']}
+</div>
+<div class="tom_bind" <!--{if $bindStatus == 1}-->style="display:none;"<!--{/if}-->>
+     <!--{if $regStatus == 1 || $yjStatus == 1 }-->
+	<div class="tom_bind_zc_title">{$moduleLang['bind_no_reg']}</div>
+    <!--{/if}-->
+    <!--{if $regStatus == 1}-->
+    <div class="tom_bind_zc">
+      <button type="button" onClick="jumpReg();" class="btn btn-success btn-block"><span>{$moduleLang['bind_reg']}</span></button>
+    </div>
+    <div class="tom_bind_zc_p">{$moduleLang['bind_reg_msg']}</div>
+    <!--{/if}-->
+    <!--{if $yjStatus == 1}-->
+    <div class="tom_bind_zc">
+      <button type="button" onClick="yjreg();" class="btn btn-info btn-block"><span>{$moduleLang['bind_yj']}</span></button>
+    </div>
+    <div class="tom_bind_zc_p">{$moduleLang['bind_yj_msg']}</div>
+    <!--{/if}-->
+    <div class="tom_bind_dl_title">{$moduleLang['bind_zc_title']}</div>
+    <div class="tom_bind_dl_from">
+        <form id="loginform" onSubmit="return false;">
+    	<input type="text" class="form-control" id="username" name="username" placeholder="{$moduleLang['bind_zc_username']}">
+        <input type="text" class="form-control" id="password" name="password" placeholder="{$moduleLang['bind_zc_password']}">
+        <input type="hidden" id="wxid" name="wxid" value="{$openid}"/>
+        <input type="hidden" name="formhash" value="{$formhash}">
+        <input type="hidden" name="act" value="bind">
+        </form>
+    </div>
+    <div class="tom_bind_dl">
+      <button type="button" onClick="loginBbs();" class="btn btn-warning btn-block"><span>{$moduleLang['bind_zc_btn']}</span></button>
+    </div>
+</div>
+<div class="tom_user" <!--{if $bindStatus == 0}-->style="display:none;"<!--{/if}-->>
+	<img src="{$avatarUrl}" alt="..." class="img-circle">
+  <h3>{$username}</h3>  
+  <p>{$moduleLang['bind_user_succ']}</p>
+  <div class="tom_user_qx">
+      <button type="button" onClick="unbind();" class="btn btn-danger btn-block"><span>{$moduleLang['bind_user_unbind']}</span></button>
+  </div>
+</div>
+<script type="text/javascript">
+var loginProcess = 0;
+function loginBbs(){
+    if(loginProcess == 1){
+        return false;
+    }
+    loginProcess = 1;
+    var username = $('#username').val();
+    var password = $('#password').val();
+    if(username == ''){
+        alert("{$moduleLang['bind_must_username']}");
+        return false;
+    }
+    if(password == ''){
+        alert("{$moduleLang['bind_must_password']}");
+        return false;
+    }
+    $.ajax({
+        type: "GET",
+        url: "{$loginUrl}",
+        data: $('#loginform').serialize(),
+        error : function(){
+            alert("{$moduleLang['bind_error']}");
+            document.location.reload(); 
+            return false; 
+        },
+        success: function(msg){
+            loginProcess = 0;
+            var data = eval('('+msg+')');
+            if(data.status==200){
+                alert("{$moduleLang['bind_success']}");
+                document.location.reload();
+            }else if(data.status==100){
+                alert("{$moduleLang['bind_up_error']}");
+                document.location.reload();
+            }else{
+                alert("{$moduleLang['bind_error']}");
+                document.location.reload();
+            }
+            
+        }
+    });
+}
+
+function unbind(){
+    var del = confirm("{$moduleLang['unbind_ok']}"); 
+    if(!del){
+        return false;
+    }
+    $.ajax({
+        type: "GET",
+        url: "{$unbindUrl}",
+        data: "",
+        error : function(){
+            alert("{$moduleLang['unbind_error']}");
+            document.location.reload(); 
+            return false; 
+        },
+        success: function(msg){
+            alert("{$moduleLang['unbind_success']}");
+            document.location.reload();
+        }
+    });
+}
+var yjProcess = 0;
+function yjreg(){
+    var del = confirm("{$moduleLang['bind_yj_ok']}"); 
+    if(!del){
+        return false;
+    }
+    if(yjProcess == 1){
+        return false;
+    }
+    yjProcess = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$yjReg}",
+        data: "",
+        error : function(){
+            alert("{$moduleLang['bind_yj_error']}");
+            document.location.reload(); 
+            return false; 
+        },
+        success: function(msg){
+            yjProcess = 0;
+            var data = eval('('+msg+')');
+            if(data.status==200){
+                alert("{$moduleLang['bind_yj_success']}");
+                document.location.reload();
+            }else{
+                alert("{$moduleLang['bind_yj_error']}");
+                document.location.reload();
+            }
+        }
+    });
+}
+var regUrl = "{$regUrl}";
+function jumpReg(){
+    window.location=regUrl;
+}
+</script>
+</body>
+</html>

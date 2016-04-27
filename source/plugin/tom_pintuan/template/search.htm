@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html><head>
+<title>{$pintuanConfig['plugin_name']}</title>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link rel="stylesheet" href="source/plugin/tom_pintuan/images/style.css?v=20160323">
+<link rel="stylesheet" href="source/plugin/tom_pintuan/images/font-awesome.min-4.3.0.css">
+<script src="source/plugin/tom_pintuan/images/jquery.min-2.1.3.js"></script>
+<script type="text/javascript">var usiteurl = "{$uSiteUrl}";var plugin_id="tom_pintuan";</script>
+</head>
+<body id="main">
+    <div class="container">
+        
+        <section class="search_search_box clearfix">
+        
+        	<section class="search_box">
+                    <div class="search_box_main">
+                        <div class="form_box">
+                            <form action="" id="search_form" method="post" onsubmit="return false;">
+                            <table width="100%">
+                                <tr>
+                                    <td width=""><input class="input_class" type="text" name="goods_name" value="{$goods_name}" placeholder="{lang tom_pintuan:search_goods_name}" /></td>
+                                    <td width="70"><input type="hidden" name="formhash" value="{$formhash}"><a class="a_class id_search_btn" href="javascript:void(0);">{lang tom_pintuan:search_btn}</a></td>
+                                </tr>
+                            </table>
+                            </form>
+                            <script>
+                            $(".id_search_btn").click( function (){ 
+                                $.ajax({
+                                    type: "GET",
+                                    url: "{$searchUrl}",
+                                    data: $('#search_form').serialize(),
+                                    success: function(msg){
+                                        window.location = msg;
+                                    }
+                                });
+                            });
+                            </script>
+                        </div>
+                    </div>
+                </section>
+            <div class="clear_both"></div>
+                
+            <div class="search_search_title">
+                <div class="search_search_title_left">{lang tom_pintuan:search_search_cate_title}</div>
+                <div class="search_search_title_middle">{$cate_name}</div>
+                <div class="search_search_title_right" id="search_cate_id"></div>
+            </div>
+            <div class="clear_both"></div>
+            
+            <div class="search_search_li search_search_li_height" id="search_cate_list_id">
+                <ul class="clearfix">
+                    <li><a href="plugin.php?id=tom_pintuan&mod=search&cate_id=0&province_id={$province_id}&city_id={$city_id}&area_id={$area_id}" style="color: #FFF; background-color: #C2C2C3;">{lang tom_pintuan:search_search_no_choose}</a></li>
+                    <!--{loop $cateList $key $val}-->
+                    <!--{if $cate_id == $val['id']}-->
+                    <li><a href="plugin.php?id=tom_pintuan&mod=search&cate_id={$val['id']}&province_id={$province_id}&city_id={$city_id}&area_id={$area_id}" style="color: #FFF; background-color: #EA0000;">{$val['name']}</a></li>
+                    <!--{else}-->
+                    <li><a href="plugin.php?id=tom_pintuan&mod=search&cate_id={$val['id']}&province_id={$province_id}&city_id={$city_id}&area_id={$area_id}">{$val['name']}</a></li>
+                    <!--{/if}-->
+                    <!--{/loop}-->
+                </ul>
+            </div>
+            <div class="clear_both"></div>
+            <div class="search_search_title" style="margin-top:10px;">
+                <div class="search_search_title_left">{lang tom_pintuan:search_search_address_title}</div>
+                <div class="search_search_title_middle"><!--{if $provinceStr}-->{$provinceStr}<!--{else}-->{lang tom_pintuan:search_search_address_all}<!--{/if}-->&nbsp;&nbsp;{$cityStr}&nbsp;&nbsp;{$areaStr}</div>
+                <div class="search_search_title_right" id="search_address_id"></div>
+            </div>
+            <div class="clear_both"></div>
+            <div class="search_search_address hide" id="search_address_list_id">
+            	<div class="search_search_address_title">{lang tom_pintuan:search_search_address_title1}</div>
+                <div class="search_search_li">
+                    <ul class="clearfix">
+                        <li><a href="plugin.php?id=tom_pintuan&mod=search&cate_id={$cate_id}&province_id=0" style="color: #FFF; background-color: #C2C2C3;">{lang tom_pintuan:search_search_no_choose}</a></li>
+                        <!--{loop $provinceList $key $val}-->
+                        <!--{if $province_id == $val['id']}-->
+                        <li><a href="plugin.php?id=tom_pintuan&mod=search&cate_id={$cate_id}&province_id={$val['id']}" style="color: #FFF; background-color: #EA0000;">{$val['name']}</a></li>
+                        <!--{else}-->
+                        <li><a href="plugin.php?id=tom_pintuan&mod=search&cate_id={$cate_id}&province_id={$val['id']}">{$val['name']}</a></li>
+                        <!--{/if}-->
+                        <!--{/loop}-->
+                    </ul>
+                </div>
+                <div class="clear_both"></div>
+                <div class="search_search_address_title">{lang tom_pintuan:search_search_address_title2}</div>
+                <div class="search_search_li">
+                    <ul class="clearfix">
+                        <li><a href="plugin.php?id=tom_pintuan&mod=search&cate_id={$cate_id}&province_id={$province_id}&city_id=0" style="color: #FFF; background-color: #C2C2C3;">{lang tom_pintuan:search_search_no_choose}</a></li>
+                        <!--{loop $cityList $key $val}-->
+                        <!--{if $city_id == $val['id']}-->
+                        <li><a href="plugin.php?id=tom_pintuan&mod=search&cate_id={$cate_id}&province_id={$province_id}&city_id={$val['id']}" style="color: #FFF; background-color: #EA0000;">{$val['name']}</a></li>
+                        <!--{else}-->
+                        <li><a href="plugin.php?id=tom_pintuan&mod=search&cate_id={$cate_id}&province_id={$province_id}&city_id={$val['id']}">{$val['name']}</a></li>
+                        <!--{/if}-->
+                        <!--{/loop}-->
+                    </ul>
+                </div>
+                <div class="clear_both"></div>
+                <div class="search_search_address_title">{lang tom_pintuan:search_search_address_title3}</div>
+                <div class="search_search_li">
+                    <ul class="clearfix">
+                        <li><a href="plugin.php?id=tom_pintuan&mod=search&cate_id={$cate_id}&province_id={$province_id}&city_id={$city_id}&area_id=0" style="color: #FFF; background-color: #C2C2C3;">{lang tom_pintuan:search_search_no_choose}</a></li>
+                        <!--{loop $areaList $key $val}-->
+                        <!--{if $area_id == $val['id']}-->
+                        <li><a href="plugin.php?id=tom_pintuan&mod=search&cate_id={$cate_id}&province_id={$province_id}&city_id={$city_id}&area_id={$val['id']}" style="color: #FFF; background-color: #EA0000;">{$val['name']}</a></li>
+                        <!--{else}-->
+                        <li><a href="plugin.php?id=tom_pintuan&mod=search&cate_id={$cate_id}&province_id={$province_id}&city_id={$city_id}&area_id={$val['id']}">{$val['name']}</a></li>
+                        <!--{/if}-->
+                        <!--{/loop}-->
+                    </ul>
+                </div>
+                <div class="clear_both"></div>
+                
+            </div>
+            <div class="clear_both"></div>
+        </section>
+        <div class="clear_both"></div>
+        <!--{if $show_list_box == 2}-->
+        <div class="search_search_no_goods_msg">{lang tom_pintuan:search_search_no_goods_msg}</div>
+        <!--{else}-->
+        <section class="main-view" id="co-focus">
+            <div id="tuan" class="tuan" style="padding-top: 10px; display: block;">
+                <div>
+                    <!--{loop $goodsList $key $val}-->
+                	<!-- item start -->
+                    <div class="tuan_g">
+                        <!--{if $val['goods_num'] <= 0 }--><i class="sale-out"></i><!--{/if}-->
+                        <a href="plugin.php?id=tom_pintuan&mod=goodsinfo&goods_id={$val['id']}">
+                            <div class="tuan_g_img">
+                                <img src="{$val['list_pic']}">
+                                <span class="tuan_mark tuan_mark2">
+                                	<b>{$val['goods_discount']}{lang tom_pintuan:index_zhe}</b>
+                                    <span>{$val['tuan_num']}{lang tom_pintuan:index_rentuan}</span>
+                                </span>
+                            </div>
+                            <div class="tuan_g_info">
+                                <p class="tuan_g_name">{$val['name']}</p>
+                                <p class="tuan_g_cx">{$val['describe']}</p>
+                            </div>
+                            <div class="tuan_g_core">
+                                <div class="tuan_g_price">
+                                    <span>{$val['tuan_num']}{lang tom_pintuan:index_rentuan}</span>
+                                    <b>{lang tom_pintuan:yuan_ico}{$val['tuan_price']}</b>
+                                </div>
+                                <div class="tuan_g_btn">{lang tom_pintuan:index_tuan_btn}</div>
+                            </div>
+                            <div class="tuan_g_mprice">{lang tom_pintuan:index_shichangjia}
+                                <del>{lang tom_pintuan:yuan_ico}{$val['market_price']}</del>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- item end -->
+                    <!--{/loop}-->
+                    <div class="pages clearfix">
+                        <ul class="clearfix">
+                          <li style="width: 40%;"><!--{if $page > 1}--><a href="{$prePageUrl}">{lang tom_pintuan:pre_page}</a><!--{else}--><span>{lang tom_pintuan:pre_page}</span><!--{/if}--></li>
+                          <li style="width: 20%;"><span>{$page}/{$allPageNum}</span></li>
+                          <li style="width: 40%;"><!--{if $showNextPage == 1}--><a href="{$nextPageUrl}">{lang tom_pintuan:next_page}</a><!--{else}--><span>{lang tom_pintuan:next_page}</span><!--{/if}--></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--{/if}-->
+    </div>
+
+    <footer class="footer">
+        <nav>
+            <ul>
+                <li><a href="plugin.php?id=tom_pintuan&mod=index" class="nav-controller active"><div class="fb-home"></div>{lang tom_pintuan:nav_index}</a></li>
+                <li><a href="plugin.php?id=tom_pintuan&mod=groups" class="nav-controller"><div class="fb-group"></div>{lang tom_pintuan:nav_groups}</a></li>
+                <li><a href="plugin.php?id=tom_pintuan&mod=orders" class="nav-controller"><div class="fb-list"></div>{lang tom_pintuan:nav_orders}</a></li>
+                <li><a href="plugin.php?id=tom_pintuan&mod=personal" class="nav-controller"><div class="fb-user"></div>{lang tom_pintuan:nav_personal}</a></li>
+            </ul>
+        </nav>
+    </footer>
+    <div style="display: none;">{$pintuanConfig['tongji_code']}</div>
+</body>
+<script src="source/plugin/tom_pintuan/images/fastclick.min-1.0.6.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+$(function() {
+    FastClick.attach(document.body);
+});
+
+var click_search_cate_id = 0;
+$("#search_cate_id").click( function () { 
+    if (click_search_cate_id == 0) {
+        click_search_cate_id = 1;
+        $(this).addClass("active");
+        $("#search_cate_list_id").removeClass("search_search_li_height");
+    }else{
+        click_search_cate_id = 0;
+        $(this).removeClass("active");
+        $("#search_cate_list_id").addClass("search_search_li_height");
+    }
+});
+
+var click_search_address_id = 0;
+$("#search_address_id").click( function () {
+    if (click_search_address_id == 0) {
+        click_search_address_id = 1;
+        $(this).addClass("active");
+        $("#search_address_list_id").removeClass("hide");
+    }else{
+        click_search_address_id = 0;
+        $(this).removeClass("active");
+        $("#search_address_list_id").addClass("hide");
+    }
+});
+
+function getNewOrder(){
+  $.ajax({
+        type: "GET",
+        url: "plugin.php?id=tom_pintuan:api",
+        data: "act=new_order",
+        dataType : "jsonp",
+        jsonpCallback:"jsonpCallback",
+        cache : false,
+        success: function(json){
+            if(json.status == 1){
+                var orderHtml = '<div class="new_orders_tusi_box"><img src="'+json.goods_pic+'"><a href="#">{lang tom_pintuan:new_order_msg}"'+json.user_nickname+'"</a></div>';
+                $('body').append(orderHtml);
+                setTimeout(function(){$('.new_orders_tusi_box').remove();},2000);
+            }
+            
+        }
+    });
+}
+setInterval("getNewOrder()",5000);
+
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+</html>

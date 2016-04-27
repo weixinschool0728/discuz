@@ -367,7 +367,8 @@ if($formhash == FORMHASH && $act == 'info'){
         echo '<td>';
         echo '<a href="'.$adminBaseUrl.'&tmod=order&tuan_id='.$value['id'].'&formhash='.FORMHASH.'">' . $Lang['tuan_order_title'] . '</a>&nbsp;|&nbsp;';
         echo '<a href="'.$modBaseUrl.'&act=editstatus&id='.$value['id'].'&formhash='.FORMHASH.'">' . $Lang['tuan_editstatus_title'] . '</a><br/>';
-        echo '<a href="'.$modBaseUrl.'&act=refund&id='.$value['id'].'&formhash='.FORMHASH.'">' . $Lang['tuan_refund_title'] . '</a>&nbsp;|&nbsp;';
+        //echo '<a href="'.$modBaseUrl.'&act=refund&id='.$value['id'].'&formhash='.FORMHASH.'">' . $Lang['tuan_refund_title'] . '</a>&nbsp;|&nbsp;';
+        echo '<a href="javascript:void(0);" onclick="refund_confirm(\''.$modBaseUrl.'&act=refund&id='.$value['id'].'&formhash='.FORMHASH.'\');">' . $Lang['tuan_refund_title'] . '</a>&nbsp;|&nbsp;';
         echo '<a target="_blank" href="'.$_G['siteurl'].'plugin.php?id=tom_pintuan:ordersexport&tuan_id='.$value['id'].'">' . $Lang['tuan_dodao_title'] . '</a><br/>';
         echo '<a target="_blank" href="'.$qrcodeImg.'">' . $Lang['tuan_qrcode_title'] . '</a>&nbsp;|&nbsp;';
         echo '<a href="javascript:void(0);" onclick="del_confirm(\''.$modBaseUrl.'&act=del&id='.$value['id'].'&formhash='.FORMHASH.'\');">' . $Lang['delete'] . '</a>';
@@ -380,6 +381,16 @@ if($formhash == FORMHASH && $act == 'info'){
     
     $jsstr = <<<EOF
 <script type="text/javascript">
+            
+function refund_confirm(url){
+  var r = confirm("{$Lang['tuan_refund_sure']}")
+  if (r == true){
+    window.location = url;
+  }else{
+    return false;
+  }
+}
+            
 function del_confirm(url){
   var r = confirm("{$Lang['makesure_del_msg']}")
   if (r == true){

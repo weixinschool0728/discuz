@@ -27,6 +27,7 @@ $order_time = dgmdate($orderInfo['order_time'], 'Y-m-d H:i:s',$tomSysOffset);
 
 $goods_all_price = $orderInfo['goods_num']*$orderInfo['goods_price'];
 $express_price = $pintuanConfig['express_price']/100;
+$express_price = $orderInfo['pay_price'] - $goods_all_price;
 
 if($orderInfo['take_type'] == 2){
     $express_price = 0;

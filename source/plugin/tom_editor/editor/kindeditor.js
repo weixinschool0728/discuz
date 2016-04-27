@@ -3532,7 +3532,7 @@ function _getInitHtml(themesPath, bodyClass, cssPath, cssData) {
 		'<style>',
 		'html {margin:0;padding:0;}',
 		'body {margin:0;padding:5px;}',
-		'body, td {font:14px/1.5 "sans serif",tahoma,verdana,helvetica;}',
+		'body, td {font:12px/1.5 "sans serif",tahoma,verdana,helvetica;}',
 		'body, p, div {word-wrap: break-word;}',
 		'p {margin:5px 0;}',
 		'table {border-collapse:collapse;}',
@@ -4173,7 +4173,7 @@ _extend(KUploadButton, {
 		self.form = options.form ? K(options.form) : K('form', div);
 		self.fileBox = K('.ke-upload-file', div);
 		var width = options.width || K('.ke-button-common', div).width();
-		K('.ke-upload-area', div).width(width+20);//自己修改 原来没有加20
+		K('.ke-upload-area', div).width(width);
 		self.options = options;
 	},
 	submit : function() {

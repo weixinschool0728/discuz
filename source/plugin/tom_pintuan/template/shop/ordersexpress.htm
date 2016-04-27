@@ -1,0 +1,106 @@
+{template common/header}
+<script type="text/javascript" src="static/js/calendar.js"></script>
+<style type="text/css">
+.bdtr {
+ padding-left: 10px !important;
+}
+</style>
+<script type="text/javascript" src="static/js/calendar.js"></script>
+<div class="bm cl" id="pt">
+    <div class="z">
+        <a title="{$_G['setting']['sitename']}" class="nvhm" href="./">{$_G['setting']['sitename']}</a> <em>&amp;rsquot;</em>
+        <a href="plugin.php?id=tom_pintuan:shop">{lang tom_pintuan:pc_shop_title}</a>
+    </div>
+</div>
+<div class="ct2_a wp cl" id="ct">
+    <div class="appl">
+        <div class="tbn">
+            <h2 class="mt bbda">{lang tom_pintuan:pc_shop_pintuan_title}</h2>
+            <ul>
+                {template tom_pintuan:shop/menu}
+            </ul>
+        </div>
+    </div>
+    <div style="float:left;width: 900px;">
+        <h1 class="ph mbm xi1" style="margin-left:10px;">{lang tom_pintuan:pc_shop_express_title}</h1>
+        <form method="post" class="from_class" action="plugin.php?id=tom_pintuan:shop&mod=order&act=expresssave" enctype="multipart/form-data">
+            <table cellspacing="0" cellpadding="0" class="tfm">
+                <tbody>
+                    
+                    <tr>
+                        <td class="bdtr"><span style="color:red;">&nbsp;&nbsp;</span>{lang tom_pintuan:pc_shop_list_goods_name}</td>
+                        <td>{$info['goods_name']}</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="bdtr"><span style="color:red;">&nbsp;&nbsp;</span>{lang tom_pintuan:pc_shop_list_order_no}</td>
+                        <td>{$info['order_no']}</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="bdtr"><span style="color:red;">&nbsp;&nbsp;</span>{lang tom_pintuan:pc_shop_list_pay_price}</td>
+                        <td>{$info['pay_price']}</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="bdtr"><span style="color:red;">&nbsp;&nbsp;</span>{lang tom_pintuan:pc_shop_list_order_status}</td>
+                        <td><b><font color="{$orderStatusColorArray[$info['order_status']]}">{$orderStatusArray[$info['order_status']]}</font></b></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="bdtr"><span style="color:red;">&nbsp;&nbsp;</span>{lang tom_pintuan:pc_shop_express_xm}</td>
+                        <td>{$info['xm']}</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="bdtr"><span style="color:red;">&nbsp;&nbsp;</span>{lang tom_pintuan:pc_shop_express_tel}</td>
+                        <td>{$info['tel']}</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="bdtr"><span style="color:red;">&nbsp;&nbsp;</span>{lang tom_pintuan:pc_shop_express_address}</td>
+                        <td>{$info['address']}</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="bdtr"><span style="color:red;">&nbsp;&nbsp;</span>{lang tom_pintuan:pc_shop_express_order_beizu}</td>
+                        <td>{$info['order_beizu']}</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <hr>
+                    <tr>
+                        <td class="bdtr"><span style="color:red;">&nbsp;&nbsp;</span><b>{lang tom_pintuan:pc_shop_express_express_time}</b></td>
+                        <td>{$info['express_time']}</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="bdtr"><span style="color:red;">&nbsp;&nbsp;</span><b>{lang tom_pintuan:pc_shop_express_express_name}</b></td>
+                        <td>
+                            <select name="express_name" >
+                                <option value="0">{lang tom_pintuan:pc_shop_express_express_name}</option>
+                                <!--{loop $kuaidi100Array $key $val}-->
+                                <option value="{$key}"<!--{if $key == $info['express_name']}-->selected<!--{/if}-->>{$val}</option>
+                                <!--{/loop}-->
+                            </select>
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="bdtr"><span style="color:red;">&nbsp;&nbsp;</span><b>{lang tom_pintuan:pc_shop_express_express_no}</b></td>
+                        <td><input name="express_no" type="text" value="{$info['express_no']}" size="40" /></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td colspan="2">
+                            <button class="pn pnc vm" value="true" id="submit" name="submit" type="submit"><strong>{lang tom_pintuan:pc_shop_express_submit}</strong></button>
+                            <input type="hidden" name="formhash" value="{$formhash}">
+                            <input type="hidden" name="order_id" value="{$info['id']}">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+{template common/footer}

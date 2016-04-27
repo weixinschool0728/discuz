@@ -20,10 +20,17 @@ $pintuanConfig = $_G['cache']['plugin']['tom_pintuan'];
 $page           = isset($_GET['page'])? intval($_GET['page']):1;
 $goods_name     = !empty($_GET['goods_name'])? addslashes($_GET['goods_name']):'';
 $order_no       = !empty($_GET['order_no'])? addslashes($_GET['order_no']):'';
+$order_tel = !empty($_GET['order_tel'])? trim(addslashes($_GET['order_tel'])):'';
 $start_time_tmp = !empty($_GET['start_time'])? addslashes($_GET['start_time']):'';
 $start_time     = strtotime($start_time_tmp);
 $end_time_tmp   = !empty($_GET['end_time'])? addslashes($_GET['end_time']):'';
 $end_time       = strtotime($end_time_tmp);
+
+$qs_start_time_tmp = !empty($_GET['qs_start_time'])? addslashes($_GET['qs_start_time']):'';
+$qs_start_time = strtotime($qs_start_time_tmp);
+$qs_end_time_tmp = !empty($_GET['qs_end_time'])? addslashes($_GET['qs_end_time']):'';
+$qs_end_time = strtotime($qs_end_time_tmp);
+
 $order_status   = isset($_GET['order_status'])? intval($_GET['order_status']):0;
 $user_id        = isset($_GET['user_id'])? intval($_GET['user_id']):0;
 $tuan_id        = isset($_GET['tuan_id'])? intval($_GET['tuan_id']):0;
@@ -37,14 +44,33 @@ $start = ($page-1)*$pagesize;
 
 $tomSysOffset = getglobal('setting/timeoffset');
 
+
+$manageFlag = 0;
 if(isset($_G['uid']) && $_G['uid'] > 0 && $_G['groupid'] == 1){
+    $manageFlag = 1;
+}
+
+if(isset($_G['uid']) && $_G['uid'] > 0){
+    $shopInfo = C::t('#tom_pintuan#tom_pintuan_shop')->fetch_by_bbs_uid($_G['uid']);
+    if($shopInfo['id'] == $shop_id){
+        $manageFlag = 1;
+    }
+}
+
+if(isset($_G['uid']) && $_G['uid'] > 0 && $manageFlag == 1){
     
     $where = "";
     if(!empty($order_no)){
         $where.=" AND order_no='{$order_no}' ";
     }
+    if(!empty($order_tel)){
+        $where.=" AND tel='{$order_tel}' ";
+    }
     if(!empty($start_time_tmp) && $end_time_tmp){
         $where.=" AND order_time>$start_time AND order_time<$end_time ";
+    }
+    if(!empty($qs_start_time_tmp) && $qs_end_time_tmp){
+        $where.=" AND qianshou_time>$qs_start_time AND qianshou_time<$qs_end_time ";
     }
     if(!empty($order_status)){
         $where.=" AND order_status={$order_status} ";
@@ -73,7 +99,11 @@ if(isset($_G['uid']) && $_G['uid'] > 0 && $_G['groupid'] == 1){
             }
             if(!empty($goodsIdArr)){
                 $where.= " AND goods_id IN(".  implode(",", $goodsIdArr).") ";
+            }else{
+                $where.= " AND goods_id IN(9999999999) ";
             }
+        }else{
+            $where.= " AND goods_id IN(9999999999) ";
         }
     }
     
@@ -96,6 +126,11 @@ if(isset($_G['uid']) && $_G['uid'] > 0 && $_G['groupid'] == 1){
         }
         
         $orderList[$key]['order_time'] = dgmdate($value['order_time'],"Y-m-d H:i:s",$tomSysOffset);
+        if($value['qianshou_time'] > 0){
+            $orderList[$key]['qianshou_time'] = dgmdate($value['qianshou_time'],"Y-m-d H:i:s",$tomSysOffset);
+        }else{
+            $orderList[$key]['qianshou_time'] = '-';
+        }
         
     }
 
@@ -118,6 +153,7 @@ if(isset($_G['uid']) && $_G['uid'] > 0 && $_G['groupid'] == 1){
     $order_order_status = lang('plugin/tom_pintuan','order_order_status');
     $goods_take_type = lang('plugin/tom_pintuan','goods_take_type');
     $order_order_time = lang('plugin/tom_pintuan','order_order_time');
+    $order_qianshou_time = lang('plugin/tom_pintuan','order_qianshou_time');
 
     $listData[] = array(
         $order_tstatus,
@@ -139,6 +175,7 @@ if(isset($_G['uid']) && $_G['uid'] > 0 && $_G['groupid'] == 1){
         $order_order_status,
         $goods_take_type,
         $order_order_time,
+        $order_qianshou_time,
     ); 
     foreach ($orderList as $v){
         $lineData = array();
@@ -154,13 +191,18 @@ if(isset($_G['uid']) && $_G['uid'] > 0 && $_G['groupid'] == 1){
         $lineData[] = $v['user_openid'];
         $lineData[] = $v['xm'];
         $lineData[] = $v['tel'];
+        $v['address'] = str_replace("\r\n", "", $v['address']);
+        $v['address'] = str_replace("\n", "", $v['address']);
         $lineData[] = $v['address'];
         $lineData[] = $v['order_beizu'];
+        $v['order_beizu'] = str_replace("\r\n", "", $v['order_beizu']);
+        $v['order_beizu'] = str_replace("\n", "", $v['order_beizu']);
         $lineData[] = $v['express_name'];
         $lineData[] = $v['express_no'];
         $lineData[] = $v['order_status'];
         $lineData[] = $v['take_type'];
         $lineData[] = $v['order_time'];
+        $lineData[] = $v['qianshou_time'];
         
         $listData[] = $lineData;
     }

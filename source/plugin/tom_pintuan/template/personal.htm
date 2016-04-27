@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="source/plugin/tom_pintuan/images/style.css">
 <link rel="stylesheet" href="source/plugin/tom_pintuan/images/font-awesome.min-4.3.0.css">
 <script src="source/plugin/tom_pintuan/images/jquery.min-2.1.3.js"></script>
+<script type="text/javascript">var usiteurl = "{$uSiteUrl}";var plugin_id="tom_pintuan";</script>
 </head>
 <body>
     <div class="container">
@@ -65,24 +66,25 @@
                 <ul>
                     <li><a href="plugin.php?id=tom_pintuan&mod=index" class="nav-controller"><div class="fb-home"></div>{lang tom_pintuan:nav_index}</a></li>
                     <li><a href="plugin.php?id=tom_pintuan&mod=groups" class="nav-controller"><div class="fb-group"></div>{lang tom_pintuan:nav_groups}</a></li>
-					<li><a href="plugin.php?id=tom_pintuan&mod=cates" class="nav-controller"><div class="fb-class"></div>{lang tom_pintuan:nav_class}</a></li>
                     <li><a href="plugin.php?id=tom_pintuan&mod=orders" class="nav-controller"><div class="fb-list"></div>{lang tom_pintuan:nav_orders}</a></li>
                     <li><a href="plugin.php?id=tom_pintuan&mod=personal" class="nav-controller active"><div class="fb-user"></div>{lang tom_pintuan:nav_personal}</a></li>
                 </ul>
             </nav>
         </footer>
     </div>
-    <!--{if $showGuanzuBox == 1 }-->
+    <!--{if $pintuanConfig['personal_guanzu'] == 1 }-->
+    <!--{if $subscribeFlag == 2 }-->
     <section>
       <div class="pop">
         <div class="mengceng"></div>
         <div class="pop_up" style="top:5%;">
           <p class="tit_p"><b>{lang tom_pintuan:personal_guanzu_title}</b></p>
           <p class="tit_txt">{lang tom_pintuan:personal_guanzu_msg}</p>
-          <p class="tit_txt"><img width="100%" src="{$pintuanConfig['yihe_followewm']}"/></p>
+          <p class="tit_txt"><img width="100%" src="{$pintuanConfig['guanzu_src']}"/></p>
         </div>
       </div>
     </section>
+    <!--{/if}-->
     <!--{/if}-->
     <div style="display: none;">{$pintuanConfig['tongji_code']}</div>
 </body>

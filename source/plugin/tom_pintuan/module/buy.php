@@ -48,8 +48,6 @@ if($goodsInfo['take_type'] == 1){
     $take_type = 1;
 }else if($goodsInfo['take_type'] == 2){
     $take_type = 2;
-}else if($goodsInfo['take_type'] == 4){
-    $take_type = 4;
 }else{
     $showChooseBtn = 1;
 }
@@ -58,27 +56,26 @@ if($goodsInfo['express_price'] > 0){
     $pintuanConfig['express_price'] = $goodsInfo['express_price'];
 }
 
-//意合微信-2015-11-22虚拟商品免邮费
-if($take_type == 2 || $take_type == 4){
-    $pintuanConfig['express_price'] = 0;
+if($goodsInfo['express_id'] > 0 && !empty($addressInfo)){
+    $expressInfo = C::t('#tom_pintuan#tom_pintuan_express')->fetch_by_id($goodsInfo['express_id']);
+    if($expressInfo){
+        $pintuanConfig['express_price'] = $expressInfo['default_price'];
+        
+        $express_itemList1 = C::t('#tom_pintuan#tom_pintuan_express_item')->fetch_all_list(" AND express_id={$goodsInfo['express_id']} AND province_id={$addressInfo['province_id']} AND city_id={$addressInfo['city_id']} "," ORDER BY id DESC ",0,1);
+        if(!empty($express_itemList1) && isset($express_itemList1['0'])){
+            $pintuanConfig['express_price'] = $express_itemList1['0']['express_price'];
+        }else{
+            $express_itemList2 = C::t('#tom_pintuan#tom_pintuan_express_item')->fetch_all_list(" AND express_id={$goodsInfo['express_id']} AND province_id={$addressInfo['province_id']} AND city_id=0 "," ORDER BY id DESC ",0,1);
+            if(!empty($express_itemList2) && isset($express_itemList2['0'])){
+                $pintuanConfig['express_price'] = $express_itemList2['0']['express_price'];
+            }
+        }
+    }
 }
 
-//意合工作室更新20151022限时购买
-$start_time = dgmdate($goodsInfo['start_time'],"Y-m-d",$tomSysOffset);
-$end_time = dgmdate($goodsInfo['end_time'],"Y-m-d",$tomSysOffset);
-$daojishiTimes = $goodsInfo['end_time']-TIMESTAMP;
-$showBtnBox = 0;
-if($goodsInfo['start_time'] != 0){
-	$showBtnBox = 1;
-	if(TIMESTAMP < $goodsInfo['start_time']){
-		$showBtnBox = 2;
-	}
-	
-	if(TIMESTAMP > $goodsInfo['end_time']){
-		$showBtnBox = 3;
-	}
+if($take_type == 2){
+    $pintuanConfig['express_price'] = 0;
 }
-//end意合工作室更新20151022限时购买
 
 $express_price = $pintuanConfig['express_price']/100;
 
@@ -108,21 +105,28 @@ if($tstatus == 1 || $tstatus == 2){
     $base_price = $goodsInfo['one_price']*100;
 }
 
+$show_tuanz_price = 0;
+if($tstatus == 1){
+    if($goodsInfo['tuanz_price'] > 0){
+        $show_tuanz_price = 1;
+        $tuan_price = $goodsInfo['tuanz_price'];
+        $base_price = $goodsInfo['tuanz_price']*100;
+        if($goodsInfo['tuanz_price_num'] > 0){
+                $goodsInfo['xiangou_num'] = $goodsInfo['tuanz_price_num'];
+        }
+    }
+}
+
+$goods_xiangou_num = 0;
+if($goodsInfo['xiangou_num'] > 0){
+    $goods_xiangou_num = $goodsInfo['xiangou_num'];
+}
+
 $pay_price_arr = array();
-for($i=1;$i<=10;$i++){
+for($i=1;$i<=100;$i++){
     $pay_price_arr[$i] = ($pintuanConfig['express_price']+$base_price*$i)/100;
 }
 
-//团长价格
-$show_tuanz_price = 0;
-if($goodsInfo['tuanz_price'] > 0 && $tstatus == 1 || $tstatus == 2 && !$tuan_id){
-	$show_tuanz_price = 1;
-	$tuan_price = $goodsInfo['tuanz_price'];
-	$pay_price_arr = array();
-	for($i=1;$i<=10;$i++){
-		$pay_price_arr[$i] = ($pintuanConfig['express_price']+$base_price*($i-1)+$goodsInfo['tuanz_price']*100)/100;
-	}
-}
 
 
 $chooseTakeType1Url = "plugin.php?id=tom_pintuan&mod=buy&showwxpaytitle=1&take_type=1&tstatus={$tstatus}&tlevel={$tlevel}&tuan_id={$tuan_id}&address_id=$address_id&goods_id=".$goods_id;

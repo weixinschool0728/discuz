@@ -131,10 +131,12 @@ if($_GET['act'] == 'add'){
     $goodsList = C::t('#tom_pintuan#tom_pintuan_goods')->fetch_all_like_list($where,$sort,$start,$pagesize,$goods_name);
     showtableheader();
     $Lang['pin_help_1']  = str_replace("{SITEURL}", $_G['siteurl'], $Lang['pin_help_1']);
+    $Lang['pin_help_3']  = str_replace("{SITEURL}", $_G['siteurl'], $Lang['pin_help_3']);
     echo '<tr><th colspan="15" class="partition">' . $Lang['pin_help_title'] . '</th></tr>';
     echo '<tr><td  class="tipsblock" s="1"><ul id="tipslis">';
     echo '<li>' . $Lang['pin_help_1'] . '</font></a></li>';
-    echo '<li>' . $Lang['pin_help_2_a'] . '<a target="_blank" href="#"><font color="#FF0000">' . $Lang['pin_help_2_b'] . '</font></a></li>';
+    echo '<li>' . $Lang['pin_help_2_a'] . '<a target="_blank" href="http://www.tomwx.net/index.php?m=help&t=plugin&pluginid=tom_pintuan"><font color="#FF0000">' . $Lang['pin_help_2_b'] . '</font></a></li>';
+    echo '<li>' . $Lang['pin_help_3'] . '</font></a></li>';
     echo '</ul></td></tr>';
     showtablefooter();
     
@@ -236,6 +238,7 @@ if($_GET['act'] == 'add'){
     echo '<th>' . $Lang['goods_goods_num'] . '</th>';
     echo '<th>' . $Lang['goods_sales_num'] . '</th>';
     echo '<th>' . $Lang['goods_virtual_sales_num'] . '</th>';
+    echo '<th>' . $Lang['goods_clicks'] . '</th>';
     echo '<th>' . $Lang['goods_is_show'] . '</th>';  
     echo '<th>' . $Lang['handle'] . '</th>';
     echo '</tr>';
@@ -264,6 +267,7 @@ if($_GET['act'] == 'add'){
         echo '<td>' . $value['goods_num'] . '</td>';
         echo '<td>' . $value['sales_num'] . '</td>';
         echo '<td>' . $value['virtual_sales_num'] . '</td>';
+        echo '<td>' . $value['clicks'] . '</td>';
         if($value['is_show'] == 1){
             echo '<td><font color="#009900">' . $Lang['goods_is_show1']. '</font></td>';
         }else{
@@ -344,6 +348,7 @@ function __get_post_data($infoArr = array()){
     $goods_discount = isset($_GET['goods_discount'])? addslashes($_GET['goods_discount']):'';
     $market_price   = isset($_GET['market_price'])? addslashes($_GET['market_price']):'';
     $tuanz_price    = isset($_GET['tuanz_price'])? addslashes($_GET['tuanz_price']):'';
+    $tuanz_price_num    = isset($_GET['tuanz_price_num'])? intval($_GET['tuanz_price_num']):0;
     $tuan_price     = isset($_GET['tuan_price'])? addslashes($_GET['tuan_price']):'';
     $tuan_num_2     = isset($_GET['tuan_num_2'])? intval($_GET['tuan_num_2']):0;
     $tuan_price_2   = isset($_GET['tuan_price_2'])? addslashes($_GET['tuan_price_2']):'';
@@ -351,15 +356,11 @@ function __get_post_data($infoArr = array()){
     $tuan_price_3   = isset($_GET['tuan_price_3'])? addslashes($_GET['tuan_price_3']):'';
     $one_price      = isset($_GET['one_price'])? addslashes($_GET['one_price']):'';
     $open_3_tuan      = isset($_GET['open_3_tuan'])? intval($_GET['open_3_tuan']):0;
+    $only_one_buy      = isset($_GET['only_one_buy'])? intval($_GET['only_one_buy']):0;
     $express_price      = isset($_GET['express_price'])? intval($_GET['express_price']):0;
+    $express_id      = isset($_GET['express_id'])? intval($_GET['express_id']):0;
     $virtual_sales_num      = isset($_GET['virtual_sales_num'])? intval($_GET['virtual_sales_num']):0;
     $tuan_hours      = isset($_GET['tuan_hours'])? intval($_GET['tuan_hours']):24;
-    //活动时间
-    $start_time     = isset($_GET['start_time'])? addslashes($_GET['start_time']):'';
-    $start_time     = strtotime($start_time);
-    $end_time       = isset($_GET['end_time'])? addslashes($_GET['end_time']):'';
-    $end_time       = strtotime($end_time);
-    
     $allow_num      = isset($_GET['allow_num'])? intval($_GET['allow_num']):1;
     $goods_unit     = isset($_GET['goods_unit'])? addslashes($_GET['goods_unit']):"";
     $take_type      = isset($_GET['take_type'])? intval($_GET['take_type']):1;
@@ -368,45 +369,7 @@ function __get_post_data($infoArr = array()){
     $share_title    = isset($_GET['share_title'])? addslashes($_GET['share_title']):'';
     $share_desc     = isset($_GET['share_desc'])? addslashes($_GET['share_desc']):'';
     $content        = isset($_GET['content'])? addslashes($_GET['content']):'';
-    
-    $fieldb1          = isset($_GET['fieldb1'])? addslashes($_GET['fieldb1']):'';
-    $fieldb2          = isset($_GET['fieldb2'])? addslashes($_GET['fieldb2']):'';
-    $fieldb3          = isset($_GET['fieldb3'])? addslashes($_GET['fieldb3']):'';
-    $fieldb3      = strtotime($fieldb3);
-    $fieldb4          = isset($_GET['fieldb4'])? addslashes($_GET['fieldb4']):'';
-    $fieldb5          = isset($_GET['fieldb5'])? addslashes($_GET['fieldb5']):'';
-    $fieldb6          = isset($_GET['fieldb6'])? addslashes($_GET['fieldb6']):'';
-    $fieldb7          = isset($_GET['fieldb7'])? addslashes($_GET['fieldb7']):'';
-    $fieldb8          = isset($_GET['fieldb8'])? addslashes($_GET['fieldb8']):'';
-    $fieldb9          = isset($_GET['fieldb9'])? addslashes($_GET['fieldb9']):'';
-    $fieldb10          = isset($_GET['fieldb10'])? addslashes($_GET['fieldb10']):'';
-    $fieldb11          = isset($_GET['fieldb11'])? addslashes($_GET['fieldb11']):'';
-    $fieldb12          = isset($_GET['fieldb12'])? addslashes($_GET['fieldb12']):'';
-    $fieldb13          = isset($_GET['fieldb13'])? addslashes($_GET['fieldb13']):'';
-    $fieldb14          = isset($_GET['fieldb14'])? addslashes($_GET['fieldb14']):'';
-    $fieldb15          = isset($_GET['fieldb15'])? addslashes($_GET['fieldb15']):'';
-    $fieldb16          = isset($_GET['fieldb16'])? addslashes($_GET['fieldb16']):'';
-    $fieldb17          = isset($_GET['fieldb17'])? addslashes($_GET['fieldb17']):'';
-    $fieldb18          = isset($_GET['fieldb18'])? addslashes($_GET['fieldb18']):'';
-    $fieldb19          = isset($_GET['fieldb19'])? addslashes($_GET['fieldb19']):'';
-    $fieldb20          = isset($_GET['fieldb20'])? addslashes($_GET['fieldb20']):'';
-    $fieldb21          = isset($_GET['fieldb21'])? addslashes($_GET['fieldb21']):'';
-    $fieldb22          = isset($_GET['fieldb22'])? addslashes($_GET['fieldb22']):'';
-    $fieldb23          = isset($_GET['fieldb23'])? addslashes($_GET['fieldb23']):'';
-    $fieldb24          = isset($_GET['fieldb24'])? addslashes($_GET['fieldb24']):'';
-    $fieldb25          = isset($_GET['fieldb25'])? addslashes($_GET['fieldb25']):'';
-    $fieldb26          = isset($_GET['fieldb26'])? addslashes($_GET['fieldb26']):'';
-    $fieldb27          = isset($_GET['fieldb27'])? addslashes($_GET['fieldb27']):'';
-    $fieldb28          = isset($_GET['fieldb28'])? addslashes($_GET['fieldb28']):'';
-    $fieldb29          = isset($_GET['fieldb29'])? addslashes($_GET['fieldb29']):'';
-    $fieldb30          = isset($_GET['fieldb30'])? addslashes($_GET['fieldb30']):'';
-    $fieldba          = isset($_GET['fieldba'])? addslashes($_GET['fieldba']):'';
-    $fieldbb          = isset($_GET['fieldbb'])? addslashes($_GET['fieldbb']):'';
-    $fieldbc          = isset($_GET['fieldbc'])? addslashes($_GET['fieldbc']):'';
-    $fieldbd          = isset($_GET['fieldbd'])? addslashes($_GET['fieldbd']):'';
-    $fieldbe          = isset($_GET['fieldbe'])? addslashes($_GET['fieldbe']):'';
-    $fieldbf          = isset($_GET['fieldbf'])? addslashes($_GET['fieldbf']):'';
-    $paixu          = isset($_GET['paixu'])? intval($_GET['paixu']):'';
+    $paixu          = isset($_GET['paixu'])? intval($_GET['paixu']):10000;
     
     $goods_pic = "";
     if($_GET['act'] == 'add'){
@@ -454,6 +417,7 @@ function __get_post_data($infoArr = array()){
     $data['goods_discount'] = $goods_discount;
     $data['market_price']   = $market_price;
     $data['tuanz_price']     = $tuanz_price;
+    $data['tuanz_price_num']     = $tuanz_price_num;
     $data['tuan_price']     = $tuan_price;
     $data['one_price']      = $one_price;
     $data['tuan_num_2']     = $tuan_num_2;
@@ -461,7 +425,9 @@ function __get_post_data($infoArr = array()){
     $data['tuan_num_3']     = $tuan_num_3;
     $data['tuan_price_3']   = $tuan_price_3;
     $data['open_3_tuan']   = $open_3_tuan;
+    $data['only_one_buy']   = $only_one_buy;
     $data['express_price']   = $express_price;
+    $data['express_id']   = $express_id;
     $data['pics1']          = $pics1;
     $data['pics2']          = $pics2;
     $data['pics3']          = $pics3;
@@ -475,44 +441,6 @@ function __get_post_data($infoArr = array()){
     $data['share_desc']     = $share_desc;
     $data['describe']       = $describe;
     $data['content']        = $content;
-    $data['start_time']   = $start_time;
-    $data['end_time']     = $end_time;
-    $data['fieldb1']        = $fieldb1;
-    $data['fieldb2']        = $fieldb2;
-    $data['fieldb3']        = $fieldb3;
-    $data['fieldb4']        = $fieldb4;
-    $data['fieldb5']        = $fieldb5;
-    $data['fieldb6']        = $fieldb6;
-    $data['fieldb7']        = $fieldb7;
-    $data['fieldb8']        = $fieldb8;
-    $data['fieldb9']        = $fieldb9;
-    $data['fieldb12']        = $fieldb12;
-    $data['fieldb11']        = $fieldb11;
-    $data['fieldb12']        = $fieldb12;
-    $data['fieldb13']        = $fieldb13;
-    $data['fieldb14']        = $fieldb14;
-    $data['fieldb15']        = $fieldb15;
-    $data['fieldb16']        = $fieldb16;
-    $data['fieldb17']        = $fieldb17;
-    $data['fieldb18']        = $fieldb18;
-    $data['fieldb19']        = $fieldb19;
-    $data['fieldb20']        = $fieldb20;
-    $data['fieldb21']        = $fieldb21;
-    $data['fieldb22']        = $fieldb22;
-    $data['fieldb23']        = $fieldb23;
-    $data['fieldb24']        = $fieldb24;
-    $data['fieldb25']        = $fieldb25;
-    $data['fieldb26']        = $fieldb26;
-    $data['fieldb27']        = $fieldb27;
-    $data['fieldb28']        = $fieldb28;
-    $data['fieldb29']        = $fieldb29;
-    $data['fieldb30']        = $fieldb30;
-    $data['fieldba']        = $fieldba;
-    $data['fieldbb']        = $fieldbb;
-    $data['fieldbc']        = $fieldbc;
-    $data['fieldbd']        = $fieldbd;
-    $data['fieldbe']        = $fieldbe;
-    $data['fieldbf']        = $fieldbf;
     $data['paixu']        = $paixu;
     
     return $data;
@@ -532,6 +460,7 @@ function __create_info_html($infoArr = array()){
         'goods_discount'    => "",
         'market_price'      => '0.00',
         'tuanz_price'        => '0.00',
+        'tuanz_price_num'        => 0,
         'tuan_price'        => '0.00',
         'one_price'         => '0.00',
         'tuan_num_2'        => 0,
@@ -539,7 +468,9 @@ function __create_info_html($infoArr = array()){
         'tuan_num_3'        => 0,
         'tuan_price_3'      => '0.00',
         'open_3_tuan'        => 0,
+        'only_one_buy'        => 0,
         'express_price'        => 0,
+        'express_id'        => 0,
         'pics1'             => "",
         'pics2'             => "",
         'pics3'             => '',
@@ -553,39 +484,7 @@ function __create_info_html($infoArr = array()){
         'share_desc'        => $Lang['goods_share_desc_value'],
         'describe'          => "",
         'content'           => "",
-        'start_time'    => 0,
-        'end_time'      => 0,
-        'fieldb1'         => "",
-        'fieldb2'         => "",
-        'fieldb3'         => 0,
-        'fieldb4'         => 0,
-        'fieldb5'         => 0,
-        'fieldb6'         => "",
-        'fieldb7'         => "",
-        'fieldb8'         => "",
-        'fieldb9'         => "",
-        'fieldb10'         => "",
-        'fieldb11'         => "",
-        'fieldb12'         => "",
-        'fieldb13'         => "",
-        'fieldb14'         => "",
-        'fieldb15'         => "",
-        'fieldb16'         => "",
-        'fieldb17'         => "",
-        'fieldb18'         => "",
-        'fieldb19'         => "",
-        'fieldb20'         => "",
-        'fieldb21'         => "",
-        'fieldb22'         => "",
-        'fieldb23'         => "",
-        'fieldb24'         => "",
-        'fieldb25'         => "",
-        'fieldb26'         => "",
-        'fieldb27'         => "",
-        'fieldb28'         => "",
-        'fieldb29'         => "",
-        'fieldb30'         => "",
-        'paixu'         => 100,
+        'paixu'           => "10000",
     );
     $options = array_merge($options, $infoArr);
     
@@ -617,8 +516,12 @@ function __create_info_html($infoArr = array()){
     tomshowsetting(true,array('title'=>$Lang['goods_market_price'],'name'=>'market_price','value'=>$options['market_price'],'msg'=>$Lang['goods_market_price_msg']),"input");
     
     tomshowsetting(true,array('title'=>$Lang['goods_tuanz_price'],'name'=>'tuanz_price','value'=>$options['tuanz_price'],'msg'=>$Lang['goods_tuanz_price_msg']),"input");
+    tomshowsetting(true,array('title'=>$Lang['goods_tuanz_price_num'],'name'=>'tuanz_price_num','value'=>$options['tuanz_price_num'],'msg'=>$Lang['goods_tuanz_price_num_msg']),"input");
     $open_3_tuan_item = array(0=>$Lang['close'],1=>$Lang['open']);
     tomshowsetting(true,array('title'=>$Lang['goods_open_3_tuan'],'name'=>'open_3_tuan','value'=>$options['open_3_tuan'],'msg'=>$Lang['goods_open_3_tuan_msg'],'item'=>$open_3_tuan_item),"radio");
+    
+    $only_one_buy_item = array(0=>$Lang['close'],1=>$Lang['open']);
+    tomshowsetting(true,array('title'=>$Lang['goods_only_one_buy'],'name'=>'only_one_buy','value'=>$options['only_one_buy'],'msg'=>$Lang['goods_only_one_buy_msg'],'item'=>$only_one_buy_item),"radio");
     
     tomshowsetting(true,array('title'=>$Lang['goods_tuan_num'],'name'=>'tuan_num','value'=>$options['tuan_num'],'msg'=>$Lang['goods_tuan_num_msg']),"input");
     tomshowsetting(true,array('title'=>$Lang['goods_tuan_price'],'name'=>'tuan_price','value'=>$options['tuan_price'],'msg'=>$Lang['goods_tuan_price_msg']),"input");
@@ -632,6 +535,16 @@ function __create_info_html($infoArr = array()){
     
     tomshowsetting(true,array('title'=>$Lang['goods_express_price'],'name'=>'express_price','value'=>$options['express_price'],'msg'=>$Lang['goods_express_price_msg']),"input");
     
+    $expressList = C::t('#tom_pintuan#tom_pintuan_express')->fetch_all_list(""," ORDER BY id DESC ",0,500);
+    $express_list_item = array();
+    $express_list_item['0'] = $Lang['goods_express_id_no'];
+    if(is_array($expressList) && !empty($expressList)){
+        foreach ($expressList as $key => $value){
+            $express_list_item[$value['id']] = $value['title'];
+        }
+    }
+    tomshowsetting(true,array('title'=>$Lang['goods_express_id'],'name'=>'express_id','value'=>$options['express_id'],'msg'=>$Lang['goods_express_id_msg'],'item'=>$express_list_item),"select");
+    
     tomshowsetting(true,array('title'=>$Lang['goods_pics1'],'name'=>'pics1','value'=>$options['pics1'],'msg'=>$Lang['goods_pics1_msg']),"file");
     tomshowsetting(true,array('title'=>$Lang['goods_pics2'],'name'=>'pics2','value'=>$options['pics2'],'msg'=>$Lang['goods_pics2_msg']),"file");
     tomshowsetting(true,array('title'=>$Lang['goods_pics3'],'name'=>'pics3','value'=>$options['pics3'],'msg'=>$Lang['goods_pics3_msg']),"file");
@@ -641,7 +554,7 @@ function __create_info_html($infoArr = array()){
     tomshowsetting(true,array('title'=>$Lang['goods_allow_num'],'name'=>'allow_num','value'=>$options['allow_num'],'msg'=>$Lang['goods_allow_num_msg'],'item'=>$allow_num_item),"radio");
     tomshowsetting(true,array('title'=>$Lang['goods_unit'],'name'=>'goods_unit','value'=>$options['goods_unit'],'msg'=>$Lang['goods_unit_msg']),"input");
     
-    $take_type_item = array(1=>$Lang['goods_take_type_1'],2=>$Lang['goods_take_type_2'],3=>$Lang['goods_take_type_3'],4=>$Lang['goods_take_type_4']);
+    $take_type_item = array(1=>$Lang['goods_take_type_1'],2=>$Lang['goods_take_type_2'],3=>$Lang['goods_take_type_3']);
     tomshowsetting(true,array('title'=>$Lang['goods_take_type'],'name'=>'take_type','value'=>$options['take_type'],'msg'=>$Lang['goods_take_type_msg'],'item'=>$take_type_item),"radio");
     tomshowsetting(true,array('title'=>$Lang['goods_take_pwd'],'name'=>'take_pwd','value'=>$options['take_pwd'],'msg'=>$Lang['goods_take_pwd_msg']),"input");
     tomshowsetting(true,array('title'=>$Lang['goods_describe'],'name'=>'describe','value'=>$options['describe'],'msg'=>$Lang['goods_describe_msg']),"textarea");
@@ -649,80 +562,7 @@ function __create_info_html($infoArr = array()){
     tomshowsetting(true,array('title'=>$Lang['goods_share_desc'],'name'=>'share_desc','value'=>$options['share_desc'],'msg'=>$Lang['goods_share_desc_msg']),"input");
     tomshowsetting(true,array('title'=>$Lang['goods_content'],'name'=>'content','value'=>$options['content'],'msg'=>$Lang['goods_content_msg']),"text");
     
-    //拼团结束日期
-    tomshowsetting(true,array('title'=>$Lang['fieldb3'],'name'=>'fieldb3','value'=>$options['fieldb3'],'msg'=>$Lang['fieldb3_msg']),"calendar");
-    //团购活动时间
-    tomshowsetting(true,array('title'=>$Lang['start_time'],'name'=>'start_time','value'=>$options['start_time'],'msg'=>$Lang['start_time_msg']),"calendar");
-    tomshowsetting(true,array('title'=>$Lang['end_time'],'name'=>'end_time','value'=>$options['end_time'],'msg'=>$Lang['end_time_msg']),"calendar");
-	//商品置顶
-    $fieldb1_item = array(0=>$Lang['close'],1=>$Lang['open']);
-    tomshowsetting(true,array('title'=>$Lang['fieldb1'],'name'=>'fieldb1','value'=>$options['fieldb1'],'msg'=>$Lang['fieldb1_msg'],'item'=>$fieldb1_item),"radio");
-    //分享商品图
-    $fieldb2_item = array(0=>$Lang['close'],1=>$Lang['open']);
-    tomshowsetting(true,array('title'=>$Lang['fieldb2'],'name'=>'fieldb2','value'=>$options['fieldb2'],'msg'=>$Lang['fieldb2_msg'],'item'=>$fieldb2_item),"radio");
-	//分裂购买模式
-    $fieldb6_item = array(0=>$Lang['close'],1=>$Lang['open']);
-    tomshowsetting(true,array('title'=>$Lang['fieldb6'],'name'=>'fieldb6','value'=>$options['fieldb6'],'msg'=>$Lang['fieldb6_msg'],'item'=>$fieldb6_item),"radio");
-    //下单次数
-    tomshowsetting(true,array('title'=>$Lang['fieldb4'],'name'=>'fieldb4','value'=>$options['fieldb4'],'msg'=>$Lang['fieldb4_msg']),"input");
-    //tomshowsetting(array('title'=>$Lang['fieldb5'],'name'=>'fieldb5','value'=>$options['fieldb5'],'msg'=>$Lang['fieldb5_msg']),"input");
-    //tomshowsetting(array('title'=>$Lang['fieldb7'],'name'=>'fieldb7','value'=>$options['fieldb7'],'msg'=>$Lang['fieldb7_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb8'],'name'=>'fieldb8','value'=>$options['fieldb8'],'msg'=>$Lang['fieldb8_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb9'],'name'=>'fieldb9','value'=>$options['fieldb9'],'msg'=>$Lang['fieldb9_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb10'],'name'=>'fieldb10','value'=>$options['fieldb10'],'msg'=>$Lang['fieldb10_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb11'],'name'=>'fieldb11','value'=>$options['fieldb11'],'msg'=>$Lang['fieldb11_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb12'],'name'=>'fieldb12','value'=>$options['fieldb12'],'msg'=>$Lang['fieldb12_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb13'],'name'=>'fieldb13','value'=>$options['fieldb13'],'msg'=>$Lang['fieldb13_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb14'],'name'=>'fieldb14','value'=>$options['fieldb14'],'msg'=>$Lang['fieldb14_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb15'],'name'=>'fieldb15','value'=>$options['fieldb15'],'msg'=>$Lang['fieldb15_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb16'],'name'=>'fieldb16','value'=>$options['fieldb16'],'msg'=>$Lang['fieldb16_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb17'],'name'=>'fieldb17','value'=>$options['fieldb17'],'msg'=>$Lang['fieldb17_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb18'],'name'=>'fieldb18','value'=>$options['fieldb18'],'msg'=>$Lang['fieldb18_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb19'],'name'=>'fieldb19','value'=>$options['fieldb19'],'msg'=>$Lang['fieldb19_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb20'],'name'=>'fieldb20','value'=>$options['fieldb20'],'msg'=>$Lang['fieldb20_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb21'],'name'=>'fieldb21','value'=>$options['fieldb21'],'msg'=>$Lang['fieldb21_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb22'],'name'=>'fieldb22','value'=>$options['fieldb22'],'msg'=>$Lang['fieldb22_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb23'],'name'=>'fieldb23','value'=>$options['fieldb23'],'msg'=>$Lang['fieldb23_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb24'],'name'=>'fieldb24','value'=>$options['fieldb24'],'msg'=>$Lang['fieldb24_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb25'],'name'=>'fieldb25','value'=>$options['fieldb25'],'msg'=>$Lang['fieldb25_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb26'],'name'=>'fieldb26','value'=>$options['fieldb26'],'msg'=>$Lang['fieldb26_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb27'],'name'=>'fieldb27','value'=>$options['fieldb27'],'msg'=>$Lang['fieldb27_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb28'],'name'=>'fieldb28','value'=>$options['fieldb28'],'msg'=>$Lang['fieldb28_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb29'],'name'=>'fieldb29','value'=>$options['fieldb29'],'msg'=>$Lang['fieldb29_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldb30'],'name'=>'fieldb30','value'=>$options['fieldb30'],'msg'=>$Lang['fieldb30_msg']),"input");
-    
-    //tomshowsetting(array('title'=>$Lang['fieldba'],'name'=>'fieldba','value'=>$options['fieldba'],'msg'=>$Lang['fieldba_msg']),"input");
-    //tomshowsetting(array('title'=>$Lang['fieldbb'],'name'=>'fieldbb','value'=>$options['fieldbb'],'msg'=>$Lang['fieldbb_msg']),"textarea");
-    //tomshowsetting(array('title'=>$Lang['fieldbc'],'name'=>'fieldbc','value'=>$options['fieldbc'],'msg'=>$Lang['fieldbc_msg']),"input");
-    //tomshowsetting(array('title'=>$Lang['fieldbd'],'name'=>'fieldbd','value'=>$options['fieldbd'],'msg'=>$Lang['fieldbd_msg']),"textarea");
-    //tomshowsetting(array('title'=>$Lang['fieldbe'],'name'=>'fieldbe','value'=>$options['fieldbe'],'msg'=>$Lang['fieldbe_msg']),"input");
-    //tomshowsetting(array('title'=>$Lang['fieldbf'],'name'=>'fieldbf','value'=>$options['fieldbf'],'msg'=>$Lang['fieldbf_msg']),"textarea");
-    
     tomshowsetting(true,array('title'=>$Lang['goods_paixu'],'name'=>'paixu','value'=>$options['paixu'],'msg'=>$Lang['goods_paixu_msg']),"input");
-    
     return;
 }
 
@@ -739,6 +579,7 @@ function __create_nav_html($infoArr = array()){
     }else{
         tomshownavli($Lang['goods_list_title'],$modBaseUrl,true);
         tomshownavli($Lang['goods_add'],$modBaseUrl."&act=add",false);
+        tomshownavli($Lang['express_list_title'],$adminBaseUrl.'&tmod=express',false);
     }
     tomshownavfooter();
 }

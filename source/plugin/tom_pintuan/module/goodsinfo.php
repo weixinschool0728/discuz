@@ -1,5 +1,10 @@
 <?php
 
+/*
+   This is NOT a freeware, use is subject to license terms
+   版权所有：TOM微信 www.tomwx.net
+*/
+
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
@@ -14,25 +19,27 @@ if(!preg_match('/^http/', $goodsInfo['goods_pic']) ){
     $goods_pic = $goodsInfo['goods_pic'];
 }
 
-if(!preg_match('/^http/', $value['pics1']) ){
+if(!preg_match('/^http/', $goodsInfo['pics1']) ){
     $pics1 = (preg_match('/^http:/', $_G['setting']['attachurl']) ? '' : $_G['siteurl']).$_G['setting']['attachurl'].'tomwx/'.$goodsInfo['pics1'];
 }else{
     $pics1 = $goodsInfo['pics1'];
 }
 
-if(!preg_match('/^http/', $value['pics2']) ){
+if(!preg_match('/^http/', $goodsInfo['pics2']) ){
     $pics2 = (preg_match('/^http:/', $_G['setting']['attachurl']) ? '' : $_G['siteurl']).$_G['setting']['attachurl'].'tomwx/'.$goodsInfo['pics2'];
 }else{
     $pics2 = $goodsInfo['pics2'];
 }
 
-if(!preg_match('/^http/', $value['pics3']) ){
+if(!preg_match('/^http/', $goodsInfo['pics3']) ){
     $pics3 = (preg_match('/^http:/', $_G['setting']['attachurl']) ? '' : $_G['siteurl']).$_G['setting']['attachurl'].'tomwx/'.$goodsInfo['pics3'];
 }else{
     $pics3 = $goodsInfo['pics3'];
 }
 
 $content = stripslashes($goodsInfo['content']);
+
+DB::query("UPDATE ".DB::table('tom_pintuan_goods')." SET clicks=clicks+1 WHERE id='{$goods_id}'", 'UNBUFFERED');
 
 $shopInfo = C::t('#tom_pintuan#tom_pintuan_shop')->fetch_by_id($goodsInfo['shop_id']);
 $shop_logo = '';
@@ -45,8 +52,8 @@ if($shopInfo){
     }
     $sun_sales_num = C::t('#tom_pintuan#tom_pintuan_goods')->fetch_all_sun_sales_num(" AND shop_id={$goodsInfo['shop_id']} ");
 }
-$listgoods_num = $pintuanConfig['yihe_tuanlistnum'];//意合拼团2015-11-22 已成团列表
-$tuanListTmp = C::t('#tom_pintuan#tom_pintuan_tuan')->fetch_all_list(" AND goods_id={$goods_id} AND tuan_status=2  ","ORDER BY tuan_time DESC",0,$listgoods_num);
+
+$tuanListTmp = C::t('#tom_pintuan#tom_pintuan_tuan')->fetch_all_list(" AND goods_id={$goods_id} AND tuan_status=2  ","ORDER BY tuan_time DESC",0,10);
 $tuanList = array();
 if(is_array($tuanListTmp) && !empty($tuanListTmp)){
     foreach ($tuanListTmp as $key => $value){
@@ -84,13 +91,9 @@ if(is_array($tuanListTmp) && !empty($tuanListTmp)){
     }
 }
 
-//意合工作室更新20151023
-if($subscribeFlag == 2 && $pintuanConfig['yihe_followtx'] == 1){
-    $showGuanzuBox = 1;
+if($goodsInfo['only_one_buy'] == 1){
+    $pintuanConfig['allow_one_buy'] = 1;
 }
-//end意合工作室更新20151023
-
-$content = stripslashes($goodsInfo['content']);
 
 $tuanBuyUrl = "plugin.php?id=tom_pintuan&mod=buy&tstatus=1&tlevel=1&showwxpaytitle=1&goods_id=".$goods_id;
 $tuan2BuyUrl = "plugin.php?id=tom_pintuan&mod=buy&tstatus=1&tlevel=2&showwxpaytitle=1&goods_id=".$goods_id;

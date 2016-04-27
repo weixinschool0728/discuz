@@ -29,14 +29,14 @@ class table_tom_pintuan_district extends discuz_table{
 	}
     
     public function fetch_all_by_level($level,$field='*') {
-		return DB::fetch_all("SELECT $field FROM %t WHERE level=%d ", array($this->_table, $level));
+		return DB::fetch_all("SELECT $field FROM %t WHERE level=%d ORDER BY displayorder ASC,id ASC ", array($this->_table, $level));
 	}
     
     
     public function fetch_all_by_upid($upid, $order = null, $sort = 'DESC') {
 		$upid = is_array($upid) ? array_map('intval', (array)$upid) : dintval($upid);
 		if($upid !== null) {
-			$ordersql = $order !== null && !empty($order) ? ' ORDER BY '.DB::order($order, $sort) : '';
+			$ordersql = $order !== null && !empty($order) ? ' ORDER BY '.DB::order($order, $sort) : ' ORDER BY displayorder ASC,id ASC ';
 			return DB::fetch_all('SELECT * FROM %t WHERE '.DB::field('upid', $upid)." $ordersql", array($this->_table), $this->_pk);
 		}
 		return array();

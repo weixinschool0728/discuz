@@ -31,10 +31,7 @@ if($formhash == FORMHASH && $act == 'info'){
     echo '<tr><th colspan="15" class="partition">' . $Lang['address_title'] . '</th></tr>';
     echo '<tr class="header">';
     echo '<th>' . $Lang['address_xm'] . '</th>';
-	echo '<th>' . $Lang['address_tel'] . '</th>';
-	if(!empty($pintuanConfig['yihe_fielda'])){
-        echo '<th>' . $pintuanConfig['yihe_fielda'] . '</th>';
-    }
+    echo '<th>' . $Lang['address_tel'] . '</th>';
     echo '<th>' . $Lang['address_str'] . '</th>';
     echo '</tr>';
     foreach ($addressList as $key => $value){
@@ -42,9 +39,6 @@ if($formhash == FORMHASH && $act == 'info'){
         echo '<tr>';
         echo '<td>'.$value['xm'].'</td>';
         echo '<td>'.$value['tel'].'</td>';
-		if(!empty($pintuanConfig['yihe_fielda'])){
-        echo '<td>' .$value['fielda']. '<td>';
-    	}
         echo '<td>'.$value['area_str'].' '.$value['info'].'</td>';
         echo '</tr>';
     }

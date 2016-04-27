@@ -48,10 +48,51 @@ if($act == 'city'){
     echo $outStr;
     die();
     
+}else if($act == 'new_order'){
+    $callback = $_GET['callback'];
+    
+    $outOrderInfo = array();
+    $orderListTmp = C::t('#tom_pintuan#tom_pintuan_order')->fetch_all_like_list("","ORDER BY id DESC",0,20,"");
+    if(is_array($orderListTmp) && !empty($orderListTmp)){
+        foreach ($orderListTmp as $key => $value) {
+            $cookieOrderid = getcookie('tom_pintuan_new_order_id'.$value['id']);
+            if(!$cookieOrderid){
+                $outOrderInfo = $value;
+                dsetcookie('tom_pintuan_new_order_id'.$value['id'],1,86400);
+                break;
+            }
+        }
+    }
+    
+    $outArr = array('status'=>0,);
+    $randFlag = rand(1, 2);
+    if(!empty($outOrderInfo) && $randFlag == 1){
+        $outArr['status'] = 1;
+        
+        $goodsInfo = C::t('#tom_pintuan#tom_pintuan_goods')->fetch_by_id($outOrderInfo['goods_id']);
+        if(!preg_match('/^http/', $goodsInfo['goods_pic']) ){
+            $goods_pic = (preg_match('/^http:/', $_G['setting']['attachurl']) ? '' : $_G['siteurl']).$_G['setting']['attachurl'].'tomwx/'.$goodsInfo['goods_pic'];
+        }else{
+            $goods_pic = $goodsInfo['goods_pic'];
+        }
+        
+        $outArr['goods_pic'] = $goods_pic;
+        $outArr['user_nickname'] = diconv($outOrderInfo['user_nickname'],CHARSET,'utf-8');
+        
+    }
+    
+    $outStr = '';
+    $outStr = json_encode($outArr);
+    if($callback){
+        $outStr = $callback . "(" . $outStr. ")";
+    }
+    echo $outStr;
+    die();
+    
 }else if($act == 'get_search_url' && $_GET['formhash'] == FORMHASH){
     
     $goods_name = isset($_GET['goods_name'])? daddslashes(diconv(urldecode($_GET['goods_name']),'utf-8')):'';
-    $url = $_G['siteurl']."plugin.php?id=tom_pintuan&mod=index&goods_name=".urlencode($goods_name);
+    $url = $_G['siteurl']."plugin.php?id=tom_pintuan&mod=search&goods_name=".urlencode($goods_name);
     echo $url;exit;
 }else if($act == 'tuan_ok_sms'  && $_GET['formhash'] == FORMHASH){
     

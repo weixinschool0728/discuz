@@ -26,7 +26,7 @@ if(is_array($tuanListTmp) && !empty($tuanListTmp)){
         $tuanList[$key]['tuanInfo'] = $tuanInfo;
         
         $goodsInfo = C::t('#tom_pintuan#tom_pintuan_goods')->fetch_by_id($value['goods_id']);
-        if(!preg_match('/^http/', $value['goods_pic']) ){
+        if(!preg_match('/^http/', $goodsInfo['goods_pic']) ){
             $goods_pic = (preg_match('/^http:/', $_G['setting']['attachurl']) ? '' : $_G['siteurl']).$_G['setting']['attachurl'].'tomwx/'.$goodsInfo['goods_pic'];
         }else{
             $goods_pic = $goodsInfo['goods_pic'];

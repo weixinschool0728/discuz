@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<title>{lang tom_weixin:tom_weixin_wlt}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+<link rel="stylesheet" href="source/plugin/tom_weixin/images/bootstrap.min.css">
+<style type="text/css">
+<!--
+body { margin: 0px; padding: 0px; background-color: #FAFAFA; font-family:'simsun'; }
+.tom_main { padding: 0px; width: 320px; margin-top: 60px; margin-right: auto; margin-bottom: 0px; margin-left: auto; text-align: center; }
+.tom_clear { clear: both; height: 1px; width: 320px; margin-right: auto; margin-left: auto; margin-top: 0px; margin-bottom: 0px; }
+.tom_btn { width: 200px; margin-right: auto; margin-left: auto; margin-top: 10px; }
+.tom_h2{ font-weight: 600; color: #0080FF; margin-bottom: 40px; }
+.tom_h4{ color: #379BFF; }
+-->
+</style>
+</head>
+<body>
+  	<div class="tom_main">
+   	  <h2 class="tom_h2">{lang tom_weixin:tom_weixin_hyfwwlt}</h2>    
+   	  <img src="{$avatarUrl}" alt="..." class="img-circle">
+      <h3>{$username}</h3>   
+      <a href="{$dreferer}" class="btn btn-primary btn-lg btn-block tom_btn">{lang tom_weixin:tom_weixin_click}</a>
+      <h4 class="tom_h4">{lang tom_weixin:tom_weixin_djtz}</h4>
+      <div class="tom_clear"></div>
+    </div>
+<script type="text/javascript">
+    window.location="{$dreferer}";
+</script>
+</body>
+</html>
