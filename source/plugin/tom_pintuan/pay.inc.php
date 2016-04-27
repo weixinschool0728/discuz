@@ -16,7 +16,7 @@ $wxpay_appid        = trim($pintuanConfig['wxpay_appid']);
 $wxpay_mchid        = trim($pintuanConfig['wxpay_mchid']);
 $wxpay_key          = trim($pintuanConfig['wxpay_key']);
 $wxpay_appsecret    = trim($pintuanConfig['wxpay_appsecret']);
-file_put_contents("./upload/config.txt",  print_r($pintuanConfig,TRUE),FILE_APPEND);
+
 define("TOM_WXPAY_APPID", $wxpay_appid);
 define("TOM_WXPAY_MCHID", $wxpay_mchid);
 define("TOM_WXPAY_KEY", $wxpay_key);
