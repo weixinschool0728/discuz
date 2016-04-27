@@ -1,7 +1,10 @@
 /data/cache
 /data/log
+/data/sysdata/
 
 /upload/*
 /nbproject/private/
 /nbproject/*.properties
 /nbproject
+/source/plugin/tom_editor/editor/attached/
+/data/template
