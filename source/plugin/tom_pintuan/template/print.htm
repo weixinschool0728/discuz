@@ -109,7 +109,7 @@
 			</div>
 			<div class="clearfix"></div>
 			<div>
-				派送时间 <?php echo date('Y-m-d H:i:s');?>
+				派送时间 <?php echo date('Y-m-d H:i:s');?>s
 			</div>
 			<div>
 				送达时间
@@ -169,6 +169,9 @@
 					<div>
 						{lang tom_pintuan:print_tel} {$orderInfo['tel']}
 					</div>
+                    <div>
+                        {lang tom_pintuan:print_zonge}{$goods_all_price}{lang tom_pintuan:yuan} + {lang tom_pintuan:print_yunfei}{$express_price}{lang tom_pintuan:yuan}
+                    </div>
 					<div>
 						派送时间 <?php echo date('Y-m-d H:i:s');?>
 					</div>
