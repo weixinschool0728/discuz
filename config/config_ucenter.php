@@ -4,8 +4,8 @@
 define('UC_CONNECT', 'mysql');
 
 define('UC_DBHOST', 'localhost');
-define('UC_DBUSER', 'root');
-define('UC_DBPW', 'asd123321');
+define('UC_DBUSER', 'discuzxqq');
+define('UC_DBPW', 'asdasd123321');
 define('UC_DBNAME', 'ultrax20160427');
 define('UC_DBCHARSET', 'utf8');
 define('UC_DBTABLEPRE', '`ultrax20160427`.pre_ucenter_');
