@@ -2,13 +2,13 @@
 
 /*
    This is NOT a freeware, use is subject to license terms
-   ��Ȩ���У�TOM΢�� www.tomwx.net
+   版权所有：TOM微信 www.tomwx.net
 */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-
+require_once DISCUZ_ROOT.'./source/plugin/tom_pintuan/class/wxpay/lib/WxPay.Api.php';
 $act        = isset($_GET['act'])? addslashes($_GET['act']):"";
 
 $addressUrl = "plugin.php?id=tom_pintuan&mod=address";
@@ -30,7 +30,13 @@ if($act == 'add'){
     if(!$goodsInfo){
         $bstatus = 0;
     }
-    
+    //获取共享收货地址js函数参数
+    $tools = new WxPayJsApiPay();
+    $NonceStr= WxPayApi::getNonceStr();//随机字符串
+    $appid = $weixinClass->get_appid();
+    $access_token = $weixinClass->get_access_token();
+    $editAddress = $tools->GetEditAddressParameters($appid,$access_token,$NonceStr);    
+    print_r($editAddress);
     $isGbk = false;
     if (CHARSET == 'gbk') $isGbk = true;
     include template("tom_pintuan:addressadd"); 
