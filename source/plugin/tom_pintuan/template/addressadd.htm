@@ -182,16 +182,21 @@ function getCity(){
         cache : false,
         success: function(json){
             var cityHtml = '<option value="0">{lang tom_pintuan:addressadd_city_all}</option>';
+            var isrongchang=false;
             $.each(json,function(k,v){
               
                 if(v.id==364){//ÈÙ²ý
                     cityHtml+= '<option selected="selected" value="'+v.id+'">'+v.name+'</option>';
+                    isrongchang=true;
                 }else{
                     cityHtml+= '<option value="'+v.id+'">'+v.name+'</option>';
                 }
             })
             $("#city").html(cityHtml);
             $("#city").show();
+            if(isrongchang){
+                getArea();
+            }
         }
     });
 }   
