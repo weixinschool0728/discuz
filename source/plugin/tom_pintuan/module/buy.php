@@ -2,12 +2,31 @@
 
 /*
    This is NOT a freeware, use is subject to license terms
-   ��Ȩ���У�TOM΢�� www.tomwx.net
+   版权所有：TOM微信 www.tomwx.net
 */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
+
+//判断用户是否关注微信公众号（start）
+$subscribeFlag = 0;
+$access_token = $weixinClass->get_access_token();
+if(!empty($__UserInfo['openid']) && !empty($access_token)){
+    $get_user_info_url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token={$access_token}&openid={$__UserInfo['openid']}&lang=zh_CN";
+    $return = get_html($get_user_info_url);
+    if(!empty($return)){
+        $content = json_decode($return,true);
+        if(is_array($content) && !empty($content) && isset($content['subscribe'])){
+            if($content['subscribe'] == 1){
+                $subscribeFlag = 1;
+            }else{
+                $subscribeFlag = 2;
+            }
+        }
+    }
+}
+//判断用户是否关注微信公众号（end）
 
 $goods_id   = isset($_GET['goods_id'])? intval($_GET['goods_id']):0;
 $address_id = isset($_GET['address_id'])? intval($_GET['address_id']):0;
