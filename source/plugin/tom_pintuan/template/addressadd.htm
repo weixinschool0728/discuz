@@ -77,11 +77,6 @@
                         <textarea name="addinfo" id="addinfo" rows="4" placeholder="{lang tom_pintuan:addressadd_info}"></textarea>
                     </label>
                 </p>
-                <p>
-                    <label>
-                    	<span class="tit" onclick="onweixinEditAddress();">获取微信收货地址详情</span>
-                    </label>
-                </p>
                 <p class="action">
                     <input type="hidden" name="act" value="addsave">
                     <input type="hidden" name="formhash" value="{$formhash}">
@@ -247,38 +242,6 @@ wx.ready(function () {
         cancel: function () { 
         }
     });
-    
 });
-
-////获取共享地址
-//function editAddress()
-//{
-//	WeixinJSBridge.invoke(
-//		'editAddress',
-//		<?php echo $editAddress; ?>,
-//		function(res){
-//			var value1 = res.proviceFirstStageName;
-//			var value2 = res.addressCitySecondStageName;
-//			var value3 = res.addressCountiesThirdStageName;
-//			var value4 = res.addressDetailInfo;
-//			var tel = res.telNumber;
-//			
-//			alert(value1 + value2 + value3 + value4 + ":" + tel);
-//		}
-//	);
-//}
-//function onweixinEditAddress(){
-//	if (typeof WeixinJSBridge == "undefined"){
-//	    if( document.addEventListener ){
-//	        document.addEventListener('WeixinJSBridgeReady', editAddress, false);
-//	    }else if (document.attachEvent){
-//	        document.attachEvent('WeixinJSBridgeReady', editAddress); 
-//	        document.attachEvent('onWeixinJSBridgeReady', editAddress);
-//	    }
-//	}else{
-//		editAddress();
-//	}
-//};
-
 </script>
 </html>

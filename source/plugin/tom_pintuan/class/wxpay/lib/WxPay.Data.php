@@ -113,8 +113,6 @@ class WxPayDataBase
 		return $buff;
 	}
 	
-	
-	
 	/**
 	 * 生成签名
 	 * @return 签名，本函数不覆盖sign成员变量，如要设置签名需要调用SetSign方法赋值
@@ -2732,40 +2730,7 @@ class WxPayJsApiPay extends WxPayDataBase
 	{
 		return array_key_exists('appId', $this->values);
 	}
-    
-	/**
-	 *
-	 * 获取地址js参数
-	 *
-	 * @return 获取共享收货地址js函数需要的参数，json格式可以直接做参数使用
-	 */
-//	public function GetEditAddressParameters($appid,$access_token,$NonceStr='')
-//	{
-//	    if(empty($appid) || empty($access_token)){
-//	        return json_encode(array());
-//	    }
-//	    $data = array();
-//	    $data["appid"] = $appid;
-//	    $data["url"] = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-//	    $time = time();
-//	    $data["timestamp"] = "$time";
-//	    $data["noncestr"] = $NonceStr;
-//	    $data["accesstoken"] = $access_token;
-//	    ksort($data);
-//	    $params = $this->ToUrlParams($data);
-//	    $addrSign = sha1($params);
-//	
-//	    $afterData = array(
-//	        "addrSign" => $addrSign,
-//	        "signType" => "sha1",
-//	        "scope" => "jsapi_address",
-//	        "appId" => $data["appid"],
-//	        "timeStamp" => $data["timestamp"],
-//	        "nonceStr" => $data["noncestr"]
-//	    );
-//	    $parameters = json_encode($afterData);
-//	    return $parameters;
-//	}
+
 
 	/**
 	* 设置支付时间戳

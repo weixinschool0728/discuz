@@ -24,9 +24,7 @@ class weixinClass {
         $this->accessTokenCachename = 'tom_weixin_access_token_' . $key;
         $this->jsApiTicketCachename = 'tom_weixin_js_api_ticket_' . $key;
     }
-    public function get_appid(){
-        return  $this->appId;
-    }
+
     public function get_url() {
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
