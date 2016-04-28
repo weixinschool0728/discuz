@@ -12,12 +12,9 @@ if(!defined('IN_DISCUZ')) {
 //判断用户是否关注微信公众号（start）
 $subscribeFlag = 0;
 $access_token = $weixinClass->get_access_token();
- file_put_contents("./upload/userinfo.txt",print_r($__UserInfo,true)."---\r\n-----",FILE_APPEND);
 if(!empty($__UserInfo['openid']) && !empty($access_token)){
     $get_user_info_url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token={$access_token}&openid={$__UserInfo['openid']}&lang=zh_CN";
-    file_put_contents("./upload/userinfo.txt",$get_user_info_url."---\r\n-----",FILE_APPEND);
     $return = get_html($get_user_info_url);
-    file_put_contents("./upload/userinfo.txt",  print_r($return,TRUE)."---\r\n-----",FILE_APPEND);
     if(!empty($return)){
         $content = json_decode($return,true);
         if(is_array($content) && !empty($content) && isset($content['subscribe'])){
@@ -30,7 +27,7 @@ if(!empty($__UserInfo['openid']) && !empty($access_token)){
     }
 }
 //判断用户是否关注微信公众号（end）
-
+ file_put_contents("./upload/userinfo.txt",  print_r($weixinClass->get_user_info($__UserInfo['openid']),true)."---\r\n-----",FILE_APPEND);
 $goods_id   = isset($_GET['goods_id'])? intval($_GET['goods_id']):0;
 $address_id = isset($_GET['address_id'])? intval($_GET['address_id']):0;
 $tstatus    = isset($_GET['tstatus'])? intval($_GET['tstatus']):0;
