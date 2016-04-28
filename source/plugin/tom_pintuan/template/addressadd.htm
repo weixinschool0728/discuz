@@ -203,8 +203,8 @@ function getArea(){
         success: function(json){
             var areaHtml = '<option value="0">{lang tom_pintuan:addressadd_area_all}</option>';
             $.each(json,function(k,v){
-                if(id==364){//ÈÙ²ý
-                    areaHtml+= '<option selected value="'+v.id+'">'+v.name+'</option>';
+                if(v.id==364){//ÈÙ²ý
+                    areaHtml+= '<option selected="selected" value="'+v.id+'">'+v.name+'</option>';
                 }else{
                     areaHtml+= '<option value="'+v.id+'">'+v.name+'</option>';
                 }
