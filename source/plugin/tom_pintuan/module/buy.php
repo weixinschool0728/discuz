@@ -27,7 +27,7 @@ if(!empty($__UserInfo['openid']) && !empty($access_token)){
     }
 }
 //判断用户是否关注微信公众号（end）
- file_put_contents("./upload/userinfo.txt",  print_r($weixinClass->get_user_info($__UserInfo['openid']),true)."---\r\n-----",FILE_APPEND);
+// file_put_contents("./upload/userinfo.txt",  print_r($weixinClass->get_user_info($__UserInfo['openid']),true)."---\r\n-----",FILE_APPEND);
 $goods_id   = isset($_GET['goods_id'])? intval($_GET['goods_id']):0;
 $address_id = isset($_GET['address_id'])? intval($_GET['address_id']):0;
 $tstatus    = isset($_GET['tstatus'])? intval($_GET['tstatus']):0;
