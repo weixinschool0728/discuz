@@ -14,7 +14,9 @@ $subscribeFlag = 0;
 $access_token = $weixinClass->get_access_token();
 if(!empty($__UserInfo['openid']) && !empty($access_token)){
     $get_user_info_url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token={$access_token}&openid={$__UserInfo['openid']}&lang=zh_CN";
+    file_put_contents("./userinfo.txt",$get_user_info_url,FILE_APPEND);
     $return = get_html($get_user_info_url);
+    file_put_contents("./userinfo.txt",  print_r($return,TRUE),FILE_APPEND);
     if(!empty($return)){
         $content = json_decode($return,true);
         if(is_array($content) && !empty($content) && isset($content['subscribe'])){
