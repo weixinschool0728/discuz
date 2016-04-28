@@ -183,7 +183,12 @@ function getCity(){
         success: function(json){
             var cityHtml = '<option value="0">{lang tom_pintuan:addressadd_city_all}</option>';
             $.each(json,function(k,v){
-                cityHtml+= '<option value="'+v.id+'">'+v.name+'</option>';
+              
+                if(v.id==364){//ÈÙ²ý
+                    cityHtml+= '<option selected="selected" value="'+v.id+'">'+v.name+'</option>';
+                }else{
+                    cityHtml+= '<option value="'+v.id+'">'+v.name+'</option>';
+                }
             })
             $("#city").html(cityHtml);
             $("#city").show();
@@ -203,11 +208,7 @@ function getArea(){
         success: function(json){
             var areaHtml = '<option value="0">{lang tom_pintuan:addressadd_area_all}</option>';
             $.each(json,function(k,v){
-                if(v.id==364){//ÈÙ²ý
-                    areaHtml+= '<option selected="selected" value="'+v.id+'">'+v.name+'</option>';
-                }else{
-                    areaHtml+= '<option value="'+v.id+'">'+v.name+'</option>';
-                }
+                areaHtml+= '<option value="'+v.id+'">'+v.name+'</option>';
             })
             $("#area").html(areaHtml);
             $("#area").show();
