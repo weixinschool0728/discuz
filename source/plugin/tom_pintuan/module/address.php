@@ -8,7 +8,7 @@
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-
+require_once DISCUZ_ROOT.'./source/plugin/tom_pintuan/class/wxpay/lib/WxPay.Api.php';
 $act        = isset($_GET['act'])? addslashes($_GET['act']):"";
 
 $addressUrl = "plugin.php?id=tom_pintuan&mod=address";
