@@ -50,6 +50,7 @@
                              <!--{loop $provinceList $key $value}-->
                              <option value="{$value['id']}" <!--{if '22' == $value['id']}-->selected<!--{/if}-->>{$value['name']}</option>
                             <!--{/loop}-->
+                            <!--ÖØÇì-->
                         </select>
                     </label>
                 </p>
@@ -202,7 +203,11 @@ function getArea(){
         success: function(json){
             var areaHtml = '<option value="0">{lang tom_pintuan:addressadd_area_all}</option>';
             $.each(json,function(k,v){
-                areaHtml+= '<option value="'+v.id+'">'+v.name+'</option>';
+                if(id==364){//ÈÙ²ý
+                    areaHtml+= '<option selected value="'+v.id+'">'+v.name+'</option>';
+                }else{
+                    areaHtml+= '<option value="'+v.id+'">'+v.name+'</option>';
+                }
             })
             $("#area").html(areaHtml);
             $("#area").show();
