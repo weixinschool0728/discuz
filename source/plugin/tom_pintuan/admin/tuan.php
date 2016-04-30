@@ -2,7 +2,7 @@
 
 /*
    This is NOT a freeware, use is subject to license terms
-   °æÈ¨ËùÓÐ£ºTOMÎ¢ÐÅ www.tomwx.net
+   ï¿½ï¿½È¨ï¿½ï¿½ï¿½Ð£ï¿½TOMÎ¢ï¿½ï¿½ www.tomwx.net
 */
 
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
@@ -67,7 +67,7 @@ if($formhash == FORMHASH && $act == 'info'){
 }else if($formhash == FORMHASH && $act == 'refund'){
     
     $tuan_id = intval($_GET['id']);
-    
+   
     $wxpay_appid        = trim($pintuanConfig['wxpay_appid']);
     $wxpay_mchid        = trim($pintuanConfig['wxpay_mchid']);
     $wxpay_key          = trim($pintuanConfig['wxpay_key']);
@@ -83,12 +83,13 @@ if($formhash == FORMHASH && $act == 'info'){
     include DISCUZ_ROOT.'./source/plugin/tom_pintuan/class/wxpay/lib/WxPay.Api.php';
     
     $tuanTeamList = C::t('#tom_pintuan#tom_pintuan_tuan_team')->fetch_all_list(" AND tuan_id={$tuan_id} ","ORDER BY add_time DESC",0,50);
+    
     $flag = false;
     if(is_array($tuanTeamList) && !empty($tuanTeamList)){
         foreach ($tuanTeamList as $key => $value){
             $id = intval($value['order_id']);
             $orderInfo = C::t('#tom_pintuan#tom_pintuan_order')->fetch_by_id($id);
-            
+      
             if($orderInfo && !empty($orderInfo['order_no']) && !empty($orderInfo['pay_price']) && $orderInfo['order_status']==2){
                 $pay_price = $orderInfo['pay_price']*100;
                 $input = new WxPayRefund();

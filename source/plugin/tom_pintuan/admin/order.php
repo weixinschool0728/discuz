@@ -2,7 +2,7 @@
 
 /*
    This is NOT a freeware, use is subject to license terms
-   °æÈ¨ËùÓÐ£ºTOMÎ¢ÐÅ www.tomwx.net
+   ï¿½ï¿½È¨ï¿½ï¿½ï¿½Ð£ï¿½TOMÎ¢ï¿½ï¿½ www.tomwx.net
 */
 
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
@@ -248,6 +248,8 @@ if($formhash == FORMHASH && $act == 'info'){
     
 }else if($formhash == FORMHASH && $act == 'refund'){
     
+    $order_id = intval($_GET['id']);
+
     $wxpay_appid        = trim($pintuanConfig['wxpay_appid']);
     $wxpay_mchid        = trim($pintuanConfig['wxpay_mchid']);
     $wxpay_key          = trim($pintuanConfig['wxpay_key']);
@@ -261,10 +263,12 @@ if($formhash == FORMHASH && $act == 'info'){
     define("TOM_WXPAY_SSLKEY_PATH", DISCUZ_ROOT.'source/plugin/tom_pintuan/class/wxpay/cert/apiclient_key.pem');
     
     include DISCUZ_ROOT.'./source/plugin/tom_pintuan/class/wxpay/lib/WxPay.Api.php';
+    $orderList = C::t('#tom_pintuan#tom_pintuan_order')->fetch_all_list(" AND id={$order_id} ");
     
-    if(is_array($_GET['ids']) && !empty($_GET['ids'])){
-        foreach ($_GET['ids'] as $key => $value){
-            $id = intval($value);
+    $flag = false;
+    if(is_array($orderList) && !empty($orderList)){
+        foreach ($orderList as $key => $value){
+            $id = intval($value['id']);
             $orderInfo = C::t('#tom_pintuan#tom_pintuan_order')->fetch_by_id($id);
             
             if($orderInfo && !empty($orderInfo['order_no']) && !empty($orderInfo['pay_price']) && $orderInfo['order_status']==2){
@@ -276,7 +280,9 @@ if($formhash == FORMHASH && $act == 'info'){
                 $input->SetOut_refund_no(WxPayConfig::MCHID.date("YmdHis"));
                 $input->SetOp_user_id(WxPayConfig::MCHID);
                 $return = WxPayApi::refund($input);
+               
                 if(is_array($return) && $return['result_code'] == 'SUCCESS'){
+                    $flag = true;
                     $updateData = array();
                     $updateData['order_status'] = 7;
                     C::t('#tom_pintuan#tom_pintuan_order')->update($orderInfo['id'],$updateData);
@@ -284,6 +290,17 @@ if($formhash == FORMHASH && $act == 'info'){
                     DB::query("UPDATE ".DB::table('tom_pintuan_goods')." SET sales_num=sales_num-{$orderInfo['goods_num']} WHERE id='{$orderInfo['goods_id']}'", 'UNBUFFERED');
                 }
             }
+        }
+    }
+    
+    $tuan_id=$orderInfo['tuan_id'];
+    if($tuan_id){
+        if($flag){
+            $updateData = array();
+            $updateData['tuan_status'] = 4;
+            C::t('#tom_pintuan#tom_pintuan_tuan')->update($tuan_id,$updateData);
+            
+            C::t('#tom_pintuan#tom_pintuan_order')->update_tuan_status_by_tuan_id($tuan_id,4);
         }
     }
     
@@ -582,7 +599,8 @@ if($formhash == FORMHASH && $act == 'info'){
             echo '<a href="'.$modBaseUrl.'&act=express&id='.$value['id'].'&formhash='.FORMHASH.'">' . $Lang['order_express_title'] . '</a>';
         }
         echo '<br/>';
-        echo '<a target="_blank" href="'.$_G['siteurl'].'plugin.php?id=tom_pintuan:print&order_no='.$value['order_no'].'">' . $Lang['order_print'] . '</a>&nbsp;|&nbsp;';
+        echo '<a href="javascript:void(0);" onclick="refund_confirm(\''.$modBaseUrl.'&act=refund&id='.$value['id'].'&formhash='.FORMHASH.'\');">' . $Lang['tuan_refund_title'] . '</a>&nbsp;|&nbsp;';
+        echo '<a target="_blank" href="'.$_G['siteurl'].'plugin.php?id=tom_pintuan:print&order_no='.$value['order_no'].'">' . $Lang['order_print'] . '</a><br/>';   
         echo '<a href="javascript:void(0);" onclick="del_confirm(\''.$modBaseUrl.'&act=del&id='.$value['id'].'&formhash='.FORMHASH.'\');">' . $Lang['delete'] . '</a>';
         echo '</td>';
         echo '</tr>';
@@ -614,6 +632,14 @@ if($formhash == FORMHASH && $act == 'info'){
             return false;
           }
         }
+        function refund_confirm(url){
+             var r = confirm("{$Lang['tuan_refund_sure']}")
+             if (r == true){
+                 window.location = url;
+              }else{
+                return false;
+              }
+         }
         function del_confirm(url){
   var r = confirm("{$Lang['makesure_del_msg']}")
   if (r == true){
