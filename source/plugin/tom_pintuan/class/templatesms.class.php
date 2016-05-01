@@ -131,11 +131,11 @@ EOF;
                        "value":"{$data['first']}",
                        "color":"#173177"
                    },
-                   "OrderSn": {
+                   "keyword1": {
                        "value":"{$data['OrderSn']}",
                        "color":"#173177"
                    },
-                   "OrderStatus": {
+                   "keyword5": {
                        "value":"{$data['OrderStatus']}",
                        "color":"#173177"
                    },
@@ -146,6 +146,32 @@ EOF;
            }
        }
 EOF;
+//        $templateData = <<<EOF
+//        {
+//           "touser":"{$openId}",
+//           "template_id":"{$templateId}",
+//           "url":"{$this->url}",
+//           "topcolor":"#FF0000",
+//           "data":{
+//                   "first": {
+//                       "value":"{$data['first']}",
+//                       "color":"#173177"
+//                   },
+//                   "OrderSn": {
+//                       "value":"{$data['OrderSn']}",
+//                       "color":"#173177"
+//                   },
+//                   "OrderStatus": {
+//                       "value":"{$data['OrderStatus']}",
+//                       "color":"#173177"
+//                   },
+//                   "remark": {
+//                       "value":"{$data['remark']}",
+//                       "color":"#173177"
+//                   }
+//           }
+//       }
+//EOF;
                        
         $url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token='.$this->accessToken;
         
