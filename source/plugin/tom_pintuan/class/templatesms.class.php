@@ -2,7 +2,7 @@
 
 /*
    This is NOT a freeware, use is subject to license terms
-   版权所有：TOM微信 www.tomwx.net
+   鐗堟潈鎵�鏈夛細TOM寰俊 www.tomwx.net
 */
 
 class templateSms {
@@ -40,15 +40,15 @@ class templateSms {
                        "value":"{$data['orderType']}",
                        "color":"#173177"
                    },
-                   "customerInfo": {
+                   "keyword3": {
                        "value":"{$data['customerInfo']}",
                        "color":"#173177"
                    },
-                   "orderItemName": {
+                   "keyword1": {
                        "value":"{$data['orderItemName']}",
                        "color":"#173177"
                    },
-                   "orderItemData": {
+                   "keyword5": {
                        "value":"{$data['orderItemData']}",
                        "color":"#173177"
                    },
@@ -60,6 +60,46 @@ class templateSms {
        }
 EOF;
                        
+//        
+//        $templateData = <<<EOF
+//        {
+//           "touser":"{$openId}",
+//           "template_id":"{$templateId}",
+//           "url":"{$this->url}",
+//           "topcolor":"#FF0000",
+//           "data":{
+//                   "first": {
+//                       "value":"{$data['first']}",
+//                       "color":"#173177"
+//                   },
+//                   "tradeDateTime": {
+//                       "value":"{$data['tradeDateTime']}",
+//                       "color":"#173177"
+//                   },
+//                   "orderType": {
+//                       "value":"{$data['orderType']}",
+//                       "color":"#173177"
+//                   },
+//                   "customerInfo": {
+//                       "value":"{$data['customerInfo']}",
+//                       "color":"#173177"
+//                   },
+//                   "orderItemName": {
+//                       "value":"{$data['orderItemName']}",
+//                       "color":"#173177"
+//                   },
+//                   "orderItemData": {
+//                       "value":"{$data['orderItemData']}",
+//                       "color":"#173177"
+//                   },
+//                   "remark": {
+//                       "value":"{$data['remark']}",
+//                       "color":"#173177"
+//                   }
+//           }
+//       }
+//EOF;
+//                       
         $url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token='.$this->accessToken;
         
         $response = $this->postDataCurl($templateData, $url);
