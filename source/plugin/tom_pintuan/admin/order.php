@@ -600,7 +600,7 @@ if($formhash == FORMHASH && $act == 'info'){
         }
         echo '<br/>';
         echo '<a href="javascript:void(0);" onclick="refund_confirm(\''.$modBaseUrl.'&act=refund&id='.$value['id'].'&formhash='.FORMHASH.'\');">' . $Lang['tuan_refund_title'] . '</a>&nbsp;|&nbsp;';
-        echo '<a target="_blank" href="'.$_G['siteurl'].'plugin.php?id=tom_pintuan:print&order_no='.$value['order_no'].'">' . $Lang['order_print'] . '</a><br/>';   
+        echo '<a target="print" href="'.$_G['siteurl'].'plugin.php?id=tom_pintuan:print&order_no='.$value['order_no'].'">' . $Lang['order_print'] . '</a><br/>';   
         echo '<a href="javascript:void(0);" onclick="del_confirm(\''.$modBaseUrl.'&act=del&id='.$value['id'].'&formhash='.FORMHASH.'\');">' . $Lang['delete'] . '</a>';
         echo '</td>';
         echo '</tr>';
