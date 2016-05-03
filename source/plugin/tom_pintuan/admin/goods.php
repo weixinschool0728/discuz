@@ -2,7 +2,7 @@
 
 /*
    This is NOT a freeware, use is subject to license terms
-   °æÈ¨ËùÓÐ£ºTOMÎ¢ÐÅ www.tomwx.net
+   ï¿½ï¿½È¨ï¿½ï¿½ï¿½Ð£ï¿½TOMÎ¢ï¿½ï¿½ www.tomwx.net
 */
 
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
@@ -364,6 +364,8 @@ function __get_post_data($infoArr = array()){
     $allow_num      = isset($_GET['allow_num'])? intval($_GET['allow_num']):1;
     $goods_unit     = isset($_GET['goods_unit'])? addslashes($_GET['goods_unit']):"";
     $take_type      = isset($_GET['take_type'])? intval($_GET['take_type']):1;
+    $shangjia_time      = isset($_GET['shangjia_time'])? $_GET['shangjia_time']:date("Y-m-d H:m:i");
+    $xiajia_time      = isset($_GET['xiajia_time'])? $_GET['xiajia_time']:date("Y-m-d H:m:i");
     $take_pwd       = isset($_GET['take_pwd'])? addslashes($_GET['take_pwd']):'';
     $describe       = isset($_GET['describe'])? addslashes($_GET['describe']):'';
     $share_title    = isset($_GET['share_title'])? addslashes($_GET['share_title']):'';
@@ -436,6 +438,8 @@ function __get_post_data($infoArr = array()){
     $data['allow_num']      = $allow_num;
     $data['goods_unit']     = $goods_unit;
     $data['take_type']     = $take_type;
+    $data['shangjia_time']     = $shangjia_time;
+    $data['xiajia_time']     = $xiajia_time;
     $data['take_pwd']     = $take_pwd;
     $data['share_title']    = $share_title;
     $data['share_desc']     = $share_desc;
@@ -478,6 +482,8 @@ function __create_info_html($infoArr = array()){
         'tuan_hours'         => "24",
         'allow_num'         => "1",
         'take_type'         => "3",
+        'shangjia_time'         => date('Y-m-d H:m:i'),
+        'xiajia_time'         => date('Y-m-d H:m:i'),
         'take_pwd'          => mt_rand(111111, 999999),
         'goods_unit'        => $Lang['goods_unit_value'],
         'share_title'       => $Lang['goods_share_title_value'],
@@ -556,6 +562,8 @@ function __create_info_html($infoArr = array()){
     
     $take_type_item = array(1=>$Lang['goods_take_type_1'],2=>$Lang['goods_take_type_2'],3=>$Lang['goods_take_type_3']);
     tomshowsetting(true,array('title'=>$Lang['goods_take_type'],'name'=>'take_type','value'=>$options['take_type'],'msg'=>$Lang['goods_take_type_msg'],'item'=>$take_type_item),"radio");
+    tomshowsetting(true,array('title'=>"ä¸Šæž¶æ—¶é—´",'name'=>'shangjia_time','value'=>$options['shangjia_time'],'msg'=>$Lang['goods_take_type_msg'],'item'=>$take_type_item),"input");
+    tomshowsetting(true,array('title'=>"ä¸‹æž¶æ—¶é—´",'name'=>'xiajia_time','value'=>$options['xiajia_time'],'msg'=>$Lang['goods_take_type_msg'],'item'=>$take_type_item),"input");
     tomshowsetting(true,array('title'=>$Lang['goods_take_pwd'],'name'=>'take_pwd','value'=>$options['take_pwd'],'msg'=>$Lang['goods_take_pwd_msg']),"input");
     tomshowsetting(true,array('title'=>$Lang['goods_describe'],'name'=>'describe','value'=>$options['describe'],'msg'=>$Lang['goods_describe_msg']),"textarea");
     tomshowsetting(true,array('title'=>$Lang['goods_share_title'],'name'=>'share_title','value'=>$options['share_title'],'msg'=>$Lang['goods_share_title_msg']),"input");
