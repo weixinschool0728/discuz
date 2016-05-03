@@ -1,6 +1,6 @@
 /data/cache
 /data/log
-/data/sysdata/
+/data/sysdata/*
 
 /upload/*
 /nbproject/private/
