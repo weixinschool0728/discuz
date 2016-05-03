@@ -493,7 +493,7 @@ function __create_info_html($infoArr = array()){
         'paixu'           => "10000",
     );
     $options = array_merge($options, $infoArr);
-    
+    loadcalendar();
     tomshowsetting(true,array('title'=>$Lang['goods_name'],'name'=>'name','value'=>$options['name'],'msg'=>$Lang['goods_name_msg']),"input");
     
     $cateList = C::t('#tom_pintuan#tom_pintuan_cate')->fetch_all_list(""," ORDER BY csort ASC,id DESC ",0,100);
@@ -591,5 +591,13 @@ function __create_nav_html($infoArr = array()){
     }
     tomshownavfooter();
 }
+function loadcalendar(){
+ echo <<<SCRIPT
+<script type="text/javascript" src='/static/js/calendar.js'>
+
+</script>
+SCRIPT;
+}
+
 
 ?>
