@@ -482,7 +482,7 @@ function __create_info_html($infoArr = array()){
         'tuan_hours'         => "24",
         'allow_num'         => "1",
         'take_type'         => "3",
-        'shangjia_time'       => date('Y-m-d H:m:i'),
+        'shangjia_time'         => date('Y-m-d H:m:i'),
         'xiajia_time'         => date('Y-m-d H:m:i'),
         'take_pwd'          => mt_rand(111111, 999999),
         'goods_unit'        => $Lang['goods_unit_value'],
@@ -591,13 +591,5 @@ function __create_nav_html($infoArr = array()){
     }
     tomshownavfooter();
 }
-//function loadcalendar(){
-// echo <<<SCRIPT
-//<script type="text/javascript" src='/static/js/calendar.js'>
-//
-//</script>
-//SCRIPT;
-//}
-
 
 ?>
