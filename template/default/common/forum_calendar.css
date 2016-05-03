@@ -9,6 +9,7 @@ http://www.comsenz.com
 	#calendar_week td { height: 2em; line-height: 2em; border-bottom: 1px solid {SPECIALBORDER};}
 		#calendar_week a { color: {HIGHLIGHTLINK}; }
 	#hourminute td {padding: 4px 2px; border-top: 1px solid {SPECIALBORDER};}
+	#hourminute td input[type="text"]{width: 90px;}
 		.calendar_expire, .calendar_expire a:link, .calendar_expire a:visited {	color: {MIDTEXT}; font-weight: normal; }
 		.calendar_default, .calendar_default a:link, .calendar_default a:visited { color: {HIGHLIGHTLINK};}
 		.calendar_checked, .calendar_checked a:link, .calendar_checked a:visited { color: {NOTICETEXT}; font-weight: bold;}
