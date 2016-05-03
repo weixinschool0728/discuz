@@ -4,7 +4,17 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>{lang tom_pintuan:print_title}</title>
-		<style>
+        <style>       
+            .cuttitle {
+                display: block;
+                overflow: hidden;
+                white-space: nowrap;
+                -o-text-overflow: ellipsis;
+                text-overflow: ellipsis;
+            }
+
+        </style>
+        <style>
 			@media only screen {
 				body {
 					font-size: 13px;
@@ -186,7 +196,7 @@
 					<img class="erweima" src="/static/image/xqqerweima.jpg" />
 				</div>
 				<div class="clearfix"></div>
-				<div >{lang tom_pintuan:print_goods_name}:{$orderInfo['goods_name']}</div>
+                <div class="cuttitle" >{lang tom_pintuan:print_goods_name}:{$orderInfo['goods_name']}</div>
 				<div >{lang tom_pintuan:print_goods_num}:{$orderInfo['goods_num']}</div>
 
 			</div>
