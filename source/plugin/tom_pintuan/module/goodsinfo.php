@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 $goods_id = isset($_GET['goods_id'])? intval($_GET['goods_id']):0;
 $now = date('Y-m-d H:i:s');
 $goodsInfo = C::t('#tom_pintuan#tom_pintuan_goods')->fetch_by_id($goods_id);
-
+file_put_contents("./upload/config2016.txt", print_r($goodsInfo,true),FILE_APPEND);
 if(!preg_match('/^http/', $goodsInfo['goods_pic']) ){
     $goods_pic = (preg_match('/^http:/', $_G['setting']['attachurl']) ? '' : $_G['siteurl']).$_G['setting']['attachurl'].'tomwx/'.$goodsInfo['goods_pic'];
 }else{
