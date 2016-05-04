@@ -47,7 +47,7 @@
                 </div>
                 <!--{if $goodsInfo['goods_num'] <= 0 }--><div class="out-pic" ms-if="isShow_out"></div><!--{/if}-->
             </div>
-            <!--{if $goodsInfo['is_show'] == 1 }-->
+            <!--{if $goodsInfo['is_show'] == 1 && $goodsInfo['shangjia_time'] <= $now && $goodsInfo['xiajia_time'] >= $now}-->
             <!--{if $pintuanConfig['allow_one_buy'] == 1 }-->
                 <!--{if $goodsInfo['only_one_buy'] == 1 }-->
                 <div class="kt_item_block"></div>
