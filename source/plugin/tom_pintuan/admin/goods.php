@@ -567,8 +567,8 @@ function __create_info_html($infoArr = array()){
     
     $take_type_item = array(1=>$Lang['goods_take_type_1'],2=>$Lang['goods_take_type_2'],3=>$Lang['goods_take_type_3']);
     tomshowsetting(true,array('title'=>$Lang['goods_take_type'],'name'=>'take_type','value'=>$options['take_type'],'msg'=>$Lang['goods_take_type_msg'],'item'=>$take_type_item),"radio");
-    tomshowsetting(true,array('title'=>"上架时间",'name'=>'shangjia_time','value'=>$options['shangjia_time'],'msg'=>$Lang['goods_take_type_msg'],'item'=>$take_type_item),"input");
-    tomshowsetting(true,array('title'=>"下架时间",'name'=>'xiajia_time','value'=>$options['xiajia_time'],'msg'=>$Lang['goods_take_type_msg'],'item'=>$take_type_item),"input");
+    tomshowsetting(true,array('title'=>"上架时间",'name'=>'shangjia_time','value'=>$options['shangjia_time'],'msg'=>"上架时间的格式{$options['shangjia_time']}",'item'=>$take_type_item),"input");
+    tomshowsetting(true,array('title'=>"下架时间",'name'=>'xiajia_time','value'=>$options['xiajia_time'],'msg'=>"上架时间的格式{$options['xiajia_time']}",'item'=>$take_type_item),"input");
     tomshowsetting(true,array('title'=>$Lang['goods_take_pwd'],'name'=>'take_pwd','value'=>$options['take_pwd'],'msg'=>$Lang['goods_take_pwd_msg']),"input");
     tomshowsetting(true,array('title'=>$Lang['goods_describe'],'name'=>'describe','value'=>$options['describe'],'msg'=>$Lang['goods_describe_msg']),"textarea");
     tomshowsetting(true,array('title'=>$Lang['goods_share_title'],'name'=>'share_title','value'=>$options['share_title'],'msg'=>$Lang['goods_share_title_msg']),"input");
