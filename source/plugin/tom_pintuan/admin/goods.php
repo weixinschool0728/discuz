@@ -240,6 +240,8 @@ if($_GET['act'] == 'add'){
     echo '<th>' . $Lang['goods_virtual_sales_num'] . '</th>';
     echo '<th>' . $Lang['goods_clicks'] . '</th>';
     echo '<th>' . $Lang['goods_is_show'] . '</th>';  
+    echo '<th>' . '上架时间' . '</th>';  
+    echo '<th>' . '下架时间' . '</th>';  
     echo '<th>' . $Lang['handle'] . '</th>';
     echo '</tr>';
     
@@ -273,6 +275,9 @@ if($_GET['act'] == 'add'){
         }else{
             echo '<td><font color="#FF0000">' . $Lang['goods_is_show2']. '</font></td>';
         }
+        echo '<td>' . $value['shangjia_time'] . '</td>';
+        echo '<td>' . $value['xiajia_time'] . '</td>';
+        
         echo '<td>';
         echo '<a href="'.$adminBaseUrl.'&tmod=order&goods_id='.$value['id'].'&formhash='.FORMHASH.'">' . $Lang['goods_order_title'] . '</a>&nbsp;|&nbsp;';
         echo '<a href="'.$modBaseUrl.'&act=edit&id='.$value['id'].'&formhash='.FORMHASH.'">' . $Lang['goods_edit']. '</a>&nbsp;|&nbsp;';
