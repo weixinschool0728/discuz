@@ -134,11 +134,12 @@
                 <div class="clear_both"></div>
             </div>
             <div class="clear_both"></div>
+            
             <!--{/if}-->
-            <!--{if $tuanList && false}--><!--隐藏团列表-->
+            <!--{if $tuanList}-->
             <div class="tuan_list_title">&nbsp;&nbsp; {lang tom_pintuan:goodsinfo_tuan_list_title}</div>
             <!--{/if}-->
-            <!--{if false}--><!--隐藏团列表-->
+            
             <!--{loop $tuanList $key $val}-->
             <div class="tuan_list_item">
                 <img class="tuan_list_avatar" src="{$val['userInfo']['picurl']}">
@@ -153,7 +154,7 @@
                 </div>
             </div>
             <!--{/loop}-->
-            <!--{/if}-->
+
             <div class="clear_both"></div>
             <div class="td2_content_title">{lang tom_pintuan:goodsinfo_content}</div>
 			<div class="td2_content">{$content}</div>
