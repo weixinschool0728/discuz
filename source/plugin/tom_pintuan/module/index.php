@@ -17,7 +17,7 @@ $pagesize = $pintuanConfig['index_num'];
 $start = ($page-1)*$pagesize;	
 
 $now=date('Y-m-d H:i:s');
-$whereStr = " AND is_show=1 AND (shangjia_time<'{$now}' AND xiajia_time>'{$now}')";
+$whereStr = " AND is_show=1 AND (shangjia_time<='{$now}' AND xiajia_time>='{$now}') ";
 if(!empty($cate_id)){
     $whereStr.= " AND cate_id=$cate_id ";
 }

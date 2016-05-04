@@ -2,7 +2,7 @@
 
 /*
    This is NOT a freeware, use is subject to license terms
-   °æÈ¨ËùÓÐ£ºTOMÎ¢ÐÅ www.tomwx.net
+   ï¿½ï¿½È¨ï¿½ï¿½ï¿½Ð£ï¿½TOMÎ¢ï¿½ï¿½ www.tomwx.net
 */
 
 if(!defined('IN_DISCUZ')) {
@@ -10,7 +10,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $goods_id = isset($_GET['goods_id'])? intval($_GET['goods_id']):0;
-
+$now = date('Y-m-d H:i:s');
 $goodsInfo = C::t('#tom_pintuan#tom_pintuan_goods')->fetch_by_id($goods_id);
 
 if(!preg_match('/^http/', $goodsInfo['goods_pic']) ){
