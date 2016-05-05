@@ -129,7 +129,6 @@ class PayNotifyCallBack extends WxPayNotify{
                     $tomSysOffset = getglobal('setting/timeoffset');
                     $templateSmsClass = new templateSms($access_token, $_G['siteurl'] . "plugin.php?id=tom_pintuan&mod=index");
                     $markstr = lang('plugin/tom_pintuan', 'template_sms_order_no') . $orderInfo['order_no'];
-                    $markstr.="下单类型：" . $tstatusArray[$orderInfo['tstatus']];
                     $smsData = array(
                         'first' => lang('plugin/tom_pintuan', 'template_sms_neworder'),
                         'customerInfo' => $orderInfo['xm'] . ' ' . $orderInfo['tel'],
