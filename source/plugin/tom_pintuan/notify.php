@@ -2,8 +2,8 @@
 
 /*
    This is NOT a freeware, use is subject to license terms
-   ��Ȩ���У�TOM΢�� www.tomwx.net
-   ΢��֧���ص��ӿ��ļ�
+   版权所有：TOM微信 www.tomwx.net
+   微信支付回调接口文件
 */
 
 define('APPTYPEID', 127);
@@ -127,17 +127,19 @@ class PayNotifyCallBack extends WxPayNotify{
                 $access_token = $weixinClass->get_access_token();
                 if($access_token){
                     $tomSysOffset = getglobal('setting/timeoffset');
-                    $templateSmsClass = new templateSms($access_token, $_G['siteurl']."plugin.php?id=tom_pintuan&mod=index");
+                    $templateSmsClass = new templateSms($access_token, $_G['siteurl'] . "plugin.php?id=tom_pintuan&mod=index");
+                    $markstr = lang('plugin/tom_pintuan', 'template_sms_order_no') . $orderInfo['order_no'];
+                    $markstr.="下单类型：" . $tstatusArray[$orderInfo['tstatus']];
                     $smsData = array(
-                        'first'                 => lang('plugin/tom_pintuan','template_sms_neworder'),
-                        'tradeDateTime'         => dgmdate(TIMESTAMP, 'Y-m-d H:i:s',$tomSysOffset),
-                        'orderType'             => $tstatusArray[$orderInfo['tstatus']],
-                        'customerInfo'          => $orderInfo['xm'].' '.$orderInfo['tel'],
-                        'orderItemName'         => lang('plugin/tom_pintuan','template_sms_goodsname'),
-                        'orderItemData'         => $orderInfo['goods_name'],
-                        'remark'                => lang('plugin/tom_pintuan','template_sms_order_no').$orderInfo['order_no'],
+                        'first' => lang('plugin/tom_pintuan', 'template_sms_neworder'),
+                        'customerInfo' => $orderInfo['xm'] . ' ' . $orderInfo['tel'],
+                        'orderItemName' => lang('plugin/tom_pintuan', 'template_sms_goodsname'),
+                        'orderItemData' => $orderInfo['goods_name'] . "商品数量：{$orderInfo['goods_num']}" . "订单时间：" . dgmdate(TIMESTAMP, 'Y-m-d H:i:s', $tomSysOffset),
+                        'customerAddress' => $orderInfo['address'],
+                        'pay_price' => $orderInfo['pay_price'],
+                        'remark' => $markstr,
                     );
-                    
+
                     if(!empty($pintuanConfig['manage_1_openid'])){
                         $r = $templateSmsClass->sendSmsTm00351($pintuanConfig['manage_1_openid'],$pintuanConfig['template_tm00351'],$smsData);
                         if($r){

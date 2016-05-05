@@ -32,20 +32,20 @@ class templateSms {
                        "value":"{$data['first']}",
                        "color":"#173177"
                    },
-                   "tradeDateTime": {
-                       "value":"{$data['tradeDateTime']}",
+                   "keyword1": {
+                       "value":"{$data['orderItemData']}",
                        "color":"#173177"
                    },
-                   "orderType": {
-                       "value":"{$data['orderType']}",
+                   "keyword2": {
+                       "value":"{$data['pay_price']}",
                        "color":"#173177"
                    },
-                   "keyword3": {
+                    "keyword3": {
                        "value":"{$data['customerInfo']}",
                        "color":"#173177"
                    },
-                   "keyword1": {
-                       "value":"{$data['orderItemName']}",
+                    "keyword4": {
+                       "value":"{$data['customerAddress']}",
                        "color":"#173177"
                    },
                    "keyword5": {
