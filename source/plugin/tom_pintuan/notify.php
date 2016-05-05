@@ -134,10 +134,13 @@ class PayNotifyCallBack extends WxPayNotify{
                         'customerInfo' => $orderInfo['xm'] . ' ' . $orderInfo['tel'],
                         'orderItemData' => $orderInfo['goods_name'] ,
                         'customerAddress' => $orderInfo['address'],
-                        'pay_price' => $orderInfo['pay_price']." 用户备注:{$orderInfo['order_beizu']}",
+                        'pay_price' => $orderInfo['pay_price'],
                         'payInfo' => "商品数量：{$orderInfo['goods_num']} " . "订单时间：" . dgmdate(TIMESTAMP, 'Y-m-d H:i:s', $tomSysOffset),
                         'remark' => $markstr,
                     );
+                    if (!empty($orderInfo['order_beizu'])) {
+                        $smsData['pay_price'] .= " 用户备注:{$orderInfo['order_beizu']}";
+                    }
 
                     if(!empty($pintuanConfig['manage_1_openid'])){
                         $r = $templateSmsClass->sendSmsTm00351($pintuanConfig['manage_1_openid'],$pintuanConfig['template_tm00351'],$smsData);
