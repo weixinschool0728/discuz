@@ -135,7 +135,7 @@ EOF;
                        "value":"{$data['OrderSn']}",
                        "color":"#173177"
                    },
-                   "keyword5": {
+                   "keyword2": {
                        "value":"{$data['OrderStatus']}",
                        "color":"#173177"
                    },
