@@ -134,7 +134,7 @@ class PayNotifyCallBack extends WxPayNotify{
                         'customerInfo' => $orderInfo['xm'] . ' ' . $orderInfo['tel'],
                         'orderItemData' => $orderInfo['goods_name'] ,
                         'customerAddress' => $orderInfo['address'],
-                        'pay_price' => $orderInfo['pay_price'],
+                        'pay_price' => $orderInfo['pay_price']." 用户备注:{$orderInfo['order_beizu']}",
                         'payInfo' => "商品数量：{$orderInfo['goods_num']} " . "订单时间：" . dgmdate(TIMESTAMP, 'Y-m-d H:i:s', $tomSysOffset),
                         'remark' => $markstr,
                     );
