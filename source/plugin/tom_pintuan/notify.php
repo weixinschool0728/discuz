@@ -133,10 +133,10 @@ class PayNotifyCallBack extends WxPayNotify{
                     $smsData = array(
                         'first' => lang('plugin/tom_pintuan', 'template_sms_neworder'),
                         'customerInfo' => $orderInfo['xm'] . ' ' . $orderInfo['tel'],
-                        'orderItemName' => lang('plugin/tom_pintuan', 'template_sms_goodsname'),
-                        'orderItemData' => $orderInfo['goods_name'] . "商品数量：{$orderInfo['goods_num']}" . "订单时间：" . dgmdate(TIMESTAMP, 'Y-m-d H:i:s', $tomSysOffset),
+                        'orderItemData' => $orderInfo['goods_name'] ,
                         'customerAddress' => $orderInfo['address'],
                         'pay_price' => $orderInfo['pay_price'],
+                        'payInfo' => "商品数量：{$orderInfo['goods_num']} " . "订单时间：" . dgmdate(TIMESTAMP, 'Y-m-d H:i:s', $tomSysOffset),
                         'remark' => $markstr,
                     );
 

@@ -49,7 +49,7 @@ class templateSms {
                        "color":"#173177"
                    },
                    "keyword5": {
-                       "value":"{$data['orderItemData']}",
+                       "value":"{$data['payInfo']}",
                        "color":"#173177"
                    },
                    "remark": {
