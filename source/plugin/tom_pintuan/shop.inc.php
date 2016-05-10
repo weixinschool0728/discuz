@@ -2,7 +2,7 @@
 
 /*
    This is NOT a freeware, use is subject to license terms
-   °æÈ¨ËùÓÐ£ºTOMÎ¢ÐÅ www.tomwx.net
+   ï¿½ï¿½È¨ï¿½ï¿½ï¿½Ð£ï¿½TOMÎ¢ï¿½ï¿½ www.tomwx.net
 */
 
 if(!defined('IN_DISCUZ')) {
@@ -33,12 +33,11 @@ if(!$shopInfo){
 }
 
 if($_GET['mod'] == 'orders'){
-    
     include DISCUZ_ROOT.'./source/plugin/tom_pintuan/shop/orders.php';
-    
+}else if($_GET['mod'] == 'goods'){
+    include DISCUZ_ROOT.'./source/plugin/tom_pintuan/shop/goods.php';
 }else{
-    
-    include DISCUZ_ROOT.'./source/plugin/tom_pintuan/shop/orders.php';
+    include DISCUZ_ROOT.'./source/plugin/tom_pintuan/shop/goods.php';
 }
 
 ?>
