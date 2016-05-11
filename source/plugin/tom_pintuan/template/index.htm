@@ -37,22 +37,7 @@
                         </ul>
                     </div>
                 </div>
-                
-                <!--{if $pintuanConfig['show_index_cate'] == 1 }-->
-                <section class="index_nav clearfix">
-                    <div class="index_nav_box clearfix">
-                        <ul class="index_nav_box_clearfix">
-                            <!--{loop $cateList $key $val}-->
-                            <li><a href="plugin.php?id=tom_pintuan&mod=search&cate_id={$val['id']}"><img src="{$val['picurl']}" width="60" height="60"><p>{$val['name']}</p></a></li>
-                            <!--{/loop}-->
-                            <!--{if $showMoreCateBtn == 1 }-->
-                            <li><a href="plugin.php?id=tom_pintuan&mod=search"><img src="source/plugin/tom_pintuan/images/cate_more_ico.png" width="60" height="60"><p>{lang tom_pintuan:more_cate_btn}</p></a></li>
-                            <!--{/if}-->
-                        </ul>
-                    </div>
-                </section>
-                <!--{/if}-->
-                <!--{if $pintuanConfig['show_index_search'] == 1 }-->
+                 <!--{if $pintuanConfig['show_index_search'] == 1 }-->
                 <section class="search_box">
                     <div class="search_box_main">
                         <div class="form_box">
@@ -80,6 +65,22 @@
                     </div>
                 </section>
                 <!--{/if}-->
+                
+                <!--{if $pintuanConfig['show_index_cate'] == 1 }-->
+                <section class="index_nav clearfix">
+                    <div class="index_nav_box clearfix">
+                        <ul class="index_nav_box_clearfix">
+                            <!--{loop $cateList $key $val}-->
+                            <li><a href="plugin.php?id=tom_pintuan&mod=search&cate_id={$val['id']}"><img src="{$val['picurl']}" width="60" height="60"><p>{$val['name']}</p></a></li>
+                            <!--{/loop}-->
+                            <!--{if $showMoreCateBtn == 1 }-->
+                            <li><a href="plugin.php?id=tom_pintuan&mod=search"><img src="source/plugin/tom_pintuan/images/cate_more_ico.png" width="60" height="60"><p>{lang tom_pintuan:more_cate_btn}</p></a></li>
+                            <!--{/if}-->
+                        </ul>
+                    </div>
+                </section>
+                <!--{/if}-->
+               
                 <div class="clear_both"></div>
                 <div>
                     <!--{loop $goodsList $key $val}-->
