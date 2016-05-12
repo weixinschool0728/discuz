@@ -36,7 +36,10 @@ if($_GET['mod'] == 'orders'){
     include DISCUZ_ROOT.'./source/plugin/tom_pintuan/shop/orders.php';
 }else if($_GET['mod'] == 'goods'){
     include DISCUZ_ROOT.'./source/plugin/tom_pintuan/shop/goods.php';
-}else{
+}else if($_GET['mod'] == 'print'){
+    include DISCUZ_ROOT.'./source/plugin/tom_pintuan/shop/print.php';
+}
+else{
     include DISCUZ_ROOT.'./source/plugin/tom_pintuan/shop/goods.php';
 }
 

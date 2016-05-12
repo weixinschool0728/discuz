@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<title>{lang tom_pintuan:print_title}</title>
+<style type="text/css">
+* {margin:0;padding:0}
+body {font:12px/1.5  "Microsoft YaHei";color:#333}
+.w{width:100%}
+.m1 td{height:0.6cm;line-height:0.6cm;}
+.t3,.t7,.t6{width:1.6cm}
+.t1{width:6.8cm}
+.t5{width:1.1cm}
+.tb4{border-collapse:collapse;border:1px solid #000}
+.tb4 th, .tb4 td,.d1{border:1px solid #000}
+.tb4 td {padding:1px}
+.tb4 th {height:0.6cm;font-weight:normal}
+.m1,.m2,.m3{padding-top:10px}
+.d1{padding:10px}
+.d2{text-align:right;padding:10px 0;font-size:14px}
+.logo{border-bottom:1px solid #ccc;padding:10px}
+.footer{border-top:1px solid #ccc;text-align:center;padding:10px}
+.v-h{ text-align:center}
+.m2{padding-left:1px}
+</style>
+<style type="text/css" media="print">
+.v-h {display:none;}
+</style>
+
+</head>
+<body>
+<form name="form1">
+    <div class="v-h"><input name="" type="button" value="{lang tom_pintuan:print_dayin}" onclick="javascript:window.print();" /></div>
+    <div class="w">
+        <div class="logo">
+            <img width="170" height="60" src="static/image/common/logo.png" alt="" />
+        </div>              
+        <div class="m1">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb1">
+                <tr>
+                    <td class="t1"><strong>{lang tom_pintuan:print_bianhao}</strong>{$orderInfo['order_no']}</td>
+                    <td class="t2"><strong>{lang tom_pintuan:print_time}</strong>{$order_time}</td>
+                </tr>
+            </table>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb2">
+                <tr>
+                    <td class="t1"><strong>{lang tom_pintuan:print_xm}</strong>{$orderInfo['xm']}</td>
+                    <td class="t2"><strong>{lang tom_pintuan:print_tel}</strong>{$orderInfo['tel']}</td>
+                </tr>
+            </table>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb3">
+                <tr>
+                    <td class="t8"><strong>{lang tom_pintuan:print_address}</strong>{$orderInfo['address']}</td>
+                </tr>
+            </table>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb3">
+                <tr>
+                    <td class="t8"><strong>{lang tom_pintuan:print_order_beizu}</strong>{$orderInfo['order_beizu']}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="m2">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb4">
+                <tr>
+                    <th class="t3">{lang tom_pintuan:print_goods_bianhao}</th>
+                    <th class="t4">{lang tom_pintuan:print_goods_name}</th>
+                    <th class="t5">{lang tom_pintuan:print_goods_num}</th>
+                    <th class="t7">{lang tom_pintuan:print_goods_jine}</th>
+                </tr>
+                <tr>
+                    <td>{$orderInfo['goods_id']}</td>
+                    <td><div class="p-name">{$orderInfo['goods_name']}</div></td>
+                    <td>{$orderInfo['goods_num']}</td>
+                    <td>&yen;{$orderInfo['goods_price']}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="m3">
+            <div class="d1">
+            {lang tom_pintuan:print_zonge}{$goods_all_price}{lang tom_pintuan:yuan} + {lang tom_pintuan:print_yunfei}{$express_price}{lang tom_pintuan:yuan}
+            </div>
+            <div class="d2"><strong>{lang tom_pintuan:print_order_jine}&yen;{$pay_all_price}</strong></div>
+        </div>
+        <div class="footer">
+            <p class="p1">{$pintuanConfig['copyright']}</p>
+        </div>
+    </div>
+</form>
+</body>
+</html>
