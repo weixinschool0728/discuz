@@ -8,13 +8,13 @@ body {
 	margin: 0;
 	width: 100%;
 	height: 100%;
-	font-family: "Microsoft YaHei","Helvetica Neue",Helvetica,Arial,"Î¢ÈíÑÅºÚ",STXihei,"»ªÎÄÏ¸ºÚ",serif
+	font-family: "Microsoft YaHei","Helvetica Neue",Helvetica,Arial,"å¾®è½¯é›…é»‘",STXihei,"åæ–‡ç»†é»‘",serif
 }
 
 html {
 	width: 100%;
 	height: 100%;
-	font-family: "Microsoft YaHei","Helvetica Neue",Helvetica,Arial,"Î¢ÈíÑÅºÚ",STXihei,"»ªÎÄÏ¸ºÚ",serif
+	font-family: "Microsoft YaHei","Helvetica Neue",Helvetica,Arial,"å¾®è½¯é›…é»‘",STXihei,"åæ–‡ç»†é»‘",serif
 }
 
 article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary {
@@ -7990,7 +7990,7 @@ a.fixopt_share {
 	border: 2px solid #FFF;
 	border-radius: 21px;
 	color: #FFF;
-	content: "ÍÅ";
+	content: "å›¢";
 	font-size: 8px;
 	height: 17px;
 	line-height: 17px;
@@ -8011,7 +8011,7 @@ a.fixopt_share {
 	border: 2px solid #FFF;
 	border-radius: 21px;
 	color: #FFF;
-	content: "É³·¢";
+	content: "æ²™å‘";
 	font-size: 8px;
 	height: 17px;
 	line-height: 17px;
@@ -12415,7 +12415,7 @@ html {
 }
 
 .search_search_li{width: 90%; min-height: 25px;margin-right: auto; margin-left: auto;}
-.search_search_li li{ width: 23%; height: 25px; text-align: center; float: left; margin-right: 1%; margin-left: 1%; margin-bottom: 3px; background-color: #F9F7F7; }
+.search_search_li li{ width: 23%; height: 25px; text-align: center; float: left; margin-right: 1%; margin-left: 1%; margin-bottom: 3px; background-color: #E0D6C7; }
 .search_search_li li a{ height: 100%; width: 100%; display: block; text-align: center; line-height: 25px; overflow: hidden; color: #817D7D; }
 .search_search_li_a_hover{ color: #FFF; background-color: #EA0000; }
 .search_search_li_height{ height: 50px; overflow: hidden; }
