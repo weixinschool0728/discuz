@@ -57,7 +57,7 @@ if ($_GET['act'] == 'hide'){//商品下架处理
     include template("tom_pintuan:shop/goodsadd");
     
 }else if ($_GET['act'] == 'doadd'){//实现商品添加功能
-    //echo '<pre>';
+   
     $name           = isset($_GET['name'])? addslashes($_GET['name']):'';
     $cate_id        = isset($_GET['cate_id'])? intval($_GET['cate_id']):0;
     $shop_id        = isset($_GET['shop_id'])? intval($_GET['shop_id']):0;
@@ -91,12 +91,40 @@ if ($_GET['act'] == 'hide'){//商品下架处理
     $share_desc     = isset($_GET['share_desc'])? addslashes($_GET['share_desc']):'';
     $content        = isset($_GET['content'])? addslashes($_GET['content']):'';
 
+    $goods_pic="";
+    if (isset($_GET['goods_pic'])){
+        $goods_pic = $_GET['goods_pic'];
+    }else{
+        $goods_pic = tomuploadFile('goods_pic');
+    }
     
-    $goods_pic = tomuploadFile('goods_pic');
-    $list_pic = tomuploadFile('list_pic');
-    $pics1 = tomuploadFile('pics1');
-    $pics2 = tomuploadFile('pics2');
-    $pics3 = tomuploadFile('pics3');
+    $list_pic="";
+    if (isset($_GET['list_pic'])){
+        $list_pic = $_GET['list_pic'];
+    }else{
+        $list_pic = tomuploadFile('list_pic');
+    }
+    
+    $pics1="";
+    if (isset($_GET['pics1'])){
+        $pics1 = $_GET['pics1'];
+    }else{
+        $pics1 = tomuploadFile('pics1');
+    }
+    
+    $pics2="";
+    if (isset($_GET['pics2'])){
+        $pics2 = $_GET['pics2'];
+    }else{
+        $pics2 = tomuploadFile('pics2');
+    }
+    
+    $pics3="";
+    if (isset($_GET['pics3'])){
+        $pics3 = $_GET['pics3'];
+    }else{
+        $pics3 = tomuploadFile('pics3');
+    }
     
     $data = array();
     $data['name']           = $name;
@@ -137,6 +165,11 @@ if ($_GET['act'] == 'hide'){//商品下架处理
     $data['describe']       = $describe;
     $data['content']        = $content;
     $data['paixu']        = 1000;
+    
+ /*    echo '<pre>';
+    print_r($data);   
+    echo '</pre>';
+   */
     
     $insertData = $data;
     $insertData['add_time']      = TIMESTAMP;
