@@ -263,49 +263,38 @@ if($formhash == FORMHASH && $act == 'info'){
     define("TOM_WXPAY_SSLKEY_PATH", DISCUZ_ROOT.'source/plugin/tom_pintuan/class/wxpay/cert/apiclient_key.pem');
     
     include DISCUZ_ROOT.'./source/plugin/tom_pintuan/class/wxpay/lib/WxPay.Api.php';
-    $orderList = C::t('#tom_pintuan#tom_pintuan_order')->fetch_all_list(" AND id={$order_id} ");
-    
+//    $orderList = C::t('#tom_pintuan#tom_pintuan_order')->fetch_all_list(" AND id={$order_id} ");
+
     $flag = false;
-    if(is_array($orderList) && !empty($orderList)){
-        foreach ($orderList as $key => $value){
-            $id = intval($value['id']);
-            $orderInfo = C::t('#tom_pintuan#tom_pintuan_order')->fetch_by_id($id);
-            
-            if($orderInfo && !empty($orderInfo['order_no']) && !empty($orderInfo['pay_price']) && $orderInfo['order_status']==2){
-                $pay_price = $orderInfo['pay_price']*100;
-                $input = new WxPayRefund();
-                $input->SetOut_trade_no($orderInfo['order_no']);
-                $input->SetTotal_fee($pay_price);
-                $input->SetRefund_fee($pay_price);
-                $input->SetOut_refund_no(WxPayConfig::MCHID.date("YmdHis"));
-                $input->SetOp_user_id(WxPayConfig::MCHID);
-                $return = WxPayApi::refund($input);
-               
-                if(is_array($return) && $return['result_code'] == 'SUCCESS'){
-                    $flag = true;
-                    $updateData = array();
-                    $updateData['order_status'] = 7;
-                    C::t('#tom_pintuan#tom_pintuan_order')->update($orderInfo['id'],$updateData);
-                    DB::query("UPDATE ".DB::table('tom_pintuan_goods')." SET goods_num=goods_num+{$orderInfo['goods_num']} WHERE id='{$orderInfo['goods_id']}'", 'UNBUFFERED');
-                    DB::query("UPDATE ".DB::table('tom_pintuan_goods')." SET sales_num=sales_num-{$orderInfo['goods_num']} WHERE id='{$orderInfo['goods_id']}'", 'UNBUFFERED');
-                }
-            }
-        }
-    }
-    
-    $tuan_id=$orderInfo['tuan_id'];
-    if($tuan_id){
-        if($flag){
+//    if(is_array($orderList) && !empty($orderList)){
+//        foreach ($orderList as $key => $value){
+//            $id = intval($value['id']);
+    $orderInfo = C::t('#tom_pintuan#tom_pintuan_order')->fetch_by_id($order_id);
+
+    if ($orderInfo && !empty($orderInfo['order_no']) && !empty($orderInfo['pay_price']) && $orderInfo['order_status'] == 2) {
+        $pay_price = $orderInfo['pay_price'] * 100;
+        $input = new WxPayRefund();
+        $input->SetOut_trade_no($orderInfo['order_no']);
+        $input->SetTotal_fee($pay_price);
+        $input->SetRefund_fee($pay_price);
+        $input->SetOut_refund_no(WxPayConfig::MCHID . date("YmdHis"));
+        $input->SetOp_user_id(WxPayConfig::MCHID);
+        $return = WxPayApi::refund($input);
+
+        if (is_array($return) && $return['result_code'] == 'SUCCESS') {
+            $flag = true;
             $updateData = array();
-            $updateData['tuan_status'] = 4;
-            C::t('#tom_pintuan#tom_pintuan_tuan')->update($tuan_id,$updateData);
-            
-            C::t('#tom_pintuan#tom_pintuan_order')->update_tuan_status_by_tuan_id($tuan_id,4);
+            $updateData['order_status'] = 7;
+            C::t('#tom_pintuan#tom_pintuan_order')->update($orderInfo['id'], $updateData);
+            DB::query("UPDATE " . DB::table('tom_pintuan_goods') . " SET goods_num=goods_num+{$orderInfo['goods_num']} WHERE id='{$orderInfo['goods_id']}'", 'UNBUFFERED');
+            DB::query("UPDATE " . DB::table('tom_pintuan_goods') . " SET sales_num=sales_num-{$orderInfo['goods_num']} WHERE id='{$orderInfo['goods_id']}'", 'UNBUFFERED');
+        cpmsg($Lang['act_success'], $modListUrl, 'succeed');
+        }else{
+            cpmsg('退款时出错，可能是微信商户退款失败', $modListUrl, 'succeed');
         }
+    } else {
+        cpmsg('操作失败 订单不存在或者订单不满足退款要求', $modListUrl, 'succeed');
     }
-    
-    cpmsg($Lang['act_success'], $modListUrl, 'succeed');
-    
 }else if($formhash == FORMHASH && $act == 'refundquery'){
     
     $wxpay_appid        = trim($pintuanConfig['wxpay_appid']);
@@ -599,7 +588,12 @@ if($formhash == FORMHASH && $act == 'info'){
             echo '<a href="'.$modBaseUrl.'&act=express&id='.$value['id'].'&formhash='.FORMHASH.'">' . $Lang['order_express_title'] . '</a>';
         }
         echo '<br/>';
-        echo '<a href="javascript:void(0);" onclick="refund_confirm(\''.$modBaseUrl.'&act=refund&id='.$value['id'].'&formhash='.FORMHASH.'\');">' . $Lang['tuan_refund_title'] . '</a>&nbsp;|&nbsp;';
+        if($value['tuan_id']){ //参团订单
+            $modTuanUrl="admin.php?action=plugins&operation=config&do=14&identifier=tom_pintuan&pmod=admin&tmod=tuan";
+            echo '<a href="javascript:void(0);" onclick="refund_confirm(\''.$modTuanUrl.'&act=refund&id='.$value['tuan_id'].'&formhash='.FORMHASH.'\');">' . $Lang['tuan_refund_title'] . '</a>&nbsp;|&nbsp;';
+        }else{//普通订单
+            echo '<a href="javascript:void(0);" onclick="refund_confirm(\''.$modBaseUrl.'&act=refund&id='.$value['id'].'&formhash='.FORMHASH.'\');">' . $Lang['tuan_refund_title'] . '</a>&nbsp;|&nbsp;';
+        }
         echo '<a target="print" href="'.$_G['siteurl'].'plugin.php?id=tom_pintuan:print&order_no='.$value['order_no'].'">' . $Lang['order_print'] . '</a><br/>';   
         echo '<a href="javascript:void(0);" onclick="del_confirm(\''.$modBaseUrl.'&act=del&id='.$value['id'].'&formhash='.FORMHASH.'\');">' . $Lang['delete'] . '</a>';
         echo '</td>';
