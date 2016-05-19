@@ -1,0 +1,463 @@
+{template common/header}
+<script type="text/javascript" src="static/js/calendar.js"></script>
+
+
+<div class="bm cl" id="pt"> 
+   <div class="z"> 
+    <a title="{$_G['setting']['sitename']}" class="nvhm" href="./">{$_G['setting']['sitename']}</a> 
+    <em>&amp;rsquot;</em> 
+    <a href="plugin.php?id=tom_pintuan:shop">{lang tom_pintuan:pc_shop_title}</a> 
+   </div> 
+  </div> 
+  <div class="ct2_a wp cl" id="ct"> 
+   <div class="appl"> 
+    <div class="tbn"> 
+     <h2 class="mt bbda">{lang tom_pintuan:pc_shop_pintuan_title}</h2> 
+     <ul>
+       {template tom_pintuan:shop/menu} 
+     </ul> 
+    </div> 
+   </div> 
+   <div> 
+    <table class="tb tb2 " width="100%"> 
+     <tbody> 
+      <tr> 
+       <th class="itemtitle" style="background-color: #DEEFFA;" colspan="15"> 
+        <ul class="tab1" style="margin-bottom: 0px;"> 
+         <li> 
+         	<a href="plugin.php?id=tom_pintuan:shop&mod=goods" style="color: #2366A8;"> 
+         		<span>{$pc_goods_showarr['pc_shop_goods_list']}</span> 
+         	</a> 
+         </li> 
+         <li> 
+         	<a href="plugin.php?id=tom_pintuan:shop&mod=goods&act=add" style="color: #2366A8;"> 
+         		<span>{$pc_goods_showarr['pc_shop_goods_add']}</span> 
+         	</a> 
+         </li> 
+         <li class="current"> 
+         	<a > 
+         		<span>{$pc_goods_showarr['pc_shop_goods_edit']}</span> 
+         	</a> 
+         </li> 
+        </ul> 
+       </th> 
+      </tr> 
+     </tbody> 
+    </table> 
+    <form id="cpform" enctype="multipart/form-data" action="plugin.php?id=tom_pintuan:shop&mod=goods&act=doedit&good_id={$goodsInfoArr['id']}" autocomplete="off" method="post" name="cpform"> 
+     <!-- <input type="hidden" value="{$formhash}" name="formhash" />  -->
+     <input id="formscrolltop" type="hidden" value="" name="scrolltop" /> 
+     <input type="hidden" value="" name="anchor" /> 
+     <table class="tb tb2 "> 
+      <tbody> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['goods_name']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['name']}" name="name" /> </td> 
+        <td>{$pc_set_shuomingarr['set_goods_name']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['goods_cate']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> 
+        	<select name="cate_id"> 
+        		
+				<!--{loop $cate_list_item $key $val}-->
+				<option value="{$key}" <!--{if $key == $goodsInfoArr['cate_id']}-->selected<!--{/if}-->>{$val}</option>
+				<!--{/loop}-->
+        	</select> 
+        </td> 
+        <td>{$pc_set_shuomingarr['set_goods_cate']}</td> 
+       </tr> 
+      <tr class="header">
+			<th>{$pc_goods_infoarr['shop_name']}</th>
+			<th></th>
+		</tr>
+		<tr>
+			<td width="300">
+				<select name="shop_id">
+						<option value="{$shopInfo['id']}" >{$shopInfo['name']}</option>
+				</select>
+			</td>
+			<td>{$pc_set_shuomingarr['set_goods_shop_name']}</td>
+		</tr>
+       <tr onmouseover="setfaq(this, 'faq9b94')"> 
+        <td class="td27" s="1" colspan="2"> 
+        	<b>{$pc_goods_infoarr['goods_pic']}:</b> 
+        	<a id="faq9b94" class="faq" style="display: none;" target="_blank" href="http://faq.comsenz.com?type=admin&amp;ver=X3.2&amp;action=plugins&amp;operation=config&amp;key=" title="查看更多提示"> </a> 
+        </td> 
+       </tr> 
+       <tr class="noborder" onmouseover="setfaq(this, 'faq9b94')" > 
+        <td class="vtop rowform"> 
+        	<input id="fileQF_0" class="txt uploadbtn marginbot" type="file" value="" name="TMPgoods_pic" style="display:none">
+			<input id="fileQF_1" class="txt marginbot" type="text" value="{$goodsInfoArr['goods_pic']}" name="goods_pic" style="display:">
+			<br>
+			<a id="fileQF_0a" class="fileo" onclick="$('fileQF_1a').style.fontWeight = '';this.style.fontWeight = 'bold';$('fileQF_1').name = 'TMPgoods_pic';$('fileQF_0').name = 'goods_pic';$('fileQF_0').style.display = '';$('fileQF_1').style.display = 'none'" href="javascript:;" style="display: inline;">{$pc_goods_infoarr['file_upload']}</a>
+			<a id="fileQF_1a" class="fileo" onclick="$('fileQF_0a').style.fontWeight = '';this.style.fontWeight = 'bold';$('fileQF_0').name = 'TMPgoods_pic';$('fileQF_1').name = 'goods_pic';$('fileQF_1').style.display = '';$('fileQF_0').style.display = 'none'" href="javascript:;" style="font-weight:bold;display: inline;">{$pc_goods_infoarr['import_url']}</a>
+        </td> 
+        <td class="vtop tips2" s="1">
+        	{$pc_set_shuomingarr['set_goods_pic']}<br/>
+        	<a href="{$goods_pic}"  style="border: 0;background: #fff;">
+        		<img alt="商品tup" src="{$goods_pic}" width="100">
+        	</a>	
+        </td> 
+       </tr> 
+       <tr onmouseover="setfaq(this, 'faq2157')"> 
+        <td class="td27" s="1" colspan="2"> 
+        	<b>{$pc_goods_infoarr['goods_list_name']}:</b> 
+        	<a id="faq2157" class="faq" style="display: none;" target="_blank" href="http://faq.comsenz.com?type=admin&amp;ver=X3.2&amp;action=plugins&amp;operation=config&amp;key=" title="查看更多提示"> </a> 
+        </td> 
+       </tr> 
+       <tr class="noborder" onmouseover="setfaq(this, 'faq2157')"> 
+        <td class="vtop rowform"> 
+        	<input id="filer6_0" class="txt uploadbtn marginbot" type="file" value="" name="TMPlist_pic" style="display:none">
+			<input id="filer6_1" class="txt marginbot" type="text" value="{$goodsInfoArr['list_pic']}" name="list_pic" style="display:">
+			<br>
+			<a id="filer6_0a" class="fileo"  onclick="$('filer6_1a').style.fontWeight = '';this.style.fontWeight = 'bold';$('filer6_1').name = 'TMPlist_pic';$('filer6_0').name = 'list_pic';$('filer6_0').style.display = '';$('filer6_1').style.display = 'none'" href="javascript:;" style="display: inline;">{$pc_goods_infoarr['file_upload']}</a>
+			<a id="filer6_1a" class="fileo" onclick="$('filer6_0a').style.fontWeight = '';this.style.fontWeight = 'bold';$('filer6_0').name = 'TMPlist_pic';$('filer6_1').name = 'list_pic';$('filer6_1').style.display = '';$('filer6_0').style.display = 'none'" href="javascript:;" style="font-weight:bold;display: inline;">{$pc_goods_infoarr['import_url']}</a>
+        	
+        </td> 
+        <td class="vtop tips2" s="1">
+        	{$pc_set_shuomingarr['set_goods_list_pic']}<br/>
+        	<a href="{$list_pic}" style="border: 0;background: #fff;">
+        		<img alt="商品tup" src="{$list_pic}" width="100">
+        	</a>	
+        </td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['goods_store']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> 
+        	<input type="text" size="40" value="{$goodsInfoArr['goods_num']}" name="goods_num" /> 
+        </td> 
+        <td>{$pc_set_shuomingarr['set_goods_store']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['goods_one_name']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['xiangou_num']}" name="xiangou_num" /> </td> 
+        <td>{$pc_set_shuomingarr['set_goods_one_num']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['goods_off']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['goods_discount']}" name="goods_discount" /> </td> 
+        <td>{$pc_set_shuomingarr['set_goods_off']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['goods_market_price']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['market_price']}" name="market_price" /> </td> 
+        <td>{$pc_set_shuomingarr['set_goods_market_price']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['tuan_header_price']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['tuanz_price']}" name="tuanz_price" /> </td> 
+        <td>{$pc_set_shuomingarr['set_goods_header_price']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['tuan_header_num']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['tuanz_price_num']}" name="tuanz_price_num" /> </td> 
+        <td>{$pc_set_shuomingarr['set_header_allow_num']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['open_3_tuan']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> 
+        	<input type="radio"  value="0" <!--{if 0 == $goodsInfoArr['open_3_tuan']}-->checked=""<!--{/if}--> name="open_3_tuan" /> 关闭 
+        	<input type="radio" value="1" <!--{if 1 == $goodsInfoArr['open_3_tuan']}-->checked=""<!--{/if}--> name="open_3_tuan" /> 开启 
+        </td> 
+        <td>{$pc_set_shuomingarr['set_open_3_tuan']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['only_one_buy']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> 
+        	<input type="radio" value="0" <!--{if 0 == $goodsInfoArr['only_one_buy']}-->checked=""<!--{/if}-->  name="only_one_buy" /> 关闭 
+        	<input type="radio" value="1"  <!--{if 1 == $goodsInfoArr['only_one_buy']}-->checked=""<!--{/if}-->  name="only_one_buy" /> 开启 
+       </td> 
+        <td>{$pc_set_shuomingarr['set_only_one_buy']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['tuan_num']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['tuan_num']}" name="tuan_num" /> </td> 
+        <td>{$pc_set_shuomingarr['set_tuan_num']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['tuan_price']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['tuan_price']}" name="tuan_price" /> </td> 
+        <td>{$pc_set_shuomingarr['set_tuan_price']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['tuan_num_2']}/th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['tuan_num_2']}" name="tuan_num_2" /> </td> 
+        <td>{$pc_set_shuomingarr['set_tuan_num']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['tuan_price_2']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['tuan_price_2']}" name="tuan_price_2" /> </td> 
+        <td>{$pc_set_shuomingarr['set_tuan_price']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['tuan_num_3']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['tuan_num_3']}" name="tuan_num_3" /> </td> 
+        <td>{$pc_set_shuomingarr['set_tuan_num']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['tuan_price_3']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['tuan_price_3']}" name="tuan_price_3" /> </td> 
+        <td>{$pc_set_shuomingarr['set_tuan_price']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['single_price']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['one_price']}" name="one_price" /> </td> 
+        <td>{$pc_set_shuomingarr['set_single_price']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['express_price']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['express_price']}" name="express_price" /> </td> 
+        <td>{$pc_set_shuomingarr['set_express_price']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['express_name']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> 
+        	<select name="express_id"> 
+        		<!--{loop $express_list_item $key $val}-->
+				<option value="{$key}" <!--{if {$key} == $goodsInfoArr['express_id']}-->selected=""<!--{/if}-->>{$val}</option>
+				<!--{/loop}-->
+        	</select> 
+        </td> 
+        <td></td> 
+       </tr> 
+       <tr onmouseover="setfaq(this, 'faq0fcd')"> 
+        <td class="td27" s="1" colspan="2"> {$pc_goods_infoarr['goods_ppt_1']}: <a id="faq0fcd" class="faq" style="display:none" target="_blank" href="http://faq.comsenz.com?type=admin&amp;ver=X3.2&amp;action=plugins&amp;operation=config&amp;key=%E5%95%86%E5%93%81%E5%B9%BB%E7%81%AF%E7%89%87%E3%80%90%E4%B8%80%E3%80%91" title="查看更多提示"> </a> </td> 
+       </tr> 
+       <tr class="noborder" onmouseover="setfaq(this, 'faq0fcd')"> 
+        <td class="vtop rowform"> 
+        	<input id="fileUQ_0" class="txt uploadbtn marginbot" type="file" value="" name="TMPpics1" style="display:none">
+			<input id="fileUQ_1" class="txt marginbot" type="text" value="{$goodsInfoArr['pics1']}" name="pics1" style="display:">
+			<br>
+			<a id="fileUQ_0a" class="fileo" onclick="$('fileUQ_1a').style.fontWeight = '';this.style.fontWeight = 'bold';$('fileUQ_1').name = 'TMPpics1';$('fileUQ_0').name = 'pics1';$('fileUQ_0').style.display = '';$('fileUQ_1').style.display = 'none'" href="javascript:;" style="">{$pc_goods_infoarr['file_upload']}</a>
+			<a id="fileUQ_1a" class="fileo" onclick="$('fileUQ_0a').style.fontWeight = '';this.style.fontWeight = 'bold';$('fileUQ_0').name = 'TMPpics1';$('fileUQ_1').name = 'pics1';$('fileUQ_1').style.display = '';$('fileUQ_0').style.display = 'none'" href="javascript:;" style="font-weight:bold;">{$pc_goods_infoarr['import_url']}</a>
+        
+        </td> 
+        <td class="vtop tips2" s="1">
+        	{$pc_set_shuomingarr['set_goods_ppt_pic']}
+        	<a href="{$pics1}" style="border: 0;background: #fff;">
+        		<img alt="商品tup" src="{$pics1}" width="100">
+        	</a>	
+        </td> 
+       </tr> 
+       <tr onmouseover="setfaq(this, 'faq6b89')"> 
+        <td class="td27" s="1" colspan="2"> {$pc_goods_infoarr['goods_ppt_2']}: <a id="faq6b89" class="faq" style="display:none" target="_blank" href="http://faq.comsenz.com?type=admin&amp;ver=X3.2&amp;action=plugins&amp;operation=config&amp;key=%E5%95%86%E5%93%81%E5%B9%BB%E7%81%AF%E7%89%87%E3%80%90%E4%BA%8C%E3%80%91" title="查看更多提示"> </a> </td> 
+       </tr> 
+       <tr class="noborder" onmouseover="setfaq(this, 'faq6b89')"> 
+        <td class="vtop rowform"> 
+        	<input id="fileyN_0" class="txt uploadbtn marginbot" type="file" value="" name="TMPpics2" style="display:none">
+			<input id="fileyN_1" class="txt marginbot" type="text" value="{$goodsInfoArr['pics2']}" name="pics2" style="display:">
+			<br>
+			<a id="fileyN_0a" class="fileo" onclick="$('fileyN_1a').style.fontWeight = '';this.style.fontWeight = 'bold';$('fileyN_1').name = 'TMPpics2';$('fileyN_0').name = 'pics2';$('fileyN_0').style.display = '';$('fileyN_1').style.display = 'none'" href="javascript:;" style="">{$pc_goods_infoarr['file_upload']}</a>
+			<a id="fileyN_1a" class="fileo" onclick="$('fileyN_0a').style.fontWeight = '';this.style.fontWeight = 'bold';$('fileyN_0').name = 'TMPpics2';$('fileyN_1').name = 'pics2';$('fileyN_1').style.display = '';$('fileyN_0').style.display = 'none'" href="javascript:;" style="font-weight:bold;">{$pc_goods_infoarr['import_url']}</a>
+        	
+        </td> 
+        <td class="vtop tips2" s="1">
+        	{$pc_set_shuomingarr['set_goods_ppt_pic']}
+        	<a href="{$pics2}" style="border: 0;background: #fff;">
+        		<img alt="商品tup" src="{$pics2}" width="100">
+        	</a>	
+        </td> 
+       </tr> 
+       <tr onmouseover="setfaq(this, 'faqc5a7')"> 
+        <td class="td27" s="1" colspan="2"> {$pc_goods_infoarr['goods_ppt_3']}: <a id="faqc5a7" class="faq" style="display: none;" target="_blank" href="http://faq.comsenz.com?type=admin&amp;ver=X3.2&amp;action=plugins&amp;operation=config&amp;key=%E5%95%86%E5%93%81%E5%B9%BB%E7%81%AF%E7%89%87%E3%80%90%E4%B8%89%E3%80%91" title="查看更多提示"> </a> </td> 
+       </tr> 
+       <tr class="noborder" onmouseover="setfaq(this, 'faqc5a7')"> 
+        <td class="vtop rowform"> 
+        	<input id="fileel_0" class="txt uploadbtn marginbot" type="file" value="" name="TMPpics3" style="display:none">
+			<input id="fileel_1" class="txt marginbot" type="text" value="{$goodsInfoArr['pics3']}" name="pics3" style="display:">
+			<br>
+			<a id="fileel_0a" class="fileo" onclick="$('fileel_1a').style.fontWeight = '';this.style.fontWeight = 'bold';$('fileel_1').name = 'TMPpics3';$('fileel_0').name = 'pics3';$('fileel_0').style.display = '';$('fileel_1').style.display = 'none'" href="javascript:;" style="">{$pc_goods_infoarr['file_upload']}</a>
+			<a id="fileel_1a" class="fileo" onclick="$('fileel_0a').style.fontWeight = '';this.style.fontWeight = 'bold';$('fileel_0').name = 'TMPpics3';$('fileel_1').name = 'pics3';$('fileel_1').style.display = '';$('fileel_0').style.display = 'none'" href="javascript:;" style="font-weight:bold;">{$pc_goods_infoarr['import_url']}</a>
+        	
+        </td> 
+        <td class="vtop tips2" s="1">
+        	{$pc_set_shuomingarr['set_goods_ppt_pic']}
+        	<a href="{$pics3}" style="border: 0;background: #fff;">
+        		<img alt="商品tup" src="{$pics3}" width="100">
+        	</a>
+        </td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['goods_vr_num']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['virtual_sales_num']}" name="virtual_sales_num" /> </td> 
+        <td>{$pc_set_shuomingarr['set_goods_sale_num']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['tuan_limit']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['tuan_hours']}" name="tuan_hours" /> </td> 
+        <td>{$pc_set_shuomingarr['set_goods_timer']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['open_choice_num']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> 
+        	<input type="radio" value="0" <!--{if 0 == $goodsInfoArr['allow_num']}-->checked=""<!--{/if}--> name="allow_num" /> {$pc_goods_infoarr['goods_close']} 
+        	<input type="radio" value="1" <!--{if 1 == $goodsInfoArr['allow_num']}-->checked=""<!--{/if}--> name="allow_num" /> {$pc_goods_infoarr['goods_open']} 
+        </td> 
+        <td></td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['goods_init']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['goods_unit']}" name="goods_unit" /> </td> 
+        <td>{$pc_set_shuomingarr['set_goods_unit']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['goods_shipping']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> 
+        	<input type="radio" value="1" <!--{if 1 == $goodsInfoArr['take_type']}-->checked=""<!--{/if}--> name="take_type" /> {$pc_goods_infoarr['goods_express']} 
+        	<input type="radio" value="2" <!--{if 2 == $goodsInfoArr['take_type']}-->checked=""<!--{/if}--> name="take_type" /> {$pc_goods_infoarr['goods_daodian']} 
+        	<input type="radio" value="3" <!--{if 3 == $goodsInfoArr['take_type']}-->checked=""<!--{/if}--> name="take_type" /> {$pc_goods_infoarr['pattern_mix']} 
+        </td> 
+        <td>{$pc_set_shuomingarr['set_goods_shipping']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['shangjia_time']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['shangjia_time']}" name="shangjia_time" /> </td> 
+        <td>{$pc_set_shuomingarr['set_shangjia_time']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['xiajia_time']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['xiajia_time']}" name="xiajia_time" /> </td> 
+        <td>{$pc_set_shuomingarr['set_xiajia_time']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['shop_verify']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['take_pwd']}" name="take_pwd" /> </td> 
+        <td>{$pc_set_shuomingarr['set_verify_shuoming']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['goods_depict']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <textarea cols="40" name="describe" rows="6">{$goodsInfoArr['describe']}</textarea> </td> 
+        <td></td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['share_title']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['share_title']}" name="share_title" /> </td> 
+        <td>{$pc_set_shuomingarr['set_share_title']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['share_desc']}</th> 
+        <th></th> 
+       </tr> 
+       <tr> 
+        <td width="300"> <input type="text" size="40" value="{$goodsInfoArr['share_desc']}" name="share_desc" /> </td> 
+        <td>{$pc_set_shuomingarr['share_desc']}</td> 
+       </tr> 
+       <tr class="header"> 
+        <th>{$pc_goods_infoarr['goods_content']}</th> 
+        <th></th> 
+       </tr> 
+       <tr>
+       	<td width="300" colspan="2">
+       		<textarea id="content" style="width: 700px; height: 300px; display: none;" name="content">{$goodsInfoArr['content']}</textarea>
+       	</td>
+       </tr>
+       <script reload="true" type="text/javascript">
+
+	        KindEditor.ready(function(K) {
+	              window.editor = KindEditor.create('#content');
+	        });
+		</script> 
+        
+       <tr> 
+        <td colspan="15"> 
+         <div class="fixsel"> 
+          <input id="submit_submit" class="btn" type="submit" value="提交" title="按 Enter 键可随时提交您的修改" name="submit" /> 
+         </div> </td> 
+       </tr> 
+       <script type="text/JavaScript">
+			_attachEvent(document.documentElement, 'keydown', function (e) { entersubmit(e, 'submit'); });
+		</script> 
+      </tbody> 
+     </table> 
+    </form> 
+   </div> 
+  </div>
+{template common/footer}

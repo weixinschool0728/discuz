@@ -19,6 +19,7 @@
         <div class="tbmu cl">
             <a class="y pn pnc" href="{$ordersexportUrl}" target="_blank"><strong>{lang tom_pintuan:pc_shop_ordersexport}</strong></a>
             <form action="plugin.php?id=tom_pintuan:shop&mod=orders" method="post">
+            		商&nbsp;品&nbsp;ID：<input name="good_id" type="text" value="{$goods_id}" size="40" style="margin-bottom: 5px;" /><br/>
                 {lang tom_pintuan:pc_shop_order_no}<input name="order_no" type="text" value="{$order_no}" size="40" style="margin-bottom: 5px;" /><br/>
                 {lang tom_pintuan:pc_shop_order_tel}<input name="order_tel" type="text" value="{$order_tel}" size="40" style="margin-bottom: 5px;" /><br/>
                 {lang tom_pintuan:pc_shop_start_time}<input name="start_time" type="text" value="{$start_time_tmp}" onclick="showcalendar(event, this, 1)" size="40" style="margin-bottom: 5px;" />--<input name="end_time" type="text" value="{$end_time_tmp}" onclick="showcalendar(event, this, 1)" size="40" style="margin-bottom: 5px;" /><br/>
@@ -68,7 +69,7 @@
                     <td>{$val['order_time']}</td>
                     <td>{$val['qianshou_time']}</td>
                     <td>
-                        <a href="plugin.php?id=tom_pintuan:shop&mod=order&act=express&order_id={$val['id']}">{lang tom_pintuan:pc_shop_list_order_express}</a>
+                        <a href="plugin.php?id=tom_pintuan:shop&mod=orders&act=express&order_id={$val['id']}">{lang tom_pintuan:pc_shop_list_order_express}</a>
                     </td>
                 </tr>
                 <!--{/loop}-->

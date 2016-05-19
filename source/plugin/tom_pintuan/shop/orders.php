@@ -2,18 +2,20 @@
 
 /*
    This is NOT a freeware, use is subject to license terms
-   版权所有：TOM微信 www.tomwx.net
+   鐗堟潈鎵�鏈夛細TOM寰俊 www.tomwx.net
 */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
+$pc_goods_showarr = lang('tom_pintuan/shop','shopgoods');
 if($_GET['act'] == 'express'){
-    
+
     $info = C::t('#tom_pintuan#tom_pintuan_order')->fetch_by_id($_GET['order_id']);
-    
     $info['express_time'] = dgmdate($info['express_time'], 'Y-m-d H:i:s',$tomSysOffset);
+    $pc_shop_order_list = lang('tom_pintuan/shop','pc_shop_order_list');
+    $pc_shop_goods_list = lang('tom_pintuan/shop','pc_shop_goods_list');
     
     include template("tom_pintuan:shop/ordersexpress");
     
@@ -68,11 +70,15 @@ if($_GET['act'] == 'express'){
     $qs_end_time_tmp = !empty($_GET['qs_end_time'])? addslashes($_GET['qs_end_time']):'';
     $qs_end_time = strtotime($qs_end_time_tmp);
     $order_status = isset($_GET['order_status'])? intval($_GET['order_status']):0;
+    $goods_id = isset($_GET['good_id'])? intval($_GET['good_id']):'';
     
     $goods_name = '';
     $where = "";
     if(!empty($order_no)){
         $where.=" AND order_no='{$order_no}' ";
+    }
+    if(!empty($goods_id)){
+        $where.=" AND goods_id='{$goods_id}' ";
     }
     if(!empty($order_tel)){
         $where.=" AND tel='{$order_tel}' ";
@@ -103,10 +109,10 @@ if($_GET['act'] == 'express'){
     }
     
     
-    $searchUrl = "&order_no={$order_no}&order_tel={$order_tel}&start_time={$start_time_tmp}&end_time={$end_time_tmp}&qs_start_time={$qs_start_time_tmp}&qs_end_time={$qs_end_time_tmp}&order_status={$order_status}";
+    $searchUrl = "&order_no={$order_no}&order_tel={$order_tel}&goods_id={$goods_id}&start_time={$start_time_tmp}&end_time={$end_time_tmp}&qs_start_time={$qs_start_time_tmp}&qs_end_time={$qs_end_time_tmp}&order_status={$order_status}";
     
-    $ordersexportUrl = $_G['siteurl']."plugin.php?id=tom_pintuan:ordersexport&shop_id={$shopInfo['id']}&order_no={$order_no}&order_tel={$order_tel}&start_time={$start_time_tmp}&end_time={$end_time_tmp}&qs_start_time={$qs_start_time_tmp}&qs_end_time={$qs_end_time_tmp}&order_status={$order_status}";
-    
+    $ordersexportUrl = $_G['siteurl']."plugin.php?id=tom_pintuan:ordersexport&shop_id={$shopInfo['id']}&order_no={$order_no}&goods_id={$goods_id}&order_tel={$order_tel}&start_time={$start_time_tmp}&end_time={$end_time_tmp}&qs_start_time={$qs_start_time_tmp}&qs_end_time={$qs_end_time_tmp}&order_status={$order_status}";
+
     $pagesize = 10;
     $start = ($page-1)*$pagesize;
     $count = C::t('#tom_pintuan#tom_pintuan_order')->fetch_all_like_count($where,$goods_name);
@@ -121,7 +127,8 @@ if($_GET['act'] == 'express'){
     }
     
     $pages = helper_page::multi($count, $pagesize, $page, "plugin.php?id=tom_pintuan:shop&mod=orders".$searchUrl, 0, 11, false, false);
-    
+    $pc_shop_order_list = lang('tom_pintuan/shop','pc_shop_order_list');
+    $pc_shop_goods_list = lang('tom_pintuan/shop','pc_shop_goods_list');
     include template("tom_pintuan:shop/orders");
     
 }

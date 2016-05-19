@@ -35,9 +35,13 @@ if(!$shopInfo){
 if($_GET['mod'] == 'orders'){
     include DISCUZ_ROOT.'./source/plugin/tom_pintuan/shop/orders.php';
 }else if($_GET['mod'] == 'goods'){
-    include DISCUZ_ROOT.'./source/plugin/tom_pintuan/shop/goods.php';
+    define("IN_ADMINCP", "");
+    include_once DISCUZ_ROOT.'./source/plugin/tom_pintuan/class/tom.form.php';
+//     include_once DISCUZ_ROOT.'./source/plugin/tom_pintuan/class/admin.core.php';
+    include_once DISCUZ_ROOT.'./source/plugin/tom_pintuan/class/tom.upload.php';
+    include_once DISCUZ_ROOT.'./source/plugin/tom_pintuan/shop/goods.php';
 }else{
-    include DISCUZ_ROOT.'./source/plugin/tom_pintuan/shop/goods.php';
+    include DISCUZ_ROOT.'./source/plugin/tom_pintuan/shop/orders.php';
 }
 
 ?>

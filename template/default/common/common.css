@@ -1779,3 +1779,31 @@ DIY图片幻灯片未加载时隐藏,模块标识隐藏
 	.pgbtn a { display: block; height: 40px; line-height: 40px; letter-spacing: 5px; text-align: center; border: 1px solid #DCDCDC; font-size: 14px; outline: none; border-radius: 5px; box-shadow: 0 1px 0 #F5F5F5; }
 		.pgbtn a:hover { border-color: #BABABA; text-decoration: none; }
 		.pgbtn a:active { background: #EEE; border-color: #D0D0D0; box-shadow: none; }
+
+/* 商家后台——商品管理 */
+.partition{background:#F0F7FD;padding: 5px;font-weight: 700;color: #09C;height: 25px;line-height: 21px;color:#0099D5;}	
+.tab1 li {float: left;margin-right: 3px;text-align: center;font-weight: 700;background: #fff;color:#333;}	
+.tab1 .tb th,.tab1 .tb td {padding: 5px;height: 30px;}
+.tb2 th {padding: 5px 5px 3px 0;line-height: 30px;font-size: 12px;}	
+.header, .header td, .header th {border-top: 1px dotted #DEEFFB;font-weight: 700;}
+.pro_act a{color:#2366A8;}
+
+/* 商家后台——添加商品 */
+.rowform .txt{border: 1px solid #A9A9A9;padding: 2px;width: 250px;}
+.rowform .fileo{color: #2366A8;display: inline;border: 0;background: #fff;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

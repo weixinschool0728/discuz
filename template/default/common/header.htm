@@ -26,6 +26,13 @@
 	<!--{if $_GET['diy'] == 'yes' && check_diy_perm($topic)}-->
 		<link rel="stylesheet" type="text/css" id="diy_common" href="{$_G['setting']['csspath']}{STYLEID}_css_diy.css?{VERHASH}" />
 	<!--{/if}-->
+	<!--{if CHARSET == 'gbk'}-->
+		<script charset="gbk" src="source/plugin/tom_editor/editor/kindeditor-min.js" reload="true"></script>
+		<script src="source/plugin/tom_editor/editor/lang/zh_CN.js" type="text/javascript" reload="true"></script>
+	<!--{else}-->
+		<script charset="gbk" src="source/plugin/tom_editor/editor/kindeditor-min.js" reload="true"></script>
+		<script src="source/plugin/tom_editor/editor/lang/zh_CN_UTF8.js" type="text/javascript" reload="true"></script>
+	<!--{/if}-->
 </head>
 
 <body id="nv_{$_G[basescript]}" class="pg_{CURMODULE}{if $_G['basescript'] === 'portal' && CURMODULE === 'list' && !empty($cat)} {$cat['bodycss']}{/if}" onkeydown="if(event.keyCode==27) return false;">

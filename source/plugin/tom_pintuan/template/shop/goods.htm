@@ -1,0 +1,498 @@
+{template common/header}
+<script type="text/javascript" src="static/js/calendar.js"></script>
+<div class="bm cl" id="pt">
+    <div class="z">
+        <a title="{$_G['setting']['sitename']}" class="nvhm" href="./">{$_G['setting']['sitename']}</a> <em>&amp;rsquot;</em>
+        <a href="plugin.php?id=tom_pintuan:shop">{lang tom_pintuan:pc_shop_title}</a>
+    </div>
+</div>
+<div class="ct2_a wp cl" id="ct">
+	<div class="appl">
+        <div class="tbn">
+            <h2 class="mt bbda">{lang tom_pintuan:pc_shop_pintuan_title}</h2>
+            <ul>
+                {template tom_pintuan:shop/menu}
+            </ul>
+        </div>
+    </div>
+    <div class="mn pbm" style="border:none; margin:0">
+    	<form id="shopform" action="plugin.php?id=tom_pintuan:shop&mod=goods" method="post" name="shopform">
+			<input id="formscrolltop" type="hidden" value="" name="scrolltop">
+			<input type="hidden" value="" name="anchor">
+			<table class="tb tb2 " width="100%" >
+				<tbody>
+					<tr>
+						<th class="partition" colspan="15" color="#0099D5">商品搜索</th>
+					</tr>
+					<tr>
+						<td width="100" align="right">
+							{$pc_goods_showarr['pc_goods_name']}：
+						</td>
+						<td>
+							<input type="text" style="margin-bottom: 5px;" size="40" value="{$goods_name}"  name="goods_name">
+						</td>
+					</tr>
+					<tr>
+						<td width="100" align="right">
+							{$pc_goods_showarr['pc_goods_cate']}：
+						</td>
+						<td>
+							<select name="cate_id" style="margin-bottom: 5px;">
+								<option value="0">{$pc_goods_showarr['pc_goods_cate']}</option>
+								<!--{loop $cate_list_item $key $val}-->
+								<option value="{$key}" <!--{if $key == $cate_id}-->selected<!--{/if}-->>{$val}</option>
+								<!--{/loop}-->
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td width="100" align="right">
+							{$pc_goods_showarr['pc_goods_is_show']}：
+						</td>
+						<td>
+							<select name="is_show" style="margin-bottom: 5px;">
+								<option value="0">{$pc_goods_showarr['pc_goods_is_show']}</option>
+								<option value="1" <!--{if 1 == $is_show}-->selected<!--{/if}-->>{$pc_goods_showarr['pc_goods_is_show1']}</option>
+								<option value="2" <!--{if 2 == $is_show}-->selected<!--{/if}-->>{$pc_goods_showarr['pc_goods_is_show2']}</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td width="100" align="right">
+							商品排序：
+						</td>
+						<td>
+							<select name="goods_sort" style="margin-bottom: 5px;">
+								<option value="0">商品排序</option>
+								<option value="1" <!--{if 1 == $goods_sort}-->selected<!--{/if}-->>添加时间</option>
+								<option value="2" <!--{if 2 == $goods_sort}-->selected<!--{/if}-->>商品库存</option>
+								<option value="3" <!--{if 3 == $goods_sort}-->selected<!--{/if}-->>真实销量</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="15">
+							<input class="btn" type="submit" value="搜 索" name="submit">
+							<!-- <div class="fixsel">
+								<input id="submit_submit" class="btn" type="submit" value="提交" title="按 Enter 键可随时提交您的修改" name="submit">
+							</div> -->
+						</td>
+					</tr>
+				<!-- <script type="text/JavaScript">
+				_attachEvent(document.documentElement, 'keydown', function (e) { entersubmit(e, 'submit'); });
+				</script> -->
+				</tbody>
+			</table>
+		</form>
+		<br/>
+		<table class="tb tb2" width="100%" bgcolor="#DEEFFA">
+			<tbody>
+				<tr>
+					<th class="itemtitle" style="background-color: #DEEFFA;" colspan="15">
+						<ul class="tab1" style="margin-bottom: 0px;">
+							<li class="current">
+								<a>
+								<span>{$pc_goods_showarr['pc_shop_goods_list']}</span>
+								</a>
+							</li>
+							<li>
+								<a href="plugin.php?id=tom_pintuan:shop&mod=goods&act=add" style="color: #2366A8;">
+								<span>{$pc_goods_showarr['pc_shop_goods_add']}</span>
+								</a>
+							</li>
+							<!-- <li>
+								<a href="admin.php?action=plugins&operation=config&do=14&identifier=tom_pintuan&pmod=admin&tmod=express" style="color: #2366A8;">
+								<span>快递模板列表</span>
+								</a>
+							</li> -->
+						</ul>
+					</th>
+				</tr>
+			</tbody>
+		</table>
+		<br/>
+			<table class=" pro_tb" width="100%" >
+				<tbody>
+					<tr class="header" bgcolor="#F2F2F2" height="35px" align="center">
+						<th width="60">商品ID</th>
+						<th>商品图片</th>
+						<th width="250">商品名称</th>
+						<th width="90" >商品分类</th>
+						<th width="150">商家店铺</th>
+						<th>拼团价格</th>
+						<th>单独购买价格</th>
+						<th>拼团人数</th>
+						<th>商品库存</th>
+						<th>真实销量</th>
+						<th>虚拟销量</th>
+						<th>浏览量</th>
+						<th>上架状态</th>
+						<th>上架时间</th>
+						<th>下架时间</th>
+						<th>操作</th>
+					</tr>
+					 <!--{loop $goodsList $key $val}-->
+					<tr height="60px" bordercolor="" >
+						<td>
+							<input class="checkbox" type="checkbox" value="{$val['id']}" name="ids[]">
+							{$val['id']}
+						</td>
+						<td>
+							<img width="40" src="http://discuz.xqq.com/data/attachment/tomwx/{$val['goods_pic']}">
+						</td>
+						<td>{$val['name']}</td>
+						<td align="center">{$cateinfoArr[$val['cate_id']]}</td>
+						<td>{$shopInfo['name']}</td>
+						<td>{$val['tuan_price']}</td>
+						<td>{$val['one_price']}</td>
+						<td>{$val['tuan_num']}</td>
+						<td>{$val['goods_num']}</td>
+						<td>{$val['sales_num']}</td>
+						<td>{$val['virtual_sales_num']}</td>
+						<td>{$val['clicks']}</td>
+						<!--{if $val['is_show'] == 1 }-->
+							<td>
+								<font color="#009900">{$pc_goods_showarr['pc_goods_is_show1']}</font>
+							</td>
+						<!--{elseif $val['is_show'] == 2 }-->
+							<td>
+								<font color="#FF0000">{$pc_goods_showarr['pc_goods_is_show2']}</font>
+							</td>
+						<!--{/if}-->
+						<td>{$val['shangjia_time']}</td>
+						<td>{$val['xiajia_time']}</td>
+						<td class="pro_act">
+							<a href="plugin.php?id=tom_pintuan:shop&mod=orders&good_id={$val['id']}">{$pc_goods_showarr['pc_shop_goods_order']}</a>&nbsp;&nbsp;|
+							<a href="plugin.php?id=tom_pintuan:shop&mod=goods&act=edit&good_id={$val['id']}">{$pc_goods_showarr['pc_shop_goods_edit']}</a>&nbsp;&nbsp;<br/>
+							
+							<!--{if $val['is_show'] == 1 }-->
+								　　<a href="plugin.php?id=tom_pintuan:shop&mod=goods&act=hide&good_id={$val['id']}" style="color:#FF0000; ">{$pc_goods_showarr['pc_goods_is_show2']}</a>&nbsp;&nbsp;|
+							<!--{elseif $val['is_show'] == 2 }-->
+								　　<a href="plugin.php?id=tom_pintuan:shop&mod=goods&act=show&good_id={$val['id']}" style="color:#009900; ">{$pc_goods_showarr['pc_goods_is_show1']}</a>&nbsp;&nbsp;|
+							<!--{/if}-->
+							<a href="javascript:void(0);" onclick='del_confirm("plugin.php?id=tom_pintuan:shop&mod=goods&act=del&good_id={$val["id"]}")'>{$pc_goods_showarr['pc_shop_goods_del']}</a>&nbsp;&nbsp;
+						</td>
+					</tr>
+					<!--{/loop}-->
+					
+				</tbody>
+			</table>
+	
+			<div class="cuspages right" style="margin-top: 20px;">
+				<div class="pg">
+					{$pages}
+				</div>
+			</div>
+			<div class="fixsel"></div>
+			<script type="text/javascript">
+			
+				function del_confirm(url){
+				  var r = confirm("你确定要删除选择内容？删除后不可恢复！")
+				  if (r == true){
+				    window.location = url;
+				  }else{
+				    return false;
+				  }
+				}
+			</script>
+    </div>
+</div>
+<script type="text/JavaScript">
+
+	var cookiepre = '4uxs_2132_', cookiedomain = '', cookiepath = '/';
+	var headers = new Array('index','global','style','topic','user','portal','forum','group','safe','extended','plugin','tools','cloud','founder','uc'), admincpfilename = 'admin.php', menukey = '';
+	function switchheader(key) {
+		if(!key || !$('header_' + key)) {
+			return;
+		}
+		for(var k in top.headers) {
+			if($('menu_' + headers[k])) {
+				$('menu_' + headers[k]).style.display = headers[k] == key ? '' : 'none';
+			}
+		}
+		var lis = $('topmenu').getElementsByTagName('li');
+		for(var i = 0; i < lis.length; i++) {
+			if(lis[i].className == 'navon') lis[i].className = '';
+		}
+		$('header_' + key).parentNode.parentNode.className = 'navon';
+	}
+	var headerST = null;
+	function previewheader(key) {
+		if(key) {
+			headerST = setTimeout(function() {
+				for(var k in top.headers) {
+					if($('menu_' + headers[k])) {
+						$('menu_' + headers[k]).style.display = headers[k] == key ? '' : 'none';
+					}
+				}
+				var hrefs = $('menu_' + key).getElementsByTagName('a');
+				for(var j = 0; j < hrefs.length; j++) {
+					hrefs[j].className = '';
+				}
+			}, 1000);
+		} else {
+			clearTimeout(headerST);
+		}
+	}
+	function toggleMenu(key, url) {
+		menukey = key;
+		switchheader(key);
+		if(url) {
+			parent.main.location = admincpfilename + '?action=' + url;
+			var hrefs = $('menu_' + key).getElementsByTagName('a');
+			for(var j = 0; j < hrefs.length; j++) {
+				hrefs[j].className = j == (key == 'plugin' ? 1 : 0) ? 'tabon' : '';
+			}
+		}
+		if(key == 'uc') {
+			parent.main.location = $('header_uc').href + '&a=main&iframe=1';
+		}
+		setMenuScroll();
+	}
+	function setMenuScroll() {
+		$('frametable').style.width = document.body.offsetWidth < 1000 ? '1000px' : '100%';
+		var obj = $('menu_' + menukey);
+		if(!obj) {
+			return;
+		}
+		var scrollh = document.body.offsetHeight - 160;
+		obj.style.overflow = 'visible';
+		obj.style.height = '';
+		$('scrolllink').style.display = 'none';
+		if(obj.offsetHeight + 150 > document.body.offsetHeight && scrollh > 0) {
+			obj.style.overflow = 'hidden';
+			obj.style.height = scrollh + 'px';
+			$('scrolllink').style.display = '';
+		}
+	}
+	function resizeHeadermenu() {
+		var lis = $('topmenu').getElementsByTagName('li');
+		var maxsize = $('frameuinfo').offsetLeft - 160, widths = 0, moi = -1, mof = '';
+		if($('menu_mof')) {
+			$('topmenu').removeChild($('menu_mof'));
+		}
+		if($('menu_mof_menu')) {
+			$('append_parent').removeChild($('menu_mof_menu'));
+		}
+		for(var i = 0; i < lis.length; i++) {
+			widths += lis[i].offsetWidth;
+			if(widths > maxsize) {
+				lis[i].style.visibility = 'hidden';
+				var sobj = lis[i].childNodes[0].childNodes[0];
+				if(sobj) {
+					mof += '<a href="'+ sobj.getAttribute('href') + '" onclick="$(\'' + sobj.id + '\').onclick()">&rsaquo; ' + sobj.innerHTML + '</a><br style="clear:both" />';
+				}
+			} else {
+				lis[i].style.visibility = 'visible';
+			}
+		}
+		if(mof) {
+			for(var i = 0; i < lis.length; i++) {
+				if(lis[i].style.visibility == 'hidden') {
+					moi = i;
+					break;
+				}
+			}
+			mofli = document.createElement('li');
+			mofli.innerHTML = '<em><a href="javascript:;">&raquo;</a></em>';
+			mofli.onmouseover = function () { showMenu({'ctrlid':'menu_mof','pos':'43'}); }
+			mofli.id = 'menu_mof';
+			$('topmenu').insertBefore(mofli, lis[moi]);
+			mofmli = document.createElement('li');
+			mofmli.className = 'popupmenu_popup';
+			mofmli.style.width = '150px';
+			mofmli.innerHTML = mof;
+			mofmli.id = 'menu_mof_menu';
+			mofmli.style.display = 'none';
+			$('append_parent').appendChild(mofmli);
+		}
+	}
+	function menuScroll(op, e) {
+		var obj = $('menu_' + menukey);
+		var scrollh = document.body.offsetHeight - 160;
+		if(op == 1) {
+			obj.scrollTop = obj.scrollTop - scrollh;
+		} else if(op == 2) {
+			obj.scrollTop = obj.scrollTop + scrollh;
+		} else if(op == 3) {
+			if(!e) e = window.event;
+			if(e.wheelDelta <= 0 || e.detail > 0) {
+				obj.scrollTop = obj.scrollTop + 20;
+			} else {
+				obj.scrollTop = obj.scrollTop - 20;
+			}
+		}
+	}
+	function menuNewwin(obj) {
+		var href = obj.parentNode.href;
+		if(obj.parentNode.href.indexOf(admincpfilename + '?') != -1) {
+			href += '&frames=yes';
+		}
+		window.open(href);
+		doane();
+	}
+	function initCpMenus(menuContainerid) {
+		var key = '', lasttabon1 = null, lasttabon2 = null, hrefs = $(menuContainerid).getElementsByTagName('a');
+		for(var i = 0; i < hrefs.length; i++) {
+			if(menuContainerid == 'leftmenu' && 'action=index'.indexOf(hrefs[i].href.substr(hrefs[i].href.indexOf(admincpfilename + '?') + admincpfilename.length + 1)) != -1) {
+				if(lasttabon1) {
+					lasttabon1.className = '';
+				}
+				if(hrefs[i].parentNode.parentNode.tagName == 'OL') {
+					hrefs[i].parentNode.parentNode.style.display = '';
+					hrefs[i].parentNode.parentNode.parentNode.className = 'lsub desc';
+					key = hrefs[i].parentNode.parentNode.parentNode.parentNode.parentNode.id.substr(5);
+				} else {
+					key = hrefs[i].parentNode.parentNode.id.substr(5);
+				}
+				hrefs[i].className = 'tabon';
+				lasttabon1 = hrefs[i];
+			}
+			if(!hrefs[i].getAttribute('ajaxtarget')) hrefs[i].onclick = function() {
+				if(menuContainerid != 'custommenu') {
+					var lis = $(menuContainerid).getElementsByTagName('li');
+					for(var k = 0; k < lis.length; k++) {
+						if(lis[k].firstChild && lis[k].firstChild.className != 'menulink') {
+							if(lis[k].firstChild.tagName != 'DIV') {
+								lis[k].firstChild.className = '';
+							} else {
+								var subid = lis[k].firstChild.getAttribute('sid');
+								if(subid) {
+									var sublis = $(subid).getElementsByTagName('li');
+									for(var ki = 0; ki < sublis.length; ki++) {
+										if(sublis[ki].firstChild && sublis[ki].firstChild.className != 'menulink') {
+											sublis[ki].firstChild.className = '';
+										}
+									}
+								}
+							}
+						}
+					}
+					if(this.className == '') this.className = menuContainerid == 'leftmenu' ? 'tabon' : '';
+				}
+				if(menuContainerid != 'leftmenu') {
+					var hk, currentkey;
+					var leftmenus = $('leftmenu').getElementsByTagName('a');
+					for(var j = 0; j < leftmenus.length; j++) {
+						if(leftmenus[j].parentNode.parentNode.tagName == 'OL') {
+							hk = leftmenus[j].parentNode.parentNode.parentNode.parentNode.parentNode.id.substr(5);
+						} else {
+							hk = leftmenus[j].parentNode.parentNode.id.substr(5);
+						}
+						if(this.href.indexOf(leftmenus[j].href) != -1) {
+							if(lasttabon2) {
+								lasttabon2.className = '';
+							}
+							leftmenus[j].className = 'tabon';
+							if(leftmenus[j].parentNode.parentNode.tagName == 'OL') {
+								leftmenus[j].parentNode.parentNode.style.display = '';
+								leftmenus[j].parentNode.parentNode.parentNode.className = 'lsub desc';
+							}
+							lasttabon2 = leftmenus[j];
+							if(hk != 'index') currentkey = hk;
+						} else {
+							leftmenus[j].className = '';
+						}
+					}
+					if(currentkey) toggleMenu(currentkey);
+					hideMenu();
+				}
+			}
+		}
+		return key;
+	}
+	function lsub(id, obj) {
+		display(id);
+		obj.className = obj.className != 'lsub' ? 'lsub' : 'lsub desc';
+		if(obj.className != 'lsub') {
+			setcookie('cpmenu_' + id, '');
+		} else {
+			setcookie('cpmenu_' + id, 1, 31536000);
+		}
+		setMenuScroll();
+	}
+	var header_key = initCpMenus('leftmenu');
+	toggleMenu(header_key ? header_key : 'index');
+	function initCpMap() {
+		var ul, hrefs, s = '', count = 0;
+		for(var k in headers) {
+			if(headers[k] != 'index' && headers[k] != 'uc' && $('header_' + headers[k])) {
+				s += '<tr><td valign="top"><h4>' + $('header_' + headers[k]).innerHTML + '</h4></td><td valign="top">';
+				ul = $('menu_' + headers[k]);
+				if(!ul) {
+					continue;
+				}
+				hrefs = ul.getElementsByTagName('a');
+				for(var i = 0; i < hrefs.length; i++) {
+					s += '<a href="' + hrefs[i].href + '" target="' + hrefs[i].target + '" k="' + headers[k] + '">' + hrefs[i].innerHTML + '</a>';
+				}
+				s += '</td></tr>';
+				count++;
+			}
+		}
+		var width = 720;
+		s = '<div class="cnote" style="width:' + width + 'px"><span class="right"><a href="###" class="flbc" onclick="hideMenu();return false;"></a></span><h3>管理中心导航</h3></div>' +
+			'<div class="cmlist" style="width:' + width + 'px;height: 410px"><table id="mapmenu" cellspacing="0" cellpadding="0">' + s +
+			'</table></div>';
+		$('cmain').innerHTML = s;
+		$('cmain').style.width = (width > 1000 ? 1000 : width) + 'px';
+	}
+	initCpMap();
+	initCpMenus('mapmenu');
+	var cmcache = false;
+	function showMap() {
+		showMenu({'ctrlid':'cpmap','evt':'click', 'duration':3, 'pos':'00'});
+	}
+	function resetEscAndF5(e) {
+		e = e ? e : window.event;
+		actualCode = e.keyCode ? e.keyCode : e.charCode;
+		if(actualCode == 27) {
+			if($('cpmap_menu').style.display == 'none') {
+				showMap();
+			} else {
+				hideMenu();
+			}
+		}
+		if(actualCode == 116 && parent.main) {
+			parent.main.location.reload();
+			if(document.all) {
+				e.keyCode = 0;
+				e.returnValue = false;
+			} else {
+				e.cancelBubble = true;
+				e.preventDefault();
+			}
+		}
+	}
+	function uc_left_menu(uc_menu_data) {
+		var leftmenu = $('menu_uc');
+		leftmenu.innerHTML = '';
+		var html_str = '';
+		for(var i=0;i<uc_menu_data.length;i+=2) {
+			html_str += '<li><a href="'+uc_menu_data[(i+1)]+'" hidefocus="true" onclick="uc_left_switch(this)" target="main"><em onclick="menuNewwin(this)" title="新窗口打开"></em>'+uc_menu_data[i]+'</a></li>';
+		}
+		leftmenu.innerHTML = html_str;
+	}
+	var uc_left_last = null;
+	function uc_left_switch(obj) {
+		if(uc_left_last) {
+			uc_left_last.className = '';
+		}
+		obj.className = 'tabon';
+		uc_left_last = obj;
+	}
+	function uc_modify_sid(sid) {
+		$('header_uc').href = 'http://discuz.xqq.com/uc_server/admin.php?m=frame';
+	}
+
+	_attachEvent(document.documentElement, 'keydown', resetEscAndF5);
+	_attachEvent(window, 'resize', setMenuScroll, document);
+	_attachEvent(window, 'resize', resizeHeadermenu, document);
+	if(BROWSER.ie){
+		$('leftmenu').onmousewheel = function(e) { menuScroll(3, e) };
+	} else {
+		$('leftmenu').addEventListener("DOMMouseScroll", function(e) { menuScroll(3, e) }, false);
+	}
+	resizeHeadermenu();
+</script>
+{template common/footer}
