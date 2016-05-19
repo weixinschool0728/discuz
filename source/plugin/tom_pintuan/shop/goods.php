@@ -26,9 +26,7 @@ if(!defined('IN_DISCUZ')) {
             $express_list_item[$val['id']] = $val['title'];
         }
     }
-     /* echo '<pre>';
-     print_r($express_list_item);
-     echo '</pre>'; */
+     
     /* 加载语言包 */
     $pc_goods_showarr = lang('tom_pintuan/shop','shopgoods');
     $pc_set_shuomingarr = lang('tom_pintuan/shop','setshuoming');
@@ -301,11 +299,6 @@ if ($_GET['act'] == 'hide'){//商品下架处理
     $data['describe']       = $describe;
     $data['content']        = $content;
     
-    
-    echo '<pre>';
-    print_r($data);
-    echo '</pre>';
-
     //查询数据库
     $updateData = $data;
     $updateData['edit_time']     = TIMESTAMP;
@@ -360,20 +353,16 @@ if ($_GET['act'] == 'hide'){//商品下架处理
     $start = ($page-1)*$pagesize;	
     $count = C::t('#tom_pintuan#tom_pintuan_goods')->fetch_all_like_count($where,$goods_name);
     $goodsList = C::t('#tom_pintuan#tom_pintuan_goods')->fetch_all_like_list($where,$sort,$start,$pagesize,$goods_name);
-    
-     if(!preg_match('/^http/', $goodsList['goods_pic']) ){
-        $goods_pic = (preg_match('/^http:/', $_G['setting']['attachurl']) ? '' : $_G['siteurl']).$_G['setting']['attachurl'].'tomwx/'.$goodsList['goods_pic'];
-    }else{
-        $goods_pic = $goodsList['goods_pic'];
+    $goods_pic_item = array();
+    foreach ($goodsList as $key => $value) {
+        if(!preg_match('/^http/', $value['goods_pic']) ){
+            $goods_pic_item[$value['id']] = (preg_match('/^http:/', $_G['setting']['attachurl']) ? '' : $_G['siteurl']).$_G['setting']['attachurl'].'tomwx/'.$value['goods_pic'];
+        }else{
+            $goods_pic_item[$value['id']] = $value['goods_pic'];
+        }
     }
-    
-    $cateinfoArr = array();
-    foreach ($goodsList as $k => $v){
-        /* 商品分类 */
-        $cateInfo = C::t('#tom_pintuan#tom_pintuan_cate')->fetch_by_id($v['cate_id']);
-        $cateinfoArr[$cateInfo['id']] = $cateInfo['name'];
-    }
-    
+ 
+   
     $pages = helper_page::multi($count, $pagesize, $page, "plugin.php?id=tom_pintuan:shop&mod=goods".$searchUrl, 0, 11, false, false);
    
     include template("tom_pintuan:shop/goods");

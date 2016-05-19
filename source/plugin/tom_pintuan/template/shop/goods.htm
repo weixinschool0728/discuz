@@ -138,10 +138,20 @@
 							{$val['id']}
 						</td>
 						<td>
-							<img width="40" src="{$goods_pic}">
+							<!--{loop $goods_pic_item $ks $vals}-->
+								<!--{if $ks == $val['id']}-->
+									<img width="40" src="{$vals}">
+								<!--{/if}-->
+							<!--{/loop}-->
 						</td>
 						<td>{$val['name']}</td>
-						<td align="center">{$cateinfoArr[$val['cate_id']]}</td>
+						<td align="center">
+							<!--{loop $cate_list_item $k $value}-->
+								<!--{if $k == $val['cate_id']}-->
+									{$value}
+								<!--{/if}-->
+							<!--{/loop}-->
+						</td>
 						<td>{$shopInfo['name']}</td>
 						<td>{$val['tuan_price']}</td>
 						<td>{$val['one_price']}</td>
