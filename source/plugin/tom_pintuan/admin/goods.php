@@ -242,6 +242,7 @@ if($_GET['act'] == 'add'){
     echo '<th>' . $Lang['goods_is_show'] . '</th>';  
     echo '<th>' . '上架时间' . '</th>';  
     echo '<th>' . '下架时间' . '</th>';  
+    echo '<th>' . '排序' . '</th>';  
     echo '<th>' . $Lang['handle'] . '</th>';
     echo '</tr>';
     
@@ -277,6 +278,7 @@ if($_GET['act'] == 'add'){
         }
         echo '<td>' . $value['shangjia_time'] . '</td>';
         echo '<td>' . $value['xiajia_time'] . '</td>';
+        echo '<td>' . $value['paixu'] . '</td>';
         
         echo '<td>';
         echo '<a href="'.$adminBaseUrl.'&tmod=order&goods_id='.$value['id'].'&formhash='.FORMHASH.'">' . $Lang['goods_order_title'] . '</a>&nbsp;|&nbsp;';

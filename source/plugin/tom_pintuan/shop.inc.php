@@ -1,9 +1,5 @@
 <?php
 
-/*
-   This is NOT a freeware, use is subject to license terms
-   ��Ȩ���У�TOM΢�� www.tomwx.net
-*/
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
@@ -37,11 +33,11 @@ if($_GET['mod'] == 'orders'){
 }else if($_GET['mod'] == 'goods'){
     define("IN_ADMINCP", "");
     include_once DISCUZ_ROOT.'./source/plugin/tom_pintuan/class/tom.form.php';
-//     include_once DISCUZ_ROOT.'./source/plugin/tom_pintuan/class/admin.core.php';
     include_once DISCUZ_ROOT.'./source/plugin/tom_pintuan/class/tom.upload.php';
     include_once DISCUZ_ROOT.'./source/plugin/tom_pintuan/shop/goods.php';
-}else{
+}else if($_GET['mod'] == 'print'){
+    include DISCUZ_ROOT.'./source/plugin/tom_pintuan/shop/print.php';
+}
+else{
     include DISCUZ_ROOT.'./source/plugin/tom_pintuan/shop/orders.php';
 }
-
-?>

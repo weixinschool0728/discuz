@@ -13,5 +13,5 @@
 /config/config_global.php
 /config/config_ucenter.php
 /data/sysdata
-
+/source/plugin/tom_pintuan/logs/*
 /data/attachment/tomwx/
