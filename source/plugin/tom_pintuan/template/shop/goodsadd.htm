@@ -331,7 +331,7 @@
         <th></th> 
        </tr> 
        <tr> 
-        <td width="300"> <input type="text" size="40" value="{$shangjia_time}" name="shangjia_time" /> </td> 
+        <td width="300"> <input type="text" size="40" class="datecheck" onblur="datecheck(this)" value="{$shangjia_time}" name="shangjia_time" /> </td> 
         <td>{$pc_set_shuomingarr['set_shangjia_time']}</td> 
        </tr> 
        <tr class="header"> 
@@ -339,9 +339,9 @@
         <th></th> 
        </tr> 
        <tr> 
-        <td width="300"> <input type="text" size="40" value="{$xiajia_time}" name="xiajia_time" /> </td> 
+        <td width="300"> <input type="text" size="40" class="datecheck" onblur="datecheck(this)" value="{$xiajia_time}" name="xiajia_time" /> </td> 
         <td>{$pc_set_shuomingarr['set_xiajia_time']}</td> 
-       </tr> 
+       </tr>
        <tr class="header"> 
         <th>{$pc_goods_infoarr['shop_verify']}</th> 
         <th></th> 
@@ -404,4 +404,17 @@
     </form> 
    </div> 
   </div>
+  <script type="text/JavaScript">
+	  function datecheck(obj){
+	      var val=obj.value;
+		  var dateRegExp=/^(\d{4})\-(\d{2})\-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/;
+	
+			if(!dateRegExp.test(val)){
+				alert("时间格式不正确  应为 2015-09-20 10:01:10");
+				$(obj).focus();
+			}
+			
+	  }
+  
+  </script>
 {template common/footer}
