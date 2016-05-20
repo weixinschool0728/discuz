@@ -1,9 +1,8 @@
 <?php
 
-/*
-  This is NOT a freeware, use is subject to license terms
-  ��Ȩ���У�TOM΢�� www.tomwx.net
- */
+if ($_SERVER['SERVER_ADDR'] != "112.74.83.214" && $_SERVER['SERVER_ADDR'] != "10.24.220.220" && $_SERVER['SERVER_ADDR'] != "127.0.0.1") {
+    exit;
+}
 
 define('IN_DISCUZ', true);
 define("DS", DIRECTORY_SEPARATOR);
