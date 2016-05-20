@@ -82,8 +82,9 @@ if (isset($_GET['acti']) && $_GET['acti'] == "updaterefund") {
                 if ((is_array($return) && isset($return['refund_status_0']) && $return['refund_status_0'] == 'SUCCESS') || (is_array($return) && $return['result_code'] == 'SUCCESS')) {
                     $updateData = array();
                     $updateData['order_status'] = 8;
-                    $sql = "update from pre_tom_pintuan_order set order_status=8 where id={$orderInfo['id']}";
-                    $mysqlH->Update($sql);
+                    $sql = "update pre_tom_pintuan_order set order_status=8 where id={$orderInfo['id']}";
+                    echo $orderInfo['id'];
+                   var_dump($mysqlH->Update($sql));
                 }
             }
         }
