@@ -12271,8 +12271,8 @@ html {
 /****************************************** pages **************************************************/
 .pages{width: 95%; height: 32px; margin-top: 10px; margin-right: auto; margin-left: auto;padding-bottom: 40px;}
 .pages li{ width: 50%; height: 30px; float: left; text-align: center; }
-.pages li span{ height: 28px; width: 80%; display: block; line-height: 30px; border: 1px solid #F0F0F0; margin-right: auto; margin-left: auto; color: #CCC; }
-.pages li a{ height: 28px; width: 80%; display: block; line-height: 30px; border: 1px solid #F0F0F0; margin-right: auto; margin-left: auto; }
+.pages li span{ height: 28px; width: 80%; display: block; line-height: 30px; border: 1px solid #F0F0F0; margin-right: auto; margin-left: auto; color: red; }
+.pages li a{ height: 28px; width: 80%; display: block; line-height: 30px; border: 1px solid #F0F0F0; margin-right: auto; margin-left: auto;background-color: #DF2127;color: #ffffff;}
 
 /******************************************* makeorder ******************************************/
 .makeorder_from{ width: 100%;  height: 52px; border-top-width: 1px; border-bottom-width: 1px; border-top-style: solid; border-bottom-style: solid; border-top-color: #E7E7E7; border-bottom-color: #E8E8E8; background-color: #FFF; margin-top: 10px; }
