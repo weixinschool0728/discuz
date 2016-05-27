@@ -271,6 +271,7 @@
        <tr> 
         <td width="300"> 
         	<select name="express_id"> 
+        		<option value="0">不使用快递模板</option>
         		<!--{loop $express_list_item $key $val}-->
 				<option value="{$key}" <!--{if {$key} == $goodsInfoArr['express_id']}-->selected=""<!--{/if}-->>{$val}</option>
 				<!--{/loop}-->
@@ -469,7 +470,6 @@
 				alert("时间格式不正确  应为 2015-09-20 10:01:10");
 				$(obj).focus();
 			}
-			
 	  }
   
   </script>
