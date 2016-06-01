@@ -2,11 +2,11 @@
 
 /*
    This is NOT a freeware, use is subject to license terms
-   °æÈ¨ËùÓÐ£ºTOMÎ¢ÐÅ www.tomwx.net
+   ç‰ˆæƒæ‰€æœ‰ï¼šTOMå¾®ä¿¡ www.tomwx.net
 */
 
 /**
-   1 ´ýÖ§¸¶ 2 ÒÑÖ§¸¶£¬Î´È·ÈÏ 3 ÒÑÈ·ÈÏ£¬´ý·¢»õ  4 ÅäËÍÖÐ 5 ÒÑÇ©ÊÕ 6 ½»Ò×ÒÑÈ¡Ïû 7 ÍË¿î´¦ÀíÖÐ  8 ÍË¿î³É¹¦
+   1 å¾…æ”¯ä»˜ 2 å·²æ”¯ä»˜ï¼Œæœªç¡®è®¤ 3 å·²ç¡®è®¤ï¼Œå¾…å‘è´§  4 é…é€ä¸­ 5 å·²ç­¾æ”¶ 6 äº¤æ˜“å·²å–æ¶ˆ 7 é€€æ¬¾å¤„ç†ä¸­  8 é€€æ¬¾æˆåŠŸ
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -171,7 +171,7 @@ if($act == "order" && $_GET['formhash'] == FORMHASH){
     $orderInput->SetTrade_type("JSAPI");
     $orderInput->SetOpenid($openid);
     $orderInfo = WxPayApi::unifiedOrder($orderInput,300);
-
+    file_put_contents("./data/log/WxpayArr.txt",date("h:m:s").print_r($s,true),FILE_APPEND);
     if(is_array($orderInfo) && $orderInfo['result_code']=='SUCCESS' && $orderInfo['return_code']=='SUCCESS'){
         
         $tuanInfo = array();
