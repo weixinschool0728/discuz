@@ -171,7 +171,7 @@ if($act == "order" && $_GET['formhash'] == FORMHASH){
     $orderInput->SetTrade_type("JSAPI");
     $orderInput->SetOpenid($openid);
     $orderInfo = WxPayApi::unifiedOrder($orderInput,300);
-    file_put_contents("./data/log/WxpayArr.txt",date("h:m:s").print_r($s,true),FILE_APPEND);
+    file_put_contents("./data/log/WxpayArr.txt",date("h:m:s").print_r($orderInfo,true),FILE_APPEND);
     if(is_array($orderInfo) && $orderInfo['result_code']=='SUCCESS' && $orderInfo['return_code']=='SUCCESS'){
         
         $tuanInfo = array();
