@@ -109,6 +109,7 @@ if($formhash == FORMHASH && $act == 'info'){
                 }else{
                     file_put_contents("./data/log/refundTuan.txt", print_r($return,true),FILE_APPEND);
                 }
+                sleep(1);
             }
         }
     }
