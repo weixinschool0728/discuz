@@ -107,9 +107,9 @@ if($formhash == FORMHASH && $act == 'info'){
                     DB::query("UPDATE ".DB::table('tom_pintuan_goods')." SET goods_num=goods_num+{$orderInfo['goods_num']} WHERE id='{$orderInfo['goods_id']}'", 'UNBUFFERED');
                     DB::query("UPDATE ".DB::table('tom_pintuan_goods')." SET sales_num=sales_num-{$orderInfo['goods_num']} WHERE id='{$orderInfo['goods_id']}'", 'UNBUFFERED');
                 }else{
-                    file_put_contents("./data/log/refundTuan"+date("Y_M_D")+".txt", print_r($return,true),FILE_APPEND);
+                    file_put_contents("./data/log/refundTuan".date("Y_M_D").".txt", print_r($return,true),FILE_APPEND);
                 }
-                usleep(1000);
+                sleep(1);
             }
         }
     }
