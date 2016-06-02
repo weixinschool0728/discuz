@@ -106,6 +106,8 @@ if($formhash == FORMHASH && $act == 'info'){
                     C::t('#tom_pintuan#tom_pintuan_order')->update($orderInfo['id'],$updateData);
                     DB::query("UPDATE ".DB::table('tom_pintuan_goods')." SET goods_num=goods_num+{$orderInfo['goods_num']} WHERE id='{$orderInfo['goods_id']}'", 'UNBUFFERED');
                     DB::query("UPDATE ".DB::table('tom_pintuan_goods')." SET sales_num=sales_num-{$orderInfo['goods_num']} WHERE id='{$orderInfo['goods_id']}'", 'UNBUFFERED');
+                }else{
+                    file_put_contents("./data/log/refundTuan.txt", print_r($return,true),FILE_APPEND);
                 }
             }
         }
