@@ -2,7 +2,7 @@
 
 /*
    This is NOT a freeware, use is subject to license terms
-   版权所有：TOM微信 www.tomwx.net
+   鐗堟潈鎵�鏈夛細TOM寰俊 www.tomwx.net
 */
 
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
@@ -86,7 +86,17 @@ if($_GET['act'] == 'add'){
     echo '<th>' . $Lang['shop_tuikuanchenggong'] . '</th>';
     echo '<th>' . $Lang['handle'] . '</th>';
     echo '</tr>';
+    $timeSEStr=" ";
     
+    if (isset($_GET['shopStart'])) {
+        $shopStart = strtotime($_GET['shopStart']);
+        $timeSEStr=$shopStart? " and pay_time >= {$shopStart} ":" ";
+    }
+    if (isset($_GET['shopEnd'])) {
+        $shopEnd = strtotime($_GET['shopEnd']);
+        $timeSEStr.=$shopEnd? " and pay_time <= {$shopEnd} ":" ";
+    }
+
     $i = 1;
     foreach ($shopList as $key => $value) {
         
@@ -109,9 +119,9 @@ if($_GET['act'] == 'add'){
         }
         
         if(!empty($goodsIds) && $pintuanConfig['admin_shop_count'] == 1){
-            $yizhifu = C::t('#tom_pintuan#tom_pintuan_order')->fetch_all_sun_pay_price(" {$goodsIds} AND order_status IN(2,3,4,5) ");
-            $tuikuanzhong = C::t('#tom_pintuan#tom_pintuan_order')->fetch_all_sun_pay_price(" {$goodsIds} AND order_status IN(7) ");
-            $tuikuanchenggong = C::t('#tom_pintuan#tom_pintuan_order')->fetch_all_sun_pay_price(" {$goodsIds} AND order_status IN(8) ");
+            $yizhifu = C::t('#tom_pintuan#tom_pintuan_order')->fetch_all_sun_pay_price(" {$goodsIds} AND order_status IN(2,3,4,5) {$timeSEStr} ");
+            $tuikuanzhong = C::t('#tom_pintuan#tom_pintuan_order')->fetch_all_sun_pay_price(" {$goodsIds} AND order_status IN(7) {$timeSEStr} ");
+            $tuikuanchenggong = C::t('#tom_pintuan#tom_pintuan_order')->fetch_all_sun_pay_price(" {$goodsIds} AND order_status IN(8) {$timeSEStr} ");
         }else{
             $yizhifu = $tuikuanzhong = $tuikuanchenggong = '0.00';
         }
