@@ -2,7 +2,7 @@
 
 /*
    This is NOT a freeware, use is subject to license terms
-   版权所有：TOM微信 www.tomwx.net
+   鐗堟潈鎵�鏈夛細TOM寰俊 www.tomwx.net
 */
 
 if(!defined('IN_DISCUZ')) {
@@ -98,7 +98,10 @@ if($act == 'add'){
     $address_id = isset($_GET['address_id'])? intval($_GET['address_id']):0;
     
     $addressInfo = C::t('#tom_pintuan#tom_pintuan_address')->fetch_by_id($address_id);
-    
+
+    if($addressInfo['user_id']!=$__UserInfo['id']){
+         dheader('location:'.$_G['siteurl'].$addressUrl);
+    }
     $provinceList = C::t('#tom_pintuan#tom_pintuan_district')->fetch_all_by_level(1);
     $cityList = C::t('#tom_pintuan#tom_pintuan_district')->fetch_all_by_upid($addressInfo['province_id']);
     $areaList = C::t('#tom_pintuan#tom_pintuan_district')->fetch_all_by_upid($addressInfo['city_id']);
@@ -166,6 +169,10 @@ if($act == 'add'){
 }else if($act == 'del' && $_GET['formhash'] == FORMHASH){
     
    $address_id    = isset($_GET['address_id'])? intval($_GET['address_id']):0;
+   $addressInfo = C::t('#tom_pintuan#tom_pintuan_address')->fetch_by_id($address_id); 
+    if($addressInfo['user_id']!=$__UserInfo['id']){
+         dheader('location:'.$_G['siteurl'].$addressUrl);
+    }
    C::t('#tom_pintuan#tom_pintuan_address')->delete_by_id($address_id);
    dheader('location:'.$_G['siteurl'].$addressUrl);
    exit;
