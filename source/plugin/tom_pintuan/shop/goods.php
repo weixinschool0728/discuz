@@ -348,7 +348,7 @@ if ($_GET['act'] == 'hide'){//商品下架处理
     
     
 }elseif ($_GET['act'] == 'del'){
-    C::t('#tom_pintuan#tom_pintuan_goods')->delete_by_id($_GET['good_id']);
+   // C::t('#tom_pintuan#tom_pintuan_goods')->delete_by_id($_GET['good_id']);
     dheader('location:'.$urlgoods);
     exit;
 }else {
