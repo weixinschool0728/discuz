@@ -13,7 +13,8 @@ $page = intval($_GET['page'])>0? intval($_GET['page']):1;
 $cate_id = intval($_GET['cate_id'])>0? intval($_GET['cate_id']):0;
 $goods_name = !empty($_GET['goods_name'])? addslashes(urldecode($_GET['goods_name'])):'';
 
-$pagesize = $pintuanConfig['index_num'];
+//$pagesize = $pintuanConfig['index_num'];
+$pagesize = 20;
 $start = ($page-1)*$pagesize;	
 
 $now=date('Y-m-d H:i:s');
