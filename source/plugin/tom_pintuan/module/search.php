@@ -2,7 +2,7 @@
 
 /*
    This is NOT a freeware, use is subject to license terms
-   °æÈ¨ËùÓÐ£ºTOMÎ¢ÐÅ www.tomwx.net
+   ï¿½ï¿½È¨ï¿½ï¿½ï¿½Ð£ï¿½TOMÎ¢ï¿½ï¿½ www.tomwx.net
 */
 
 if(!defined('IN_DISCUZ')) {
@@ -41,7 +41,8 @@ if(!empty($shopWhereStr)){
     }
 }
 
-$pagesize = 8;
+//$pagesize = 8;
+$pagesize = 20;
 $start = ($page-1)*$pagesize;	
 
 $whereStr = " AND is_show=1 ";
